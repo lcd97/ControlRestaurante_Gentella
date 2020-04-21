@@ -1,0 +1,143 @@
+﻿@model ProyectoXalli_Gentella.Models.Producto
+
+@{
+    ViewBag.Title = "Creación";
+    Layout = null;
+}
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_content">
+            @using (Html.BeginForm("Create", "Productos", FormMethod.Post, new { onsubmit = "return SubmitForm(this)" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div data-parsley-validate class="form-horizontal form-label-left">
+                <div class="form-inline col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                        @Html.Label("Código", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                        @Html.EditorFor(model => model.CodigoProducto, new { htmlAttributes = new { @class = "form-control col-md-2 col-sm-2 col-xs-2", @maxlength = 3, @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.CodigoProducto, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                        @Html.Label("Activo", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                        @Html.CheckBoxFor(model => model.EstadoProducto, new { @class = "js-switch col-md-2 col-sm-2 col-xs-2", @disabled = "disabled", @checked = "checked" })
+                        @Html.ValidationMessageFor(model => model.EstadoProducto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <br /><br /><br />
+
+                <div class="form-inline col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                        @Html.Label("Producto", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                        @Html.EditorFor(model => model.DescripcionProducto, new { htmlAttributes = new { @class = "form-control col-md-2 col-sm-2 col-xs-2", @maxlength = 50, @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.DescripcionProducto, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                        @Html.Label("Marca", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                        @Html.EditorFor(model => model.MarcaProducto, new { htmlAttributes = new { @class = "form-control col-md-2 col-sm-2 col-xs-2", @maxlength = 50, @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.MarcaProducto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <br /><br /><br />
+
+                <div class="form-inline col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                        @Html.Label("Categoría", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                        @Html.DropDownList("CategoriaId", null, htmlAttributes: new { @class = "js-example-placeholder-single js-states form-control", @style = "width: 160px" })
+                        @Html.ValidationMessageFor(model => model.CategoriaId, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                        @Html.Label("U/M", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                        @Html.DropDownList("UnidadMedidaId", null, htmlAttributes: new { @class = "js-example-placeholder-single js-states form-control", @style = "width: 160px" })
+                        @Html.ValidationMessageFor(model => model.UnidadMedidaId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <br /><br /><br />
+
+                <div class="form-horizontal">
+                    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                        @Html.EditorFor(model => model.CantidadProducto, new { htmlAttributes = new { @class = "form-control has-feedback-left",
+                       @maxlength = 50, @autocomplete = "off", @placeholder = "Cant. Actual", id = "cantProd" } })
+                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                        @Html.EditorFor(model => model.CantidadMinProducto, new { htmlAttributes = new { @class = "form-control has-feedback-left",
+                       @maxlength = 50, @autocomplete = "off", @placeholder = "Cant. Máx.", id = "cantMin" } })
+                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                        @Html.EditorFor(model => model.CantidadMaxProducto, new { htmlAttributes = new { @class = "form-control has-feedback-left",
+                       @maxlength = 50, @autocomplete = "off", @placeholder = "Cant. Mín.", id = "cantMax" } })
+                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                    </div>
+
+                </div>
+
+                <br /><br /><br />
+
+                <div class="form-horizontal">
+
+                    <div class="col-md-4 col-sm-4 col-xs-12 col-md-push-4 col-sm-push-4 col-xs-push-4 form-group has-feedback">
+                        @Html.EditorFor(model => model.PrecioProducto, new { htmlAttributes = new { @class = "form-control has-feedback-left",
+                       @maxlength = 50, @autocomplete = "off", @placeholder = "Precio Prod.", id = "money" } })
+                        <span class="fa fa-dollar form-control-feedback left" aria-hidden="true"></span>
+                    </div>
+
+                </div>
+
+                <br />
+                <br />
+
+            </div>
+
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+                        <a onclick="CerrarModal()" class="btn btn-primary">Cerrar</a>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+                </div>
+                }
+            </div>
+    </div>
+</div>
+
+<script>
+    //JS INICIALIZACION DE SWITCHERY - CHECKBOX
+    $(document).ready(function () {
+
+        var elem = document.querySelector('.js-switch');
+        var init = new Switchery(elem);
+    });
+
+    //JS INICIALIZACION DE SELECT 2 - DROPDOWNLIST
+    //$(document).ready(function () {
+    //    $(".js-example-placeholder-single").select2({
+    //        placeholder: {
+    //            id: '-1', // the value of the option
+    //            text: ' -- Seleccione -- '
+    //        },
+    //        allowClear: true
+    //    });
+    //});
+
+    //JS INICIALIZACION DE INPUTMASK CANTIDAD
+    //$(document).ready(function () {
+    //    $('#cantProd').mask('000,000.00', { reverse: true });
+    //    $('#cantMin').mask('000,000.00', { reverse: true });
+    //    $('#cantMax').mask('000,000.00', { reverse: true });
+    //    $('#money').mask('000,000.00', { reverse: true });
+    //});
+</script>

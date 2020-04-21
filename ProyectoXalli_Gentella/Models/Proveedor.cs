@@ -31,15 +31,12 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "RUC")]
         public string RUC { get; set; }
 
-        [Range(typeof(bool), "true", "true")]
         [Display(Name = "Activo")]
         public bool EstadoProveedor { get; set; }
 
-        [Range(typeof(bool), "true", "true")]
         [Display(Name = "Proveedor local")]
         public bool Local { get; set; }
 
-        [Range(typeof(bool), "true", "true")]
         [Display(Name = "Retiene IR")]
         public bool RetenedorIR { get; set; }
 

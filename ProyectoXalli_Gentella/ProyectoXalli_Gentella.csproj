@@ -206,10 +206,30 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Catalogos\BodegasController.cs" />
+    <Compile Include="Controllers\Catalogos\CategoriasController.cs" />
+    <Compile Include="Controllers\Catalogos\ProductosController.cs" />
+    <Compile Include="Controllers\Catalogos\ProveedorController.cs" />
+    <Compile Include="Controllers\Catalogos\TiposDeEntradaController.cs" />
+    <Compile Include="Controllers\Catalogos\TiposDeSalidaController.cs" />
+    <Compile Include="Controllers\Catalogos\UnidadesDeMedidaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Movimientos\ActivarController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004182011016_InitialCreate.cs" />
+    <Compile Include="Migrations\202004182011016_InitialCreate.Designer.cs">
+      <DependentUpon>202004182011016_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004182014384_InitialCatalog.cs" />
+    <Compile Include="Migrations\202004182014384_InitialCatalog.Designer.cs">
+      <DependentUpon>202004182014384_InitialCatalog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004210207151_changesModels.cs" />
+    <Compile Include="Migrations\202004210207151_changesModels.Designer.cs">
+      <DependentUpon>202004210207151_changesModels.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -233,6 +253,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\HotelDB.mdf" />
+    <Content Include="App_Data\HotelDB_log.ldf">
+      <DependentUpon>HotelDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-progressbar-3.3.4.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -240,6 +264,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\custom.min.css" />
+    <Content Include="Content\datatable\dataTables.bootstrap.css" />
     <Content Include="Content\daterangepicker.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
@@ -249,6 +274,8 @@
     <Content Include="Content\green.png" />
     <Content Include="Content\jqvmap.min.css" />
     <Content Include="Content\nprogress.css" />
+    <Content Include="Content\select2.min.css" />
+    <Content Include="Content\switchery.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -290,49 +317,14 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\Catalogos\CRUD.js" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\curvedLines.js" />
     <Content Include="Scripts\custom.js" />
+    <Content Include="Scripts\datatable\dataTables.bootstrap.js" />
+    <Content Include="Scripts\datatable\jquery.dataTables.js" />
     <Content Include="Scripts\date.js" />
     <Content Include="Scripts\daterangepicker.js" />
-    <Content Include="Scripts\examples\algeria.html" />
-    <Content Include="Scripts\examples\argentina.html" />
-    <Content Include="Scripts\examples\brazil.html" />
-    <Content Include="Scripts\examples\continents.html" />
-    <Content Include="Scripts\examples\europe.html" />
-    <Content Include="Scripts\examples\france.html" />
-    <Content Include="Scripts\examples\germany.html" />
-    <Content Include="Scripts\examples\greece.html" />
-    <Content Include="Scripts\examples\images\background.png" />
-    <Content Include="Scripts\examples\images\flag.png" />
-    <Content Include="Scripts\examples\images\globe.png" />
-    <Content Include="Scripts\examples\images\marker\black.png" />
-    <Content Include="Scripts\examples\images\marker\blue.png" />
-    <Content Include="Scripts\examples\images\marker\green.png" />
-    <Content Include="Scripts\examples\images\marker\grey.png" />
-    <Content Include="Scripts\examples\images\marker\orange.png" />
-    <Content Include="Scripts\examples\images\marker\purple.png" />
-    <Content Include="Scripts\examples\images\marker\red.png" />
-    <Content Include="Scripts\examples\images\marker\white.png" />
-    <Content Include="Scripts\examples\images\marker\yellow.png" />
-    <Content Include="Scripts\examples\images\thumb.jpg" />
-    <Content Include="Scripts\examples\images\tip.png" />
-    <Content Include="Scripts\examples\inactive_regions.html" />
-    <Content Include="Scripts\examples\iran.html" />
-    <Content Include="Scripts\examples\iraq.html" />
-    <Content Include="Scripts\examples\js\jquery.vmap.sampledata.js" />
-    <Content Include="Scripts\examples\labels.html" />
-    <Content Include="Scripts\examples\mobile.html" />
-    <Content Include="Scripts\examples\multi.html" />
-    <Content Include="Scripts\examples\pins.html" />
-    <Content Include="Scripts\examples\pins_custom.html" />
-    <Content Include="Scripts\examples\responsive.html" />
-    <Content Include="Scripts\examples\russia.html" />
-    <Content Include="Scripts\examples\touch_detect.html" />
-    <Content Include="Scripts\examples\tunisia.html" />
-    <Content Include="Scripts\examples\turkey.html" />
-    <Content Include="Scripts\examples\usa.html" />
-    <Content Include="Scripts\examples\world.html" />
     <Content Include="Scripts\fastclick.js" />
     <Content Include="Scripts\gauge.min.js" />
     <Content Include="Scripts\icheck.min.js" />
@@ -348,38 +340,23 @@
     <Content Include="Scripts\jquery.flot.spline.min.js" />
     <Content Include="Scripts\jquery.flot.stack.js" />
     <Content Include="Scripts\jquery.flot.time.js" />
+    <Content Include="Scripts\jquery.inputmask.bundle.min.js" />
+    <Content Include="Scripts\jquery.mask.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jquery.vmap.js" />
-    <Content Include="Scripts\maps\continents\jquery.vmap.africa.js" />
-    <Content Include="Scripts\maps\continents\jquery.vmap.asia.js" />
-    <Content Include="Scripts\maps\continents\jquery.vmap.australia.js" />
-    <Content Include="Scripts\maps\continents\jquery.vmap.europe.js" />
-    <Content Include="Scripts\maps\continents\jquery.vmap.north-america.js" />
-    <Content Include="Scripts\maps\continents\jquery.vmap.south-america.js" />
-    <Content Include="Scripts\maps\jquery.vmap.algeria.js" />
-    <Content Include="Scripts\maps\jquery.vmap.argentina.js" />
-    <Content Include="Scripts\maps\jquery.vmap.brazil.js" />
-    <Content Include="Scripts\maps\jquery.vmap.canada.js" />
-    <Content Include="Scripts\maps\jquery.vmap.europe.js" />
-    <Content Include="Scripts\maps\jquery.vmap.france.js" />
-    <Content Include="Scripts\maps\jquery.vmap.germany.js" />
-    <Content Include="Scripts\maps\jquery.vmap.greece.js" />
-    <Content Include="Scripts\maps\jquery.vmap.iran.js" />
-    <Content Include="Scripts\maps\jquery.vmap.iraq.js" />
-    <Content Include="Scripts\maps\jquery.vmap.russia.js" />
-    <Content Include="Scripts\maps\jquery.vmap.tunisia.js" />
-    <Content Include="Scripts\maps\jquery.vmap.turkey.js" />
-    <Content Include="Scripts\maps\jquery.vmap.usa.js" />
-    <Content Include="Scripts\maps\jquery.vmap.world.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\nprogress.js" />
+    <Content Include="Scripts\select2.full.min.js" />
     <Content Include="Scripts\skycons.js" />
-    <Content Include="Web.config" />
+    <Content Include="Scripts\switchery.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -393,9 +370,39 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Bodegas\Index.cshtml" />
+    <Content Include="Views\Shared\_small-modal.cshtml" />
+    <Content Include="Views\Bodegas\Create.cshtml" />
+    <Content Include="Views\Bodegas\Details.cshtml" />
+    <Content Include="Views\Bodegas\Edit.cshtml" />
+    <Content Include="Views\Shared\_xs-modal.cshtml" />
+    <Content Include="Views\Categorias\Index.cshtml" />
+    <Content Include="Views\Categorias\Create.cshtml" />
+    <Content Include="Views\Categorias\Details.cshtml" />
+    <Content Include="Views\Categorias\Edit.cshtml" />
+    <Content Include="Views\TiposDeEntrada\Index.cshtml" />
+    <Content Include="Views\TiposDeEntrada\Create.cshtml" />
+    <Content Include="Views\TiposDeEntrada\Edit.cshtml" />
+    <Content Include="Views\TiposDeEntrada\Details.cshtml" />
+    <Content Include="Views\TiposDeSalida\Index.cshtml" />
+    <Content Include="Views\Productos\Index.cshtml" />
+    <Content Include="Views\Productos\Create.cshtml" />
+    <Content Include="Views\Proveedor\Index.cshtml" />
+    <Content Include="Views\Proveedor\Create.cshtml" />
+    <Content Include="Views\Proveedor\Edit.cshtml" />
+    <Content Include="Views\Proveedor\Details.cshtml" />
+    <Content Include="Views\UnidadesDeMedida\Index.cshtml" />
+    <Content Include="Views\UnidadesDeMedida\Create.cshtml" />
+    <Content Include="Views\UnidadesDeMedida\Edit.cshtml" />
+    <Content Include="Views\UnidadesDeMedida\Details.cshtml" />
+    <Content Include="Views\TiposDeSalida\Create.cshtml" />
+    <Content Include="Views\TiposDeSalida\Edit.cshtml" />
+    <Content Include="Views\TiposDeSalida\Details.cshtml" />
+    <Content Include="Views\Productos\Edit.cshtml" />
+    <Content Include="Views\Productos\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="Views\Activar\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -425,6 +432,17 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202004182011016_InitialCreate.resx">
+      <DependentUpon>202004182011016_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004182014384_InitialCatalog.resx">
+      <DependentUpon>202004182014384_InitialCatalog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004210207151_changesModels.resx">
+      <DependentUpon>202004210207151_changesModels.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

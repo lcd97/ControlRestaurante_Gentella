@@ -22,12 +22,12 @@ namespace ProyectoXalli_Gentella.Models
 
         [Required(ErrorMessage = "El {0} es obligatorio")]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "La longitud debe ser de 3 dígitos")]
-        [Display(Name = "Código de bodega")]
+        [Display(Name = "Código")]
         public string CodigoBodega { get; set; }
 
         [Required(ErrorMessage = "La {0} es obligatorio")]
         [StringLength(50, ErrorMessage = "La longitud excede los 50 dígitos")]
-        [Display(Name = "Descripción de bodega")]
+        [Display(Name = "Área")]
         public string DescripcionBodega { get; set; }
 
         //DEFINICION DE RELACIONES HIJOS

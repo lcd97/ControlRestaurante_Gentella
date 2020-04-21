@@ -21,17 +21,20 @@ namespace ProyectoXalli_Gentella.Models
 
         [Required(ErrorMessage = "El {0} es obligatorio")]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "La longitud debe ser de 3 dígitos")]
-        [Display(Name = "Código de unidad de medida")]
+        [Display(Name = "Código")]
         public string CodigoUnidadMedida { get; set; }
 
         [Required(ErrorMessage = "La {0} es obligatorio")]
         [StringLength(50, ErrorMessage = "La longitud excede los 50 dígitos")]
-        [Display(Name = "Descripción de unidad de medida")]
+        [Display(Name = "U/M")]
         public string DescripcionUnidadMedida { get; set; }
 
-        [Range(typeof(bool), "true", "true")]
         [Display(Name = "Activo")]
         public bool EstadoUnidadMedida { get; set; }
+
+        //CAMPO MAPEABLE
+        [NotMapped]
+        public string unidadMedida { get { return DescripcionUnidadMedida.Trim() + " " + Id; } }
 
         //DEFINICION DE RELACIONES HIJOS
         public virtual ICollection<Producto> Productos { get; set; }

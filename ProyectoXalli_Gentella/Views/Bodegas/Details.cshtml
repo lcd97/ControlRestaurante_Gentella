@@ -1,0 +1,36 @@
+﻿@model ProyectoXalli_Gentella.Models.Bodega
+
+@{
+    ViewBag.Title = "Detalle";
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_content">
+                <div data-parsley-validate class="form-horizontal form-label-left">
+
+                    <div class="form-group">
+                        @Html.Label("Código", htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                        <div class="control-label col-md-3 col-sm-3 col-xs-3">
+                            @Html.DisplayFor(model => model.CodigoBodega, new { htmlAttributes = new { @class = "col-md-7 col-xs-12" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Nombre del área", htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
+                        <div class="control-label col-md-3 col-sm-3 col-xs-3">
+                            @Html.DisplayFor(model => model.DescripcionBodega, new { htmlAttributes = new { @class = "col-md-7 col-xs-12" } })
+                        </div>
+                    </div>
+
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-5">
+                            <a onclick="CerrarModal()" class="btn btn-primary">Cerrar</a>
+                        </div>
+                    </div>
+                </div>            
+        </div>
+    </div>
+</div>

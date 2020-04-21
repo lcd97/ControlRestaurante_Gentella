@@ -10,6 +10,11 @@ namespace ProyectoXalli_Gentella.Models
 {
     public class DBControl : DbContext
     {
+        public DBControl() : base("HotelDB")
+        {
+
+        }
+
         //MODULO CONTROL DE INSUMOS
         public DbSet<Bodega> Bodegas { get; set; }
         public DbSet<Categoria> Categorias { get; set; }

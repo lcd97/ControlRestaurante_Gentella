@@ -21,7 +21,7 @@ namespace ProyectoXalli_Gentella.Models
 
         [Required(ErrorMessage = "El {0} es obligatorio")]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "La longitud debe ser de 3 dígitos")]
-        [Display(Name = "Código de entrada")]
+        [Display(Name = "Código")]
         public string CodigoEntrada { get; set; }
 
         [Required(ErrorMessage = "La {0} es obligatorio")]
@@ -29,7 +29,6 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Fecha de entrada")]
         public DateTime FechaEntrada { get; set; }
 
-        [Range(typeof(bool), "true", "true")]
         [Display(Name = "Activo")]
         public bool EstadoTipoEntrada { get; set; }
 

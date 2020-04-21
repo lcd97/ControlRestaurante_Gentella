@@ -21,15 +21,14 @@ namespace ProyectoXalli_Gentella.Models
 
         [Required(ErrorMessage = "El {0} es obligatorio")]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "La longitud debe ser de 3 dígitos")]
-        [Display(Name = "Código de tipo de entrada")]
+        [Display(Name = "Código")]
         public string CodigoTipoEntrada { get; set; }
 
         [Required(ErrorMessage = "La {0} es obligatorio")]
         [StringLength(50, ErrorMessage = "La longitud excede los 50 dígitos")]
-        [Display(Name = "Descripción de tipo de entrada")]
+        [Display(Name = "Tipo de entrada")]
         public string DescripcionTipoEntrada { get; set; }
 
-        [Range(typeof(bool), "true", "true")]
         [Display(Name = "Activo")]
         public bool EstadoTipoEntrada { get; set; }
 

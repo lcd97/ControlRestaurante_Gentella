@@ -9,7 +9,7 @@
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    <link href="~/Content/switchery.css" rel="stylesheet" />
 </head>
 <!--INICIO DEL BODY-->
 
@@ -74,6 +74,9 @@
                                     <ul class="nav child_menu">
                                         <li><a href="#">Facturar</a></li>
                                     </ul>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-check-circle"></i>Activar items</a>
                                 </li>
                             </ul>
                         </div>
@@ -317,7 +320,10 @@
     <script src="~/Scripts/skycons.js"></script>
 
     <script src="~/Scripts/moment.min.js"></script>
-    
+    <script src="~/Scripts/switchery.js"></script>
+    <!--SWAL MODAL-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <!-- DateJS -->
     <script src="~/Scripts/date.js"></script>
     <!-- bootstrap-daterangepicker -->
@@ -327,7 +333,7 @@
     <script src="~/Scripts/custom.js"></script>
 
     @*@Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/jquery")*@
+        @Scripts.Render("~/bundles/jquery")*@
     @RenderSection("scripts", required: false)
 
 </body>
