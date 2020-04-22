@@ -28,7 +28,7 @@ namespace ProyectoXalli_Gentella.Controllers
         /// <returns></returns>
         public async Task<JsonResult> GetData()
         {
-            var bodegas = await db.Bodegas.ToListAsync();
+            var bodegas = await db.Bodegas.Where(b => b.EstadoBodega == true).ToListAsync();
 
             return Json(new { data = bodegas }, JsonRequestBehavior.AllowGet);
         }
@@ -59,7 +59,7 @@ namespace ProyectoXalli_Gentella.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoBodega,DescripcionBodega")] Bodega bodega)
+        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoBodega,DescripcionBodega,EstadoBodega")] Bodega bodega)
         {
             Bodega bod = db.Bodegas.DefaultIfEmpty(null).FirstOrDefault(b => b.CodigoBodega.Trim() == bodega.CodigoBodega.Trim());
 
@@ -69,6 +69,7 @@ namespace ProyectoXalli_Gentella.Controllers
                 mensaje = "Código de bodega ya existente";
             }
 
+            bodega.EstadoBodega = true;
             if (ModelState.IsValid)
             {
                 db.Bodegas.Add(bodega);
@@ -111,7 +112,7 @@ namespace ProyectoXalli_Gentella.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoBodega,DescripcionBodega")] Bodega bodega)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoBodega,DescripcionBodega,EstadoBodega")] Bodega bodega)
         {
             if (ModelState.IsValid)
             {

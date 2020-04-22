@@ -34,6 +34,7 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Activo")]
         public bool EstadoProveedor { get; set; }
 
+        [Required(ErrorMessage = "El {0} es obligatorio")]
         [Display(Name = "Proveedor local")]
         public bool Local { get; set; }
 

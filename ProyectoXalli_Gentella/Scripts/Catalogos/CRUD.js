@@ -14,7 +14,7 @@ function CargarParcial(url) { //RECIBE LA URL DE LA UBICACION DEL METODO
 //FUNCION PARA HACER EL CRUD A BODEGA POR MEDIO DEL MODAL (RECIBE UN FORM = FORMULARIO)
 function SubmitForm(form) {
     $.validator.unobtrusive.parse(form);
-    if ($(form).valid()) {
+    //if ($(form).valid()) {
         $.ajax({
             type: "POST", //TIPO DE ACCION
             url: form.action, //ACCION O METODO A REALIZAR
@@ -37,7 +37,7 @@ function SubmitForm(form) {
                 Alert("Error al almacenarlo", "Intentelo de nuevo", "error");
             }//FIN ERROR
         });//FIN AJAX
-    }//FIN DEL IF FORM VALID
+    //}//FIN DEL IF FORM VALID
     return false; //EVITA SALIRSE DEL METODO ACTUAL
 }//FIN FUNCTION
 

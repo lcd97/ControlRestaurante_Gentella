@@ -23,8 +23,8 @@ namespace ProyectoXalli_Gentella.Migrations
             //  to avoid creating duplicate seed data.
 
             context.Bodegas.AddOrUpdate(u => u.CodigoBodega,
-                new Bodega { CodigoBodega = "B01", DescripcionBodega = "Bar" },
-                new Bodega { CodigoBodega = "C01", DescripcionBodega = "Cocina" });
+                new Bodega { CodigoBodega = "B01", DescripcionBodega = "Bar", EstadoBodega = true },
+                new Bodega { CodigoBodega = "C01", DescripcionBodega = "Cocina", EstadoBodega = true });
             context.SaveChanges();
 
             context.Categorias.AddOrUpdate(u => u.CodigoCategoria,

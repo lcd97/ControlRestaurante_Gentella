@@ -29,6 +29,7 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Tipo de salida")]
         public string DescripcionTipoSalida { get; set; }
 
+        [Required(ErrorMessage = "El {0} es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoTipoSalida { get; set; }
 

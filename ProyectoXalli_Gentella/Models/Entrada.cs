@@ -29,6 +29,7 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Fecha de entrada")]
         public DateTime FechaEntrada { get; set; }
 
+        [Required(ErrorMessage = "El {0} es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoTipoEntrada { get; set; }
 

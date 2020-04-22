@@ -30,6 +30,10 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Área")]
         public string DescripcionBodega { get; set; }
 
+        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Display(Name = "Activo")]
+        public bool EstadoBodega { get; set; }
+
         //DEFINICION DE RELACIONES HIJOS
         public virtual ICollection<Entrada> Entradas { get; set; }
         public virtual ICollection<Salida> Salidas { get; set; }

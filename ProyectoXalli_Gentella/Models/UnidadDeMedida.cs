@@ -29,6 +29,7 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "U/M")]
         public string DescripcionUnidadMedida { get; set; }
 
+        [Required(ErrorMessage = "El {0} es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoUnidadMedida { get; set; }
 

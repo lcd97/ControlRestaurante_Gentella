@@ -62,21 +62,29 @@
                                 <li>
                                     <a><i class="fa fa-truck"></i> Control de Insumos <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="#">Cocina</a></li>
-                                        <li><a href="#">Bar</a></li>
+                                        <li>
+                                            <a>Entradas<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li class="sub_menu">
+                                                    <a href="#">Cocina</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Bar</a>
+                                                </li>
+                                            </ul>
+
+                                        </li>                                        
+                                        <li><a href="#">Salidas Bar</a></li>
                                     </ul>
                                 </li>
                                 <li>
                                     <a href="#"><i class="fa fa-clipboard"></i>Orden</a>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-credit-card"></i>Facturación<span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="#">Facturar</a></li>
-                                    </ul>
+                                    <a href="#"><i class="fa fa-credit-card"></i>Facturación</a>                                    
                                 </li>
                                 <li>
-                                    <a href="#"><i class="fa fa-check-circle"></i>Activar items</a>
+                                    <a href="@Url.Action("Index", "Activar")"><i class="fa fa-check-circle"></i>Activar items</a>
                                 </li>
                             </ul>
                         </div>
@@ -100,7 +108,6 @@
                                 <li>
                                     <a><i class="fa fa-edit"></i>Menu<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="pages/forms/general.html">Recetas</a></li>
                                         <li><a href="pages/forms/advanced.html">Platillos</a></li>
                                         <li><a href="pages/forms/editors.html">Categorias</a></li>
                                     </ul>

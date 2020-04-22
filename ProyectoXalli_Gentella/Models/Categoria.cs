@@ -29,6 +29,7 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Categoría")]
         public string DescripcionCategoria { get; set; }
 
+        [Required(ErrorMessage = "El {0} es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoCategoria { get; set; }
 

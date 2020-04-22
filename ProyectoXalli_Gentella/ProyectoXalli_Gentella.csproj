@@ -231,6 +231,10 @@
     <Compile Include="Migrations\202004210207151_changesModels.Designer.cs">
       <DependentUpon>202004210207151_changesModels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004221508094_ModificacionesModelo.cs" />
+    <Compile Include="Migrations\202004221508094_ModificacionesModelo.Designer.cs">
+      <DependentUpon>202004221508094_ModificacionesModelo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -350,6 +354,7 @@
     <Content Include="Scripts\jquery.vmap.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\Movimientos\activacion.js" />
     <Content Include="Scripts\nprogress.js" />
     <Content Include="Scripts\select2.full.min.js" />
     <Content Include="Scripts\skycons.js" />
@@ -400,10 +405,9 @@
     <Content Include="Views\TiposDeSalida\Details.cshtml" />
     <Content Include="Views\Productos\Edit.cshtml" />
     <Content Include="Views\Productos\Details.cshtml" />
+    <Content Include="Views\Activar\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Activar\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
@@ -442,6 +446,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004210207151_changesModels.resx">
       <DependentUpon>202004210207151_changesModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004221508094_ModificacionesModelo.resx">
+      <DependentUpon>202004221508094_ModificacionesModelo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

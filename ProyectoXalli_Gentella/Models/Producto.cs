@@ -36,31 +36,25 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Marca")]
         public string MarcaProducto { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
-        //[Range(1, decimal.MaxValue, ErrorMessage = "El precio debe ser mayor a 0")]
-        [DataType(DataType.Currency)]
-        [DisplayFormat(DataFormatString = "(0:c2)")]//MUESTRA EL FORMATO "10.20"
-        [Display(Name = "Precio")]
-        public decimal PrecioProducto { get; set; }
-
         [Required(ErrorMessage = "La {0} es obligatorio")]
         //[Range(5, int.MaxValue)]
         [Display(Name = "Cantidad de existente")]
         [DisplayFormat(DataFormatString = "(0:c2)")]//MUESTRA EL FORMATO "10.20"
-        public decimal CantidadProducto { get; set; }
+        public double CantidadProducto { get; set; }
 
         [Required(ErrorMessage = "La {0} es obligatorio")]
         //[Range(5, int.MaxValue, ErrorMessage = "La cantidad mínima de producto debe ser mayor a 0")]
         [DisplayFormat(DataFormatString = "(0:c2)")]//MUESTRA EL FORMATO "10.20"
         [Display(Name = "Cantidad máxima")]
-        public decimal CantidadMaxProducto { get; set; }
+        public double CantidadMaxProducto { get; set; }
 
         [Required(ErrorMessage = "La {0} es obligatorio")]
         //[Range(5, int.MaxValue, ErrorMessage = "La cantidad mínima de producto debe ser mayor a 0")]
         [DisplayFormat(DataFormatString = "(0:c2)")]//MUESTRA EL FORMATO "10.20"
         [Display(Name = "Cantidad mínima")]
-        public decimal CantidadMinProducto { get; set; }
+        public double CantidadMinProducto { get; set; }
 
+        [Required(ErrorMessage = "El {0} es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoProducto { get; set; }
 

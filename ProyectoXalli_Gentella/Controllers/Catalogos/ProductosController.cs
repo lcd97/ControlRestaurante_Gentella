@@ -65,7 +65,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoProducto,DescripcionProducto,MarcaProducto,PrecioProducto,CantidadProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
+        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoProducto,DescripcionProducto,MarcaProducto,CantidadProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
         {
             Producto bod = db.Productos.DefaultIfEmpty(null).FirstOrDefault(b => b.CodigoProducto.Trim() == Producto.CodigoProducto.Trim());
 
@@ -122,13 +122,25 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoProducto,DescripcionProducto,MarcaProducto,PrecioProducto,CantidadProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoProducto,DescripcionProducto,MarcaProducto,CantidadProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(Producto).State = EntityState.Modified;
                 completado = await db.SaveChangesAsync() > 0 ? true : false;
                 mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+            }
+            else
+            {
+                //ESTO ES PARA VER EL ERROR QUE DEVUELVE EL MODELO
+                string cad = "";
+                foreach (ModelState modelState in ViewData.ModelState.Values)
+                {
+                    foreach (ModelError error in modelState.Errors)
+                    {
+                        cad += (error);
+                    }
+                }
             }
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
