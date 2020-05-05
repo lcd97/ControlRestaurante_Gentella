@@ -8,41 +8,32 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_content">
-            <div data-parsley-validate class="form-horizontal form-label-left">
 
-                <div class="form-group">
+            <div class="col-md-8 center-margin">
+
+                <div class="form-horizontal form-label-left">
+
                     <div class="form-group">
-                        @Html.Label("Código", htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
-                        <div class="col-md-2 col-sm-2 col-xs-2">
-                            @Html.DisplayFor(model => model.CodigoBodega, new { htmlAttributes = new { @class = "col-md-7 col-xs-12", @disabled = "disabled" } })
-                        </div>
-                        <div class="col-md-4 col-sm-4 col-xs-4">
-                            <div class="">
-                                <label>
-                                    @Html.CheckBoxFor(model => model.EstadoBodega, new { @class = "js-switch", @disabled = "disabled" })
-                                    Estado
-                                </label>
-                            </div>
-                        </div>
+                        <p>
+                            @Html.Label("Código", htmlAttributes: new { @class = "" })
+                        </p>                    </div>
+
+                    <div class="form-group">
+                        
                     </div>
+
                 </div>
 
-                <div class="form-group">
-                    @Html.Label("Nombre del área", htmlAttributes: new { @class = "control-label col-md-3 col-sm-3 col-xs-12" })
-                    <div class="col-md-2 col-sm-2 col-xs-2">
-                        @Html.DisplayFor(model => model.DescripcionBodega, new { htmlAttributes = new { @class = "col-md-7 col-xs-12" } })
-                    </div>
-                </div>
+            </div>
 
                 <div class="ln_solid"></div>
                 <div class="form-group">
-                    <div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-5">
+                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
                         <a onclick="CerrarModal()" class="btn btn-primary">Cerrar</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 </div>
 
 
@@ -50,6 +41,6 @@
     $(document).ready(function () {
 
         var elem = document.querySelector('.js-switch');
-        var init = new Switchery(elem);
+        var init = new Switchery(elem, { size: 'small' });
     });
 </script>

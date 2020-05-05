@@ -13,7 +13,7 @@
                 <div class="form-inline col-md-12 col-sm-12 col-xs-12">
                     <div class="form-group col-md-6 col-sm-6 col-xs-6">
                         @Html.Label("Código", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
-                        @Html.DisplayFor(model => model.CodigoProducto, new { htmlAttributes = new { @class = "form-control col-md-2 col-sm-2 col-xs-2"} })
+                        @Html.DisplayFor(model => model.CodigoProducto, new { htmlAttributes = new { @class = "form-control col-md-2 col-sm-2 col-xs-2" } })
                     </div>
 
                     <div class="form-group col-md-6 col-sm-6 col-xs-6">
@@ -53,26 +53,32 @@
 
                 <br /><br /><br />
 
-                <div class="form-horizontal">
-                    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                <div class="form-horizontal form-label-left col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="form-group has-feedback col-md-4 col-sm-4 col-xs-4">
+                        @Html.Label("Cantidad Producto", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
                         @Html.EditorFor(model => model.CantidadProducto, new { htmlAttributes = new { @class = "form-control has-feedback-left",
-                       @maxlength = 50, @autocomplete = "off", @placeholder = "Cant. Actual", id = "cantProd", @disabled = "disabled" } })
+                       @maxlength = 50, @autocomplete = "off", @placeholder = "Cant. Actual", id = "cantProd" } })
                         <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                     </div>
 
-                    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                    <div class="form-group has-feedback col-md-4 col-sm-4 col-xs-4">
+                        @Html.Label("Cantidad Mínima", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
                         @Html.EditorFor(model => model.CantidadMinProducto, new { htmlAttributes = new { @class = "form-control has-feedback-left",
-                       @maxlength = 50, @autocomplete = "off", @placeholder = "Cant. Máx.", id = "cantMin", @disabled = "disabled" } })
+                       @maxlength = 50, @autocomplete = "off", @placeholder = "Cant. Máx.", id = "cantMin" } })
                         <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                     </div>
 
-                    <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                    <div class="form-group has-feedback col-md-4 col-sm-4 col-xs-4">
+                        @Html.Label("Cantidad Máxima", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
                         @Html.EditorFor(model => model.CantidadMaxProducto, new { htmlAttributes = new { @class = "form-control has-feedback-left",
-                       @maxlength = 50, @autocomplete = "off", @placeholder = "Cant. Mín.", id = "cantMax" , @disabled = "disabled"} })
+                       @maxlength = 50, @autocomplete = "off", @placeholder = "Cant. Mín.", id = "cantMax" } })
                         <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                     </div>
 
-                </div>             
+                </div>
+
+                <br />
                 <br />
                 <br />
 

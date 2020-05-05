@@ -209,7 +209,7 @@
     <Compile Include="Controllers\Catalogos\BodegasController.cs" />
     <Compile Include="Controllers\Catalogos\CategoriasController.cs" />
     <Compile Include="Controllers\Catalogos\ProductosController.cs" />
-    <Compile Include="Controllers\Catalogos\ProveedorController.cs" />
+    <Compile Include="Controllers\Catalogos\ProveedoresController.cs" />
     <Compile Include="Controllers\Catalogos\TiposDeEntradaController.cs" />
     <Compile Include="Controllers\Catalogos\TiposDeSalidaController.cs" />
     <Compile Include="Controllers\Catalogos\UnidadesDeMedidaController.cs" />
@@ -219,27 +219,28 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004182011016_InitialCreate.cs" />
-    <Compile Include="Migrations\202004182011016_InitialCreate.Designer.cs">
-      <DependentUpon>202004182011016_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\202004230153203_InitialCreate.cs" />
+    <Compile Include="Migrations\202004230153203_InitialCreate.Designer.cs">
+      <DependentUpon>202004230153203_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004182014384_InitialCatalog.cs" />
-    <Compile Include="Migrations\202004182014384_InitialCatalog.Designer.cs">
-      <DependentUpon>202004182014384_InitialCatalog.cs</DependentUpon>
+    <Compile Include="Migrations\202005051540063_AddDataTable.cs" />
+    <Compile Include="Migrations\202005051540063_AddDataTable.Designer.cs">
+      <DependentUpon>202005051540063_AddDataTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004210207151_changesModels.cs" />
-    <Compile Include="Migrations\202004210207151_changesModels.Designer.cs">
-      <DependentUpon>202004210207151_changesModels.cs</DependentUpon>
+    <Compile Include="Migrations\202005051553424_AddDataTable1.cs" />
+    <Compile Include="Migrations\202005051553424_AddDataTable1.Designer.cs">
+      <DependentUpon>202005051553424_AddDataTable1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004221508094_ModificacionesModelo.cs" />
-    <Compile Include="Migrations\202004221508094_ModificacionesModelo.Designer.cs">
-      <DependentUpon>202004221508094_ModificacionesModelo.cs</DependentUpon>
+    <Compile Include="Migrations\202005051626325_Changes.cs" />
+    <Compile Include="Migrations\202005051626325_Changes.Designer.cs">
+      <DependentUpon>202005051626325_Changes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bodega.cs" />
     <Compile Include="Models\Categoria.cs" />
+    <Compile Include="Models\Dato.cs" />
     <Compile Include="Models\DBControl.cs" />
     <Compile Include="Models\DetalleDeEntrada.cs" />
     <Compile Include="Models\DetalleDeSalida.cs" />
@@ -257,10 +258,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\HotelDB.mdf" />
-    <Content Include="App_Data\HotelDB_log.ldf">
-      <DependentUpon>HotelDB.mdf</DependentUpon>
-    </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-progressbar-3.3.4.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -321,6 +318,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\Catalogos\saveProveedor.js" />
     <Content Include="Scripts\Catalogos\CRUD.js" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\curvedLines.js" />
@@ -356,6 +354,7 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\Movimientos\activacion.js" />
     <Content Include="Scripts\nprogress.js" />
+    <Content Include="Scripts\parsley.js" />
     <Content Include="Scripts\select2.full.min.js" />
     <Content Include="Scripts\skycons.js" />
     <Content Include="Scripts\switchery.js" />
@@ -392,10 +391,6 @@
     <Content Include="Views\TiposDeSalida\Index.cshtml" />
     <Content Include="Views\Productos\Index.cshtml" />
     <Content Include="Views\Productos\Create.cshtml" />
-    <Content Include="Views\Proveedor\Index.cshtml" />
-    <Content Include="Views\Proveedor\Create.cshtml" />
-    <Content Include="Views\Proveedor\Edit.cshtml" />
-    <Content Include="Views\Proveedor\Details.cshtml" />
     <Content Include="Views\UnidadesDeMedida\Index.cshtml" />
     <Content Include="Views\UnidadesDeMedida\Create.cshtml" />
     <Content Include="Views\UnidadesDeMedida\Edit.cshtml" />
@@ -406,8 +401,14 @@
     <Content Include="Views\Productos\Edit.cshtml" />
     <Content Include="Views\Productos\Details.cshtml" />
     <Content Include="Views\Activar\Index.cshtml" />
+    <Content Include="Views\Proveedores\Index.cshtml" />
+    <Content Include="Views\Proveedores\Create.cshtml" />
+    <Content Include="Views\Proveedores\Edit.cshtml" />
+    <Content Include="Views\Proveedores\Details.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
@@ -438,17 +439,17 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202004182011016_InitialCreate.resx">
-      <DependentUpon>202004182011016_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202004230153203_InitialCreate.resx">
+      <DependentUpon>202004230153203_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004182014384_InitialCatalog.resx">
-      <DependentUpon>202004182014384_InitialCatalog.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202005051540063_AddDataTable.resx">
+      <DependentUpon>202005051540063_AddDataTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004210207151_changesModels.resx">
-      <DependentUpon>202004210207151_changesModels.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202005051553424_AddDataTable1.resx">
+      <DependentUpon>202005051553424_AddDataTable1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004221508094_ModificacionesModelo.resx">
-      <DependentUpon>202004221508094_ModificacionesModelo.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202005051626325_Changes.resx">
+      <DependentUpon>202005051626325_Changes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

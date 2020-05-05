@@ -69,6 +69,7 @@ function Delete(uri, id) {
 //FUNCION PARA CERRAR LA MODAL
 function CerrarModal() {
     $("#small-modal").modal("hide"); //CERRAR MODAL                
+    $("#xs-modal").modal("hide"); //CERRAR MODAL                
 }//FIN FUNCION
 
 //MANDAR EL SWEET ALERT PARA CREAR/EDITAR
@@ -107,45 +108,6 @@ function deleteAlert(uri, id) {
         });//FIN THEN
 }//FIN FUCTION DELETE
 
-//CONFIRMACION DE ACTIVAR/DESACTIVAR
-//function Check() {
-//    //ALMACENAMOS EL OBJETO DEL CHECKBOX
-//    var chkBox = document.getElementsByClassName("js-switch");
-
-//    //DEPENDE DE SU ESTADO MANDAMOS UN ALERT
-//    if (chkBox.checked) {
-//        swal({
-//            title: "¿Desea desactivar el registro?",
-//            icon: "warning",
-//            buttons: {
-//                cancel: "No",
-//                catch: {
-//                    text: "Sí",
-//                    value: "catch" //VALOR PARA UTILIZARLO EN EL SWITCH
-//                }
-//            }//FIN DE BUTTONS
-//        })//FIN DEL SWAL
-
-//            .then((value) => {
-//                switch (value) {
-
-//                    case "catch":
-//                        //DESACTIVAR EL CHKBOX
-//                        $("#chkActive").prop("checked", false); 
-//                        break;
-
-//                    default:
-//                        {
-//                            //SI DA EN CANCELAR O EN NO ACTIVA DE NUEVO EL CHECKBOX
-//                            $("#chkActive").prop("checked", true); 
-//                            swal.close();
-//                        }
-//                }//FIN SWITCH
-//            });//FIN THEN
-//    }//FIN IF CHKBOX
-//}//FIN FUNCION
-
-
 $(document).ready(function () {
     var screen = $('#Cargando'); //obtiene modal Cargando
     configureLoadingScreen(screen); //llamada a metodo usando AJAX
@@ -160,3 +122,4 @@ function configureLoadingScreen(screen) {  // metodo para mostrar Loader
             screen.modal("hide");
         });
 }
+

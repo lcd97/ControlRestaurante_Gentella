@@ -41,7 +41,13 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Retiene IR")]
         public bool RetenedorIR { get; set; }
 
+        //FOREIGN KEY
+        public int DatoId { get; set; }
+
         //DECLARACION DE RELACIONES HIJOS
         public virtual ICollection<Entrada> Entradas { get; set; }
+
+        //DECLARACION DE RELACION PADRE
+        public virtual Dato Dato { get; set; }
     }
 }

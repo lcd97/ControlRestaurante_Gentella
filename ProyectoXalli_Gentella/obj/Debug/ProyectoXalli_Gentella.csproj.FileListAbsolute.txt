@@ -127,6 +127,7 @@ C:\Users\Daniela Cordero\Desktop\ProyectoXalli_Gentella\ProyectoXalli_Gentella\o
 C:\Users\Daniela Cordero\Desktop\ProyectoXalli_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.dll
 C:\Users\Daniela Cordero\Desktop\ProyectoXalli_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.pdb
 C:\Users\Daniela Cordero\Desktop\ProyectoXalli_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csprojAssemblyReference.cache
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\ProyectoXalli_Gentella.dll.config
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\ProyectoXalli_Gentella.dll
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\ProyectoXalli_Gentella.pdb
@@ -137,7 +138,6 @@ C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\Proyecto
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\csi.exe.config
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\csi.rsp
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.dll
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
@@ -252,12 +252,12 @@ C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\Proyecto
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\Microsoft.AspNet.Identity.EntityFramework.resources.dll
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.Http.Owin.resources.dll
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.Migrations.InitialCreate.resources
-C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.Migrations.InitialCatalog.resources
-C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.Migrations.changesModels.resources
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.Migrations.AddDataTable.resources
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csproj.GenerateResource.cache
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csproj.CoreCompileInputs.cache
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csproj.CopyComplete
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.dll
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.pdb
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.Migrations.AddDataTable1.resources
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.Migrations.Changes.resources
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csprojAssemblyReference.cache
-C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.Migrations.ModificacionesModelo.resources

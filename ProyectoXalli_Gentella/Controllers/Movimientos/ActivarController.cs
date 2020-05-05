@@ -24,7 +24,7 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
         public JsonResult getBodegas()
         {
             var bodegas = (from obj in db.Bodegas.ToList()
-                             where obj.DescripcionBodega == ""
+                             where obj.EstadoBodega == true
                              select new {
                                  Id = obj.Id,
                                  Descripcion = obj.DescripcionBodega,

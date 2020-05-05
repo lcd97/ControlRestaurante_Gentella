@@ -26,9 +26,16 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// RECUPERA DATOS PARA LLENAR LA TABLA UNIDADES DE MEDIDA A TRAVES DE JSON
         /// </summary>
         /// <returns></returns>
-        public async Task<JsonResult> GetData()
+        public JsonResult GetData()
         {
-            var unidades = await db.UnidadesDeMedida.Where(c => c.EstadoUnidadMedida == true).ToListAsync();
+            var unidades = (from u in db.UnidadesDeMedida.ToList()
+                            where u.EstadoUnidadMedida == true
+                            select new
+                            {
+                                Id = u.Id,
+                                CodigoUnidadMedida = u.CodigoUnidadMedida,
+                                DescripcionUnidadMedida = u.DescripcionUnidadMedida + " - " + u.AbreviaturaUM,
+                            });
 
             return Json(new { data = unidades }, JsonRequestBehavior.AllowGet);
         }
@@ -59,7 +66,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoUnidadMedida,DescripcionUnidadMedida,EstadoUnidadMedida")] UnidadDeMedida UnidadDeMedida)
+        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoUnidadMedida,DescripcionUnidadMedida,AbreviaturaUM,EstadoUnidadMedida")] UnidadDeMedida UnidadDeMedida)
         {
             UnidadDeMedida bod = db.UnidadesDeMedida.DefaultIfEmpty(null).FirstOrDefault(b => b.CodigoUnidadMedida.Trim() == UnidadDeMedida.CodigoUnidadMedida.Trim());
 
@@ -101,7 +108,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoUnidadMedida,DescripcionUnidadMedida,EstadoUnidadMedida")] UnidadDeMedida UnidadDeMedida)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoUnidadMedida,DescripcionUnidadMedida,AbreviaturaUM,EstadoUnidadMedida")] UnidadDeMedida UnidadDeMedida)
         {
             if (ModelState.IsValid)
             {

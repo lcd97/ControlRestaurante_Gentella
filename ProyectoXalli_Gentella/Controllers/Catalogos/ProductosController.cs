@@ -28,7 +28,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// RECUPERA DATOS PARA LLENAR LA TABLA PRODUCTOS A TRAVES DE JSON
         /// </summary>
         /// <returns></returns>
-        public async Task<JsonResult> GetData()
+        public JsonResult GetData()
         {
             //db.Configuration.ProxyCreationEnabled = false;
             //db.Configuration.LazyLoadingEnabled = false;

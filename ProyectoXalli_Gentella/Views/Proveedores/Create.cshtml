@@ -1,0 +1,122 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    .btn-default.active {
+        background-color: #337ab7 !important;
+        border-color: #2e6da4 !important;
+        color: aliceblue !important;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_content">
+            <div data-parsley-validate class="form-horizontal form-label-left">
+
+                <div class="form-inline col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12 center-block">Proveedor</label>
+
+                        <div id="tipo" class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                            <button class="btn btn-default active col-xs-6" type="button" name="comercio" id="comercio">
+                                Comercio
+                            </button>
+                            <button class="btn btn-default col-xs-6" type="button" name="local" id="local">
+                                &nbsp;  Local  &nbsp;
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                        @Html.Label("Teléfono", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                        <input id="telefono" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="9" autocomplete="off" required>
+                    </div>
+
+                </div>
+
+                <br /><br /><br />
+
+                <div class="form-inline col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                        @Html.Label("No RUC", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-12" })
+                        <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="14" autocomplete="off">
+                    </div>
+
+                    <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                        @Html.Label("Cédula", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-12" })
+                        <input id="cedula" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="16" autocomplete="off" disabled>
+                    </div>
+                </div>
+
+                <br /><br /><br />
+
+                <div class="form-inline col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                        @Html.Label("Nombre", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                        <input id="nombre" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+                    </div>
+
+                    <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                        @Html.Label("Apellido", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                        <input id="apellido" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" disabled required>
+                    </div>
+                </div>
+
+                <br /><br /><br />
+
+                <div class="form-inline col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                        @Html.Label("¿Retiene IR?", htmlAttributes: new { @class = "col-md-5 col-sm-5 col-xs-8" })
+                        <label>
+                            <input type="checkbox" class="js-switch ir" id="ir" checked />
+                        </label>
+                    </div>
+
+                    <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                        @Html.Label("Activo", htmlAttributes: new { @class = " col-md-3 col-sm-3 col-xs-4" })
+                        <label>
+                            <input type="checkbox" class="js-switch activo" id="activo" checked disabled />
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <br /> <br />
+                <div class="ln_solid"></div>
+
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+                    <a onclick="CerrarModal()" class="btn btn-primary">Cerrar</a>
+                    <button type="button" onclick="saveSeller()" class="btn btn-success">Guardar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--LO MANDE A LLAMAR DE NUEVO PORQUE SE PERDIA LA LLAMADA DEL JS-->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="~/Scripts/Catalogos/saveProveedor.js"></script>
+<script>
+
+    //INICIALIZA LOS ELEMENTOS DE JQUERY A SWITCHERY
+    var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+
+    //CREA LOS ELEMENTOS DE SWITCHERY
+    elems.forEach(function (html) {
+        var switchery = new Switchery(html, { secondaryColor: '#CE2727' });
+    });
+
+</script>

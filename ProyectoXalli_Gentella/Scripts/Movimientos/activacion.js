@@ -1,12 +1,37 @@
 ﻿//OCULTAR AUTOMATICAMENTE EL DATATABLE
 $(document).ready(function () {
-    $("#hide").hide();
+    $("#Table").DataTable({
+        "language": {
+
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún elemento cargado en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            }
+        }//FIN IDIOMA DATATABLE
+    });
 });
 
 //CARGAR EL URL CON RESPECTO A LA SELECCION DEL COMBOBOX
 function obtenerURL() {
     //OBTENENGO EL VALOR DEL CBB
     var cbb = $("#catalogo").find("option:selected").val();
+
+    $("#Table").dataTable().fnDestroy();
 
     switch (cbb) {
         //BODEGAS
@@ -72,14 +97,14 @@ function obtenerURL() {
 //CARGAR DATATABLE
 function DataTable(uri) {   
 
-    //MOSTRAR DATATABLE
-    $("#hide").show();
+    ////MOSTRAR DATATABLE
+    //$("#hide").show();
 
     //CREAR URL DE BOTONES
     var uriEdit = "/" + uri.substr(12) + "/Edit/";
     var uriDetails = "/" + uri.substr(12) + "/Details/";
 
-    $("#Table").DataTable({
+    dt = $("#Table").DataTable({
         ajax: {
             url: uri, //URL DE LA UBICACION DEL METODO
             type: "GET", //TIPO DE ACCION
@@ -121,3 +146,9 @@ function DataTable(uri) {
         }//FIN IDIOMA DATATABLE
     });//FIN DECLARACION DEL DATATABLE
 }//FIN FUNCTION
+
+//REINICIALIZAR TABLA DATATABLE
+$("#catalogo").change(function () {
+    //$("#hide").hide();//ESCONDE LA SECCION DONDE VA EL DT
+    $("#Table").dataTable().fnDestroy(); //DESTRUYE PARA REINICIALIZAR EL DT
+});

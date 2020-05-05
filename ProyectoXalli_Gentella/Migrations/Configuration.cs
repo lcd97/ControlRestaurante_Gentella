@@ -56,13 +56,17 @@ namespace ProyectoXalli_Gentella.Migrations
             context.SaveChanges();
 
             context.UnidadesDeMedida.AddOrUpdate(u => u.CodigoUnidadMedida,
-                new UnidadDeMedida { CodigoUnidadMedida = "U00", DescripcionUnidadMedida = "Unidad", EstadoUnidadMedida = true },
-                new UnidadDeMedida { CodigoUnidadMedida = "U01", DescripcionUnidadMedida = "Libra", EstadoUnidadMedida = true },
-                new UnidadDeMedida { CodigoUnidadMedida = "U02", DescripcionUnidadMedida = "Docena", EstadoUnidadMedida = true },
-                new UnidadDeMedida { CodigoUnidadMedida = "U03", DescripcionUnidadMedida = "Cajilla 24", EstadoUnidadMedida = true },
-                new UnidadDeMedida { CodigoUnidadMedida = "U04", DescripcionUnidadMedida = "Galón", EstadoUnidadMedida = true },
-                new UnidadDeMedida { CodigoUnidadMedida = "U05", DescripcionUnidadMedida = "Quintal", EstadoUnidadMedida = true },
-                new UnidadDeMedida { CodigoUnidadMedida = "U06", DescripcionUnidadMedida = "Lata", EstadoUnidadMedida = true });
+                new UnidadDeMedida { CodigoUnidadMedida = "U00", DescripcionUnidadMedida = "Unidad", AbreviaturaUM = "Ud.", EstadoUnidadMedida = true },
+                new UnidadDeMedida { CodigoUnidadMedida = "U01", DescripcionUnidadMedida = "Libra", AbreviaturaUM = "Lb.", EstadoUnidadMedida = true },
+                new UnidadDeMedida { CodigoUnidadMedida = "U02", DescripcionUnidadMedida = "Docena", AbreviaturaUM = "Doc.", EstadoUnidadMedida = true },
+                new UnidadDeMedida { CodigoUnidadMedida = "U03", DescripcionUnidadMedida = "Cajilla 24", AbreviaturaUM = "Caj.", EstadoUnidadMedida = true },
+                new UnidadDeMedida { CodigoUnidadMedida = "U04", DescripcionUnidadMedida = "Galón", AbreviaturaUM = "Gal.", EstadoUnidadMedida = true },
+                new UnidadDeMedida { CodigoUnidadMedida = "U05", DescripcionUnidadMedida = "Quintal", AbreviaturaUM = "Q.", EstadoUnidadMedida = true },
+                new UnidadDeMedida { CodigoUnidadMedida = "U06", DescripcionUnidadMedida = "Lata", AbreviaturaUM = "Lata.", EstadoUnidadMedida = true });
+            context.SaveChanges();
+
+            context.Datos.AddOrUpdate(d => d.DNI,
+                new Dato { DNI = "xxx-xxxxxx-xxxxx", PNombre = "default", PApellido = "default"/*, SApellido = "default"*/ });
             context.SaveChanges();
         }
     }

@@ -28,7 +28,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <table id="Table" class="table table-striped table-bordered">
+                <table id="Table" class="table table-hover table-bordered" style="width:100%">
                     <thead>
                         <tr>
                             <th>@Html.DisplayNameFor(model => model.CodigoTipoEntrada)</th>
@@ -50,6 +50,7 @@
     @Scripts.Render("~/bundles/datatableJS")
     <script src="~/Scripts/Catalogos/CRUD.js"></script>
     <script src="~/Scripts/switchery.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!--DATATABLE TIPOS DE ENTRADA-->
     <script>
@@ -69,7 +70,6 @@
                     {   //DEFINIENDO LOS BOTONES PARA EDITAR Y ELIMINAR POR MEDIO DE JS
                         data: "Id", "render": function (data) {
                             return "<a class='btn btn-success' onclick=CargarParcial('/TiposDeEntrada/Edit/" + data + "')><i class='fa fa-pencil'></i></a>" +
-                                "<a class='btn btn-primary' Style='margin-left: 3px' onclick=CargarParcial('/TiposDeEntrada/Details/" + data + "')><i class='fa fa-eye'></i></a>" +
                                 "<a class='btn btn-danger' Style='margin-left: 3px' onclick=deleteAlert('/TiposDeEntrada/Delete/'," + data + ")><i class='fa fa-trash'></i></a>"
                         }
                     }

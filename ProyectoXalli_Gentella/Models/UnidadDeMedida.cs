@@ -29,6 +29,11 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "U/M")]
         public string DescripcionUnidadMedida { get; set; }
 
+        [Required(ErrorMessage = "La {0} es obligatorio")]
+        [StringLength(10, ErrorMessage = "La longitud excede los 50 dígitos")]
+        [Display(Name = "Abreviatura")]
+        public string AbreviaturaUM { get; set; }
+
         [Required(ErrorMessage = "El {0} es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoUnidadMedida { get; set; }

@@ -28,11 +28,11 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <table id="Table" class="table table-striped table-bordered">
+                <table id="Table" class="table table-hover table-bordered" style="width:100%">
                     <thead>
                         <tr>
                             <th>@Html.DisplayNameFor(model => model.CodigoUnidadMedida)</th>
-                            <th>@Html.DisplayNameFor(model => model.DescripcionUnidadMedida)</th>
+                            <th>Unidad de Medida</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -50,6 +50,7 @@
     @Scripts.Render("~/bundles/datatableJS")
     <script src="~/Scripts/Catalogos/CRUD.js"></script>
     <script src="~/Scripts/switchery.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!--DATATABLE UNIDADES DE MEDIDA-->
     <script>
@@ -69,7 +70,6 @@
                     {   //DEFINIENDO LOS BOTONES PARA EDITAR Y ELIMINAR POR MEDIO DE JS
                         data: "Id", "render": function (data) {
                             return "<a class='btn btn-success' onclick=CargarParcial('/UnidadesDeMedida/Edit/" + data + "')><i class='fa fa-pencil'></i></a>" +
-                                "<a class='btn btn-primary' Style='margin-left: 3px' onclick=CargarParcial('/UnidadesDeMedida/Details/" + data + "')><i class='fa fa-eye'></i></a>" +
                                 "<a class='btn btn-danger' Style='margin-left: 3px' onclick=deleteAlert('/UnidadesDeMedida/Delete/'," + data + ")><i class='fa fa-trash'></i></a>"
                         }
                     }
