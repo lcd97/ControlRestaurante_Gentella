@@ -24,7 +24,7 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
         public JsonResult getBodegas()
         {
             var bodegas = (from obj in db.Bodegas.ToList()
-                             where obj.EstadoBodega == true
+                             where obj.EstadoBodega == false
                              select new {
                                  Id = obj.Id,
                                  Descripcion = obj.DescripcionBodega,
@@ -129,15 +129,16 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
         /// <returns></returns>
         public JsonResult getProveedores()
         {
-            var um = (from obj in db.UnidadesDeMedida.ToList()
-                      where obj.EstadoUnidadMedida == false
+            var um = (from obj in db.Proveedores.ToList()
+                      join u in db.Datos.ToList() on obj.DatoId equals u.Id
+                      where obj.EstadoProveedor == false
                       select new
                       {
                           Id = obj.Id,
-                          Descripcion = obj.DescripcionUnidadMedida,
-                          Codigo = obj.CodigoUnidadMedida
+                          Descripcion = obj.NombreComercial != null ? obj.NombreComercial : u.PNombre + " " + u.PApellido,
+                          Codigo = obj.RUC != null ? obj.RUC : u.DNI
                       });
-
+            
             return Json(new { data = um }, JsonRequestBehavior.AllowGet);
         }
     }

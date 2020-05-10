@@ -166,7 +166,7 @@ function UpdateProvider(Id) {
     //ASIGNANDO VALORES GENERALES
     Telefono = $("#telefono").val();
     RUC = $("#ruc").val();
-    EstadoProveedor = $(".estado").is(":checked");
+    EstadoProveedor = $(".activo").is(":checked");
     RetenedorIR = $(".ir").is(":checked");
     Local = $('.btn-group > .btn.active').attr("value");
     //ASIGNANDO VALORES SEGUN EL TIPO DE PROVEEDOR

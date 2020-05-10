@@ -1,4 +1,4 @@
-﻿//OCULTAR AUTOMATICAMENTE EL DATATABLE
+﻿//INICIALIZAR AUTOMATICAMENTE EL DATATABLE
 $(document).ready(function () {
     $("#Table").DataTable({
         "language": {
@@ -95,10 +95,7 @@ function obtenerURL() {
 }//FIN FUNCTION 
 
 //CARGAR DATATABLE
-function DataTable(uri) {   
-
-    ////MOSTRAR DATATABLE
-    //$("#hide").show();
+function DataTable(uri) {       
 
     //CREAR URL DE BOTONES
     var uriEdit = "/" + uri.substr(12) + "/Edit/";
@@ -147,8 +144,12 @@ function DataTable(uri) {
     });//FIN DECLARACION DEL DATATABLE
 }//FIN FUNCTION
 
-//REINICIALIZAR TABLA DATATABLE
+//REINICIALIZAR Y LIMPIAR DE DATOS TABLA DATATABLE
 $("#catalogo").change(function () {
-    //$("#hide").hide();//ESCONDE LA SECCION DONDE VA EL DT
-    $("#Table").dataTable().fnDestroy(); //DESTRUYE PARA REINICIALIZAR EL DT
+    //LIMPIAR DATOS DEL DATATABLE
+    var table = $('#Table').DataTable();
+
+    table
+        .clear()
+        .draw();
 });
