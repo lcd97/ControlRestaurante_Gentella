@@ -23,10 +23,10 @@
 
                         <div id="tipo" class="btn-group btn-group-toggle" data-toggle="buttons">
 
-                            <button class="btn btn-default active col-xs-6" type="button" name="comercio" id="comercio">
+                            <button class="btn btn-default active col-xs-6" type="button" value="false" name="comercio" id="comercio">
                                 Comercio
                             </button>
-                            <button class="btn btn-default col-xs-6" type="button" name="local" id="local">
+                            <button class="btn btn-default col-xs-6" type="button" value="true" name="local" id="local">
                                 &nbsp;  Local  &nbsp;
                             </button>
 
@@ -108,7 +108,6 @@
 
 <!--LO MANDE A LLAMAR DE NUEVO PORQUE SE PERDIA LA LLAMADA DEL JS-->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="~/Scripts/Catalogos/saveProveedor.js"></script>
 <script>
 
     //INICIALIZA LOS ELEMENTOS DE JQUERY A SWITCHERY
@@ -117,6 +116,36 @@
     //CREA LOS ELEMENTOS DE SWITCHERY
     elems.forEach(function (html) {
         var switchery = new Switchery(html, { secondaryColor: '#CE2727' });
+    });
+
+    //EVENTO CLICK DEL BOTON COMERCIO PARA DESACTIVAR CAMPOS
+    $("#comercio").click(function () {
+        //DESACTIVO LOS CAMPOS
+        $("#apellido").attr("disabled", true);
+        $("#cedula").attr("disabled", true);
+
+        //LIMPIO LOS VALORES DE LOS CAMPOS DESACTIVADOS
+        $("#apellido").val("");
+        $("#cedula").val("");
+
+        //AGREGO LA CLASE ACTIVO AL BOTON SELECCIONADO
+        if (!$("#comercio").hasClass("active")) {
+            $("#comercio").toggleClass("active");
+            $("#local").removeClass("active");
+        }
+    });
+
+    //EVENTO CLICK DEL BOTON COMERCIO PARA ACTIVAR CAMPOS
+    $("#local").click(function () {
+        //ACTIVO LOS CAMPOS
+        $("#apellido").attr("disabled", false);
+        $("#cedula").attr("disabled", false);
+
+        //AGREGO LA CLASE ACTIVO AL BOTON SELECCIONADO
+        if (!$("#local").hasClass("active")) {
+            $("#local").toggleClass("active");
+            $("#comercio").removeClass("active");
+        }
     });
 
 </script>

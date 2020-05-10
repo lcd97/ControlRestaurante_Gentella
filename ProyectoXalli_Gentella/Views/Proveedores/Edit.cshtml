@@ -25,10 +25,10 @@
 
                         <div id="tipo" class="btn-group btn-group-toggle" data-toggle="buttons">
 
-                            <button class="btn btn-default active col-xs-6" type="button" name="comercio" id="comercio" disabled>
+                            <button class="btn btn-default active col-xs-6" type="button" value="false" name="comercio" id="comercio" disabled>
                                 Comercio
                             </button>
-                            <button class="btn btn-default col-xs-6" type="button" name="local" id="local" disabled>
+                            <button class="btn btn-default col-xs-6" type="button" value="true" name="local" id="local" disabled>
                                 &nbsp;  Local  &nbsp;
                             </button>
 
@@ -68,7 +68,7 @@
 
                     <div class="form-group col-md-6 col-sm-6 col-xs-6">
                         @Html.Label("Cédula", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-12" })
-                        <input id="cedula" class="form-control col-md-2 col-sm-2 col-xs-2" required type="text" maxlength="50" autocomplete="off">
+                        <input id="cedula" class="form-control col-md-2 col-sm-2 col-xs-2" required type="text" maxlength="50" autocomplete="off" disabled>
                     </div>
                 </div>
 
@@ -79,14 +79,14 @@
                     <div class="form-group col-md-6 col-sm-6 col-xs-6">
                         @Html.Label("¿Retiene IR?", htmlAttributes: new { @class = "col-md-5 col-sm-5 col-xs-8" })
                         <label>
-                            <input type="checkbox" class="js-switch ir" id="ir" checked />
+                            <input type="checkbox" class="js-switch ir" id="ir" />
                         </label>
                     </div>
 
                     <div class="form-group col-md-6 col-sm-6 col-xs-6">
                         @Html.Label("Activo", htmlAttributes: new { @class = " col-md-3 col-sm-3 col-xs-4" })
                         <label>
-                            <input type="checkbox" class="js-switch activo" id="activo" checked onclick="Check()" />
+                            <input type="checkbox" class="js-switch activo" id="activo" onclick="Check()" />
                         </label>
                     </div>
 
@@ -100,7 +100,7 @@
 
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
                     <a onclick="CerrarModal()" class="btn btn-primary">Cerrar</a>
-                    <button type="button" onclick="saveSeller()" class="btn btn-success">Guardar</button>
+                    <button type="button" onclick="UpdateProvider(@Model.Id)" class="btn btn-success">Guardar</button>
                 </div>
             </div>
 
@@ -110,7 +110,6 @@
 
 <!--LO MANDE A LLAMAR DE NUEVO PORQUE SE PERDIA LA LLAMADA DEL JS-->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="~/Scripts/Catalogos/saveProveedor.js"></script>
 <script>
 
     //INICIALIZA LOS ELEMENTOS DE JQUERY A SWITCHERY
@@ -120,7 +119,6 @@
     elems.forEach(function (html) {
         var switchery = new Switchery(html, { secondaryColor: '#CE2727' });
     });
-
 
     //CONFIRMACION DE ACTIVAR/DESACTIVAR
     function Check() {
@@ -166,4 +164,48 @@
         }//FIN IF CHKBOX
     }//FIN FUNCION
 
+    //CARGA LA INFORMACION DEL PROVEEDOR SELECCIONADO
+    $(document).ready(function () {
+        var ir = document.querySelector('.ir');
+        var state = document.querySelector('.activo');
+
+        $.ajax({
+            type: "GET",
+            url: "/Proveedores/getProveedor/" + @Model.Id,
+            dataType: "JSON",
+            success: function (data) {
+                //CAMPOS GLOBALES
+                $("#telefono").val(data[0].Telefono);
+                $("#ruc").val(data[0].RUC);
+                //ACTIVAR O DESACTIVAR EL SWITCHERY DE ESTADO
+                if (data[0].IR) {
+                    state.click();
+                }
+                //ACTIVAR O DESACTIVAR EL SWITCHERY DE IR
+                if (data[0].IR) {
+                    ir.click();
+                }
+
+                if (data[0].local) {
+                    $("#local").toggleClass("active");
+                    $("#comercio").removeClass("active");
+                }
+                
+                //SI ES LOCAL O NO LLENAR SUS CAMPOS
+                if (data[0].local) {
+                    $("#nombre").val(data[0].Nombre);
+                    $("#apellido").val(data[0].Apellido);
+                    $("#cedula").val(data[0].Cedula);                    
+                    //AGREGO LA CLASE ACTIVO AL BOTON SELECCIONADO
+                } else {
+                    $("#nombre").val(data[0].NombreComercial);
+                    
+                    //DESHABILITAR LOS CAMPOS
+                    $("#apellido").attr("disabled", true);
+                    $("#cedula").attr("disabled", true);
+                }
+            }
+        });
+
+    });
 </script>

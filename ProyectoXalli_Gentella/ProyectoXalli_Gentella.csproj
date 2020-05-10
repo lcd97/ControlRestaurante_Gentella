@@ -318,7 +318,6 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
-    <Content Include="Scripts\Catalogos\saveProveedor.js" />
     <Content Include="Scripts\Catalogos\CRUD.js" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\curvedLines.js" />

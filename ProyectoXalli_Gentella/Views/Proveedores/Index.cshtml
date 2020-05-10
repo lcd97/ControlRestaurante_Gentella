@@ -68,7 +68,7 @@
                     { data: "Local" },
                     {   //DEFINIENDO LOS BOTONES PARA EDITAR Y ELIMINAR POR MEDIO DE JS
                         data: "Id", "render": function (data) {
-                            return "<a class='btn btn-success' onclick=CargarEditar('/Proveedores/Edit/" + data + "')><i class='fa fa-pencil'></i></a>" +
+                            return "<a class='btn btn-success' onclick=CargarParcial('/Proveedores/Edit/" + data + "')><i class='fa fa-pencil'></i></a>" +
                                 "<a class='btn btn-primary' Style='margin-left: 3px' onclick=CargarParcial('/Proveedores/Details/" + data + "')><i class='fa fa-eye'></i></a>" +
                                 "<a class='btn btn-danger' Style='margin-left: 3px' onclick=deleteAlert('/Proveedores/Delete/'," + data + ")><i class='fa fa-trash'></i></a>"
                         }
@@ -99,39 +99,5 @@
                 }//FIN IDIOMA DATATABLE
             });//FIN DECLARACION DEL DATATABLE
         });//FIN FUNCTION
-
-
-        function CargarEditar(uri) {
-
-            $("#small-modal").modal("show"); //MUESTRA LA MODAL
-            $("#VistaParcial").html("");//LIMPIA LA MODAL POR DATOS PRECARGADOS
-
-            $.ajax({
-                type: "GET",
-                url: uri,
-                dataType: "JSON",
-                success: function (data) {
-                    if (data.Local) {
-                        $("#nombre").val(data.NombreProveedor);
-                        $("#apellido").val(data.ApellidoProveedor);
-                        $("#cedula").val(data.CedulaProveedor);
-                        $("#telefono").val(data.Telefono);
-                        $("#ruc").val(data.RUC);
-                        $("#estado").val(data.RUC);
-                        $("#ir").val(data.RUC);
-                        $("#tipo").val(data.Local);
-                    } else {
-                        $("#nombre").val(data.NombreProveedor);
-                        $("#telefono").val(data.Telefono);
-                        $("#ruc").val(data.RUC);
-                        $("#estado").val(data.RUC);
-                        $("#ir").val(data.RUC);
-                        $("#tipo").val(data.Local);
-                    }
-                    $("#VistaParcial").html(data);
-                }
-            });
-        }
-
     </script>
 }
