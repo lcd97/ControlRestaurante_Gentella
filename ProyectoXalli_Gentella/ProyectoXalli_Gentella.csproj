@@ -235,19 +235,27 @@
     <Compile Include="Migrations\202005051626325_Changes.Designer.cs">
       <DependentUpon>202005051626325_Changes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005102130293_ModuloMenu.cs" />
+    <Compile Include="Migrations\202005102130293_ModuloMenu.Designer.cs">
+      <DependentUpon>202005102130293_ModuloMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bodega.cs" />
     <Compile Include="Models\Categoria.cs" />
+    <Compile Include="Models\CategoriaMenu.cs" />
     <Compile Include="Models\Dato.cs" />
     <Compile Include="Models\DBControl.cs" />
     <Compile Include="Models\DetalleDeEntrada.cs" />
     <Compile Include="Models\DetalleDeSalida.cs" />
     <Compile Include="Models\Entrada.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Imagen.cs" />
+    <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\Producto.cs" />
     <Compile Include="Models\Proveedor.cs" />
+    <Compile Include="Models\Receta.cs" />
     <Compile Include="Models\Salida.cs" />
     <Compile Include="Models\TipoDeEntrada.cs" />
     <Compile Include="Models\TipoDeSalida.cs" />
@@ -258,6 +266,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\HotelDB.mdf" />
+    <Content Include="App_Data\HotelDB_log.ldf">
+      <DependentUpon>HotelDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-progressbar-3.3.4.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -405,9 +417,7 @@
     <Content Include="Views\Proveedores\Edit.cshtml" />
     <Content Include="Views\Proveedores\Details.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
@@ -449,6 +459,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005051626325_Changes.resx">
       <DependentUpon>202005051626325_Changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005102130293_ModuloMenu.resx">
+      <DependentUpon>202005102130293_ModuloMenu.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

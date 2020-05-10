@@ -12,7 +12,6 @@ namespace ProyectoXalli_Gentella.Models
     {
         public DBControl() : base("HotelDB")
         {
-
         }
 
         //MODULO CONTROL DE INSUMOS
@@ -29,6 +28,12 @@ namespace ProyectoXalli_Gentella.Models
         public DbSet<TipoDeSalida> TiposDeSalida { get; set; }
         public DbSet<UnidadDeMedida> UnidadesDeMedida { get; set; }
 
+        //MODULO MENU
+        public DbSet<Receta> Recetas { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<CategoriaMenu> CategoriasMenu { get; set; }
+        public DbSet<Imagen> Imagenes { get; set; }
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

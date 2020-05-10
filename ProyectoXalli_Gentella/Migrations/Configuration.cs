@@ -68,6 +68,14 @@ namespace ProyectoXalli_Gentella.Migrations
             context.Datos.AddOrUpdate(d => d.DNI,
                 new Dato { DNI = "xxx-xxxxxx-xxxxx", PNombre = "default", PApellido = "default"/*, SApellido = "default"*/ });
             context.SaveChanges();
+
+            context.CategoriasMenu.AddOrUpdate(d => d.CodigoCategoriaMenu,
+                new CategoriaMenu { CodigoCategoriaMenu = "001", DescripcionCategoriaMenu = "Postres", EstadoCategoriaMenu = true },
+                new CategoriaMenu { CodigoCategoriaMenu = "002", DescripcionCategoriaMenu = "Desayunos", EstadoCategoriaMenu = true },
+                new CategoriaMenu { CodigoCategoriaMenu = "003", DescripcionCategoriaMenu = "Cena", EstadoCategoriaMenu = true },
+                new CategoriaMenu { CodigoCategoriaMenu = "004", DescripcionCategoriaMenu = "Bebidas Alcholicas", EstadoCategoriaMenu = true },
+                new CategoriaMenu { CodigoCategoriaMenu = "004", DescripcionCategoriaMenu = "Bebidas Alcholicas", EstadoCategoriaMenu = true });
+            context.SaveChanges();
         }
     }
 }
