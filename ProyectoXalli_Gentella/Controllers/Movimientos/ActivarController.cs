@@ -16,6 +16,8 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
         {
             return View();
         }
+        /**************************************************
+         *          MODULO CONTROL DE INSUMOS           */
 
         /// <summary>
         /// LISTA TODAS LAS BODEGAS DESACTIVADAS
@@ -141,5 +143,26 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
             
             return Json(new { data = um }, JsonRequestBehavior.AllowGet);
         }
+
+        /**************************************************
+         *                  MODULO MENU                 */
+        /// <summary>
+        /// LISTA TODAS LAS CATEGORIAS DESACTIVADAS
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult getCategoriasMenu()
+        {
+            var categorias = (from obj in db.CategoriasMenu.ToList()
+                              where obj.EstadoCategoriaMenu == false
+                              select new
+                              {
+                                  Id = obj.Id,
+                                  Descripcion = obj.DescripcionCategoriaMenu,
+                                  Codigo = obj.CodigoCategoriaMenu
+                              });
+
+            return Json(new { data = categorias }, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

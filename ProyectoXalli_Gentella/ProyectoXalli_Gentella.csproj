@@ -208,6 +208,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Catalogos\BodegasController.cs" />
     <Compile Include="Controllers\Catalogos\CategoriasController.cs" />
+    <Compile Include="Controllers\Catalogos\CategoriasMenuController.cs" />
+    <Compile Include="Controllers\Catalogos\MenusController.cs" />
     <Compile Include="Controllers\Catalogos\ProductosController.cs" />
     <Compile Include="Controllers\Catalogos\ProveedoresController.cs" />
     <Compile Include="Controllers\Catalogos\TiposDeEntradaController.cs" />
@@ -238,6 +240,10 @@
     <Compile Include="Migrations\202005102130293_ModuloMenu.cs" />
     <Compile Include="Migrations\202005102130293_ModuloMenu.Designer.cs">
       <DependentUpon>202005102130293_ModuloMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005131414422_ChangesCampos.cs" />
+    <Compile Include="Migrations\202005131414422_ChangesCampos.Designer.cs">
+      <DependentUpon>202005131414422_ChangesCampos.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -271,6 +277,7 @@
       <DependentUpon>HotelDB.mdf</DependentUpon>
     </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\basic.css" />
     <Content Include="Content\bootstrap-progressbar-3.3.4.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -279,6 +286,7 @@
     <Content Include="Content\custom.min.css" />
     <Content Include="Content\datatable\dataTables.bootstrap.css" />
     <Content Include="Content\daterangepicker.css" />
+    <Content Include="Content\dropzone.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
@@ -338,6 +346,7 @@
     <Content Include="Scripts\datatable\jquery.dataTables.js" />
     <Content Include="Scripts\date.js" />
     <Content Include="Scripts\daterangepicker.js" />
+    <Content Include="Scripts\dropzone.js" />
     <Content Include="Scripts\fastclick.js" />
     <Content Include="Scripts\gauge.min.js" />
     <Content Include="Scripts\icheck.min.js" />
@@ -356,6 +365,7 @@
     <Content Include="Scripts\jquery.inputmask.bundle.min.js" />
     <Content Include="Scripts\jquery.mask.js" />
     <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.smartWizard.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -416,8 +426,17 @@
     <Content Include="Views\Proveedores\Create.cshtml" />
     <Content Include="Views\Proveedores\Edit.cshtml" />
     <Content Include="Views\Proveedores\Details.cshtml" />
+    <Content Include="Views\CategoriasMenu\Index.cshtml" />
+    <Content Include="Views\CategoriasMenu\Create.cshtml" />
+    <Content Include="Views\CategoriasMenu\Edit.cshtml" />
+    <Content Include="Views\Menus\Index.cshtml" />
+    <Content Include="Views\Menus\Create.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="images\Comanda\" />
+    <Folder Include="images\Menu\" />
+    <Folder Include="images\Pago\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
@@ -462,6 +481,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005102130293_ModuloMenu.resx">
       <DependentUpon>202005102130293_ModuloMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005131414422_ChangesCampos.resx">
+      <DependentUpon>202005131414422_ChangesCampos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

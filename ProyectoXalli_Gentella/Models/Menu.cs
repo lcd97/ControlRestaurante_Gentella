@@ -35,7 +35,7 @@ namespace ProyectoXalli_Gentella.Models
 
         [Required(ErrorMessage = "El {0} es obligatorio")]
         [Display(Name = "Activo")]
-        public bool EstadoCategoriaMenu { get; set; }
+        public bool EstadoMenu { get; set; }
 
         //DEFINCION DE FK
         public int CategoriaMenuId { get; set; }

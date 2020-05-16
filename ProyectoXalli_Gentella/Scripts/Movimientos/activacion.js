@@ -66,9 +66,9 @@ function obtenerURL() {
         case "7":
             DataTable("/Activar/getPlatillos");
             break;
-        //CATEGORIAS
+        //CATEGORIASMENU
         case "8":
-            DataTable("/Activar/getCategorias");
+            DataTable("/Activar/getCategoriasMenu");
             break;
         //MESAS
         case "9":
