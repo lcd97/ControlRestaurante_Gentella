@@ -40,6 +40,8 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
 
         public ActionResult Create()
         {
+            ViewBag.CategoriaId = new SelectList(db.CategoriasMenu, "Id", "DescripcionCategoriaMenu");
+
             return View();
         }
     }
