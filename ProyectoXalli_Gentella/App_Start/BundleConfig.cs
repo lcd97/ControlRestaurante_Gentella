@@ -22,28 +22,16 @@ namespace ProyectoXalli_Gentella
 
             // JS DE LA PLANTILLA GENTELLA
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.min.js",
                       "~/Scripts/jquery.min.js",
+                      "~/Scripts/bootstrap.min.js",
                       "~/Scripts/fastclick.js",
-                      "~/Scripts/nprogress.js",
-                      "~/Scripts/Chart.min.js",
-                      "~/Scripts/gauge.min.js",
-                      "~/Scripts/bootstrap-progressbar.min.js",
-                      "~/Scripts/icheck.min.js",
-                      "~/Scripts/skycons.js",
-                      "~/Scripts/date.js",
-                      "~/Scripts/moment.min.js",
-                      "~/Scripts/daterangepicker.min.js",
+                      "~/Scripts/switchery.js",
                       "~/Scripts/custom.min.js"));
 
             // CSS DE LA PLANTILLA GENTELLA
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
                       "~/Content/font-awesome.min.css",
-                      "~/Content/nprogress.css",
-                      "~/Content/green.css",
-                      "~/Content/bootstrap-progressbar-3.3.4.min.css",
-                      "~/Content/daterangepicker.min.css",
                       "~/Content/custom.min.css"));
 
             // JS DE LA PLANTILLA GENTELLA

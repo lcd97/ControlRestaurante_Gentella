@@ -1,7 +1,4 @@
-﻿//TIPO DE PROVEEDOR
-var tipo = false;
-
-//FUNCION PARA CARGAR LA MODAL DEL CRUD -- SOLO PARA MOSTRAR LOS CAMPOS DEL OBJETO
+﻿//FUNCION PARA CARGAR LA MODAL DEL CRUD -- SOLO PARA MOSTRAR LOS CAMPOS DEL OBJETO
 function CargarParcial(url) { //RECIBE LA URL DE LA UBICACION DEL METODO
     $("#small-modal").modal("show"); //MUESTRA LA MODAL
     $("#VistaParcial").html("");//LIMPIA LA MODAL POR DATOS PRECARGADOS
@@ -121,17 +118,15 @@ function saveSeller() {
     EstadoProveedor = true;
     RetenedorIR = $(".ir").is(":checked");
 
-    tipo = $('.btn-group > .btn.active').attr("value");
+    Local = $('.btn-group > .btn.active').attr("value");
     //ASIGNANDO VALORES SEGUN EL TIPO DE PROVEEDOR
-    if (tipo) {
+    if (Local == "true") {
         NombreComercial = "0";
-        Local = true;
         NombreProveedor = $("#nombre").val();
         ApellidoProveedor = $("#apellido").val();
         CedulaProveedor = $("#cedula").val();
     } else {
         NombreComercial = $("#nombre").val();
-        Local = false;
         NombreProveedor = "0";
         ApellidoProveedor = "0";
         CedulaProveedor = "0";
