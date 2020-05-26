@@ -27,15 +27,15 @@ namespace ProyectoXalli_Gentella.Migrations
                 new Bodega { CodigoBodega = "C01", DescripcionBodega = "Cocina", EstadoBodega = true });
             context.SaveChanges();
 
-            context.Categorias.AddOrUpdate(u => u.CodigoCategoria,
-                new Categoria { CodigoCategoria = "B00", DescripcionCategoria = "Bebidas gaseosas", EstadoCategoria = true },
-                new Categoria { CodigoCategoria = "B01", DescripcionCategoria = "Bebidas alcohólicas", EstadoCategoria = true },
-                new Categoria { CodigoCategoria = "C00", DescripcionCategoria = "Condimientos", EstadoCategoria = true },
-                new Categoria { CodigoCategoria = "F00", DescripcionCategoria = "Frutas", EstadoCategoria = true },
-                new Categoria { CodigoCategoria = "V00", DescripcionCategoria = "Verduras", EstadoCategoria = true },
-                new Categoria { CodigoCategoria = "C01", DescripcionCategoria = "Carnes", EstadoCategoria = true },
-                new Categoria { CodigoCategoria = "P00", DescripcionCategoria = "Pescados/Mariscos", EstadoCategoria = true },
-                new Categoria { CodigoCategoria = "L00", DescripcionCategoria = "Lácteos", EstadoCategoria = true });
+            context.CategoriasProducto.AddOrUpdate(u => u.CodigoCategoria,
+                new CategoriaProducto { CodigoCategoria = "B00", DescripcionCategoria = "Bebidas gaseosas", EstadoCategoria = true },
+                new CategoriaProducto { CodigoCategoria = "B01", DescripcionCategoria = "Bebidas alcohólicas", EstadoCategoria = true },
+                new CategoriaProducto { CodigoCategoria = "C00", DescripcionCategoria = "Condimientos", EstadoCategoria = true },
+                new CategoriaProducto { CodigoCategoria = "F00", DescripcionCategoria = "Frutas", EstadoCategoria = true },
+                new CategoriaProducto { CodigoCategoria = "V00", DescripcionCategoria = "Verduras", EstadoCategoria = true },
+                new CategoriaProducto { CodigoCategoria = "C01", DescripcionCategoria = "Carnes", EstadoCategoria = true },
+                new CategoriaProducto { CodigoCategoria = "P00", DescripcionCategoria = "Pescados/Mariscos", EstadoCategoria = true },
+                new CategoriaProducto { CodigoCategoria = "L00", DescripcionCategoria = "Lácteos", EstadoCategoria = true });
             context.SaveChanges();
 
             context.TiposDeEntrada.AddOrUpdate(u => u.CodigoTipoEntrada,
@@ -66,7 +66,7 @@ namespace ProyectoXalli_Gentella.Migrations
             context.SaveChanges();
 
             context.Datos.AddOrUpdate(d => d.DNI,
-                new Dato { DNI = "xxx-xxxxxx-xxxxx", PNombre = "default", PApellido = "default"/*, SApellido = "default"*/ });
+                new Dato { DNI = "xxx-xxxxxx-xxxxx", PNombre = "default", PApellido = "default"/*, SApellido = "default"*/, RUC = "12345678901234" });
             context.SaveChanges();
 
             context.CategoriasMenu.AddOrUpdate(d => d.CodigoCategoriaMenu,

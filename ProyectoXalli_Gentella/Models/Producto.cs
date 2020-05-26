@@ -64,7 +64,7 @@ namespace ProyectoXalli_Gentella.Models
 
         //DEFINICION DE RELACIONES PADRES
         public virtual UnidadDeMedida UnidadDeMedida { get; set; }
-        public virtual Categoria Categoria { get; set; }
+        public virtual CategoriaProducto Categoria { get; set; }
 
         //DEFINCION DE RELACIONES HIJOS
         public virtual ICollection<DetalleDeSalida> DetallesDeSalida { get; set; }

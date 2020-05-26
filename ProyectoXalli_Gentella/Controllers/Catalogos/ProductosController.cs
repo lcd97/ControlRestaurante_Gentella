@@ -33,7 +33,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             //db.Configuration.ProxyCreationEnabled = false;
             //db.Configuration.LazyLoadingEnabled = false;
             var productos = (from obj in db.Productos.ToList()
-                             join u in db.Categorias.ToList() on obj.CategoriaId equals u.Id
+                             join u in db.CategoriasProducto.ToList() on obj.CategoriaId equals u.Id
                              join c in db.UnidadesDeMedida.ToList() on obj.UnidadMedidaId equals c.Id
                              where obj.EstadoProducto == true
                              select new
@@ -54,7 +54,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         // GET: Productos/Create
         public ActionResult Create()
         {
-            ViewBag.CategoriaId = new SelectList(db.Categorias, "Id", "DescripcionCategoria");
+            ViewBag.CategoriaId = new SelectList(db.CategoriasProducto, "Id", "DescripcionCategoria");
             ViewBag.UnidadMedidaId = new SelectList(db.UnidadesDeMedida, "Id", "DescripcionUnidadMedida");
 
             return View();
@@ -98,7 +98,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Categorias/Edit/5
+        // GET: CategoriasProducto/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -111,13 +111,13 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                 return HttpNotFound();
             }
 
-            ViewBag.CategoriaId = new SelectList(db.Categorias, "Id", "DescripcionCategoria", Producto.CategoriaId);
+            ViewBag.CategoriaId = new SelectList(db.CategoriasProducto, "Id", "DescripcionCategoria", Producto.CategoriaId);
             ViewBag.UnidadMedidaId = new SelectList(db.UnidadesDeMedida, "Id", "DescripcionUnidadMedida", Producto.UnidadMedidaId);
 
             return View(Producto);
         }
 
-        // POST: Categorias/Edit/5
+        // POST: CategoriasProducto/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -145,7 +145,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: Categorias/Details/5
+        // GET: CategoriasProducto/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -158,7 +158,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                 return HttpNotFound();
             }
 
-            ViewBag.CategoriaId = new SelectList(db.Categorias, "Id", "DescripcionCategoria", producto.CategoriaId);
+            ViewBag.CategoriaId = new SelectList(db.CategoriasProducto, "Id", "DescripcionCategoria", producto.CategoriaId);
             ViewBag.UnidadMedidaId = new SelectList(db.UnidadesDeMedida, "Id", "DescripcionUnidadMedida", producto.UnidadMedidaId);
 
             return View(producto);

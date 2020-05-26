@@ -69,7 +69,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             {
                 var file = Request.Files[0];//OBTENEMOS EL ARCHIVO DE LA VISTA
                 var fileName = Path.GetFileName(file.FileName);//OBTENEMOS EL NOMBRE DEL ARCHIVO
-                path = Path.Combine(Server.MapPath("~/images/Menu"), fileName);//SE CREA LA DIRECCION DONDE SE ALMACENARA LA IMAGEN
+                path = Path.Combine(Server.MapPath("~/images/Menu"), fileName);//SE CREA LA DIRECCION DONDE SE ALMACENARA LA IMAGEN--OJO
                 file.SaveAs(path);//SE MANDA A GUARDAR EL ARCHIVO
 
                 string url = Path.Combine("/images/Menu", fileName);//SE CREA LA DIRECCION PARA ALMACENAR LA IMAGEN

@@ -37,7 +37,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                                    //CONDICION PARA ASIGNAR A UN CAMPO UN VALOR ALTERNATIVO EN CASO DE SER NULO (CASE-WHEN)
                                    NombreComercial = obj.NombreComercial != null ? obj.NombreComercial : u.PNombre + " " + u.PApellido,
                                    Telefono = obj.Telefono,
-                                   RUC = obj.RUC,
+                                   RUC = u.RUC,
                                    Local = obj.Local
                                });
 
@@ -59,7 +59,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         {
             //SE CREAR UNA INSTANCIA PARA ALMACENAR AL PROVEEDOR
             Proveedor proveedor = new Proveedor();
-            int datoId = 2;//SE CREA UNA VARIABLE ENTERA PARA ALMACENAR EL ID DE DATO Y SE INICIALIZA EN 1 (EL ID 1 CORRESPONDE A LA PLANTILLA)
+            int datoId = 1;//SE CREA UNA VARIABLE ENTERA PARA ALMACENAR EL ID DE DATO Y SE INICIALIZA EN 1 (EL ID 1 CORRESPONDE A LA PLANTILLA)
 
             if (NombreComercial == "" || CedulaProveedor == "")
             {
@@ -91,6 +91,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                         dato.DNI = CedulaProveedor;
                         dato.PNombre = NombreProveedor;
                         dato.PApellido = ApellidoProveedor;
+                        dato.RUC = RUC;
 
                         db.Datos.Add(dato);
 
@@ -99,7 +100,6 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                         {
                             //GUARDAR A PROVEEDOR
                             proveedor.Telefono = Telefono;
-                            proveedor.RUC = RUC;
                             proveedor.EstadoProveedor = EstadoProveedor;
                             proveedor.Local = Local;
                             proveedor.RetenedorIR = RetenedorIR;
@@ -117,7 +117,6 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                         {
                             //SI EXISTE LOS DATOS DEL TIPO PROVEEDOR LOCAL GUARDAR TODO LOS DATOS DEL PROVEEDOR
                             proveedor.Telefono = Telefono;
-                            proveedor.RUC = RUC;
                             proveedor.EstadoProveedor = EstadoProveedor;
                             proveedor.Local = Local;
                             proveedor.RetenedorIR = RetenedorIR;
@@ -146,7 +145,6 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                     {
                         //GUARDA EL PROVEEDOR
                         proveedor.Telefono = Telefono;
-                        proveedor.RUC = RUC;
                         proveedor.EstadoProveedor = EstadoProveedor;
                         proveedor.Local = Local;
                         proveedor.RetenedorIR = RetenedorIR;
@@ -203,7 +201,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                                 NombreComercial = obj.NombreComercial,
                                 Telefono = obj.Telefono,
                                 local = obj.Local,
-                                RUC = obj.RUC,
+                                RUC = u.RUC,
                                 IR = obj.RetenedorIR,
                                 Estado = obj.EstadoProveedor,
                                 Nombre = u.PNombre,
@@ -231,6 +229,8 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                 //ASIGNAMOS VALORES A DATOS DE PROVEEDOR LOCAL
                 dato.PNombre = NombreProveedor;
                 dato.PApellido = ApellidoProveedor;
+                dato.RUC = RUC;
+
                 //GUARDAR CAMBIOS
                 db.Entry(dato).State = EntityState.Modified;
                 //CONFIRMACION DE CAMBIOS GUARDADOS
@@ -238,7 +238,6 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                 {
                     //ASIGNAMOS VALORES DE PROVEEDOR
                     proveedor.NombreComercial = NombreComercial;
-                    proveedor.RUC = RUC;
                     proveedor.Telefono = Telefono;
                     proveedor.RetenedorIR = RetenedorIR;
                     proveedor.EstadoProveedor = EstadoProveedor;
@@ -254,7 +253,6 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             else {
                 //ASIGNAMOS VALORES DE PROVEEDOR
                 proveedor.NombreComercial = NombreComercial;
-                proveedor.RUC = RUC;
                 proveedor.Telefono = Telefono;
                 proveedor.RetenedorIR = RetenedorIR;
                 proveedor.EstadoProveedor = EstadoProveedor;

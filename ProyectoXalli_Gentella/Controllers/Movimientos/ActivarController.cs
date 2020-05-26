@@ -41,7 +41,7 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
         /// <returns></returns>
         public JsonResult getCategorias()
         {
-            var categorias = (from obj in db.Categorias.ToList()
+            var categorias = (from obj in db.CategoriasProducto.ToList()
                            where obj.EstadoCategoria == false
                            select new
                            {
@@ -138,7 +138,7 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
                       {
                           Id = obj.Id,
                           Descripcion = obj.NombreComercial != null ? obj.NombreComercial : u.PNombre + " " + u.PApellido,
-                          Codigo = obj.RUC != null ? obj.RUC : u.DNI
+                          Codigo = u.RUC != null ? u.RUC : u.DNI
                       });
             
             return Json(new { data = um }, JsonRequestBehavior.AllowGet);

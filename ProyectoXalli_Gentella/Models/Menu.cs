@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProyectoXalli_Gentella.Models
 {
-    [Table("MenusItem", Schema = "Menu")]
+    [Table("Menus", Schema = "Menu")]
     public class Menu
     {
         //CONSTRUCTOR DE RELACION HIJA

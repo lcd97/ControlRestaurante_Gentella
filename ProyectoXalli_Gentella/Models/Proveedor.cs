@@ -27,10 +27,6 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Número telefónico")]
         public string Telefono { get; set; }
 
-        [StringLength(14, ErrorMessage = "La longitud excede los 14 dígitos")]
-        [Display(Name = "RUC")]
-        public string RUC { get; set; }
-
         [Display(Name = "Activo")]
         public bool EstadoProveedor { get; set; }
 

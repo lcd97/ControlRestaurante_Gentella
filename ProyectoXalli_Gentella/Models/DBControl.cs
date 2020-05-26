@@ -16,7 +16,7 @@ namespace ProyectoXalli_Gentella.Models
 
         //MODULO CONTROL DE INSUMOS
         public DbSet<Bodega> Bodegas { get; set; }
-        public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<CategoriaProducto> CategoriasProducto { get; set; }
         public DbSet<Dato> Datos { get; set; }
         public DbSet<DetalleDeEntrada> DetallesDeEntrada { get; set; }
         public DbSet<DetalleDeSalida> DetallesDeSalida { get; set; }
