@@ -210,4 +210,3 @@ function configureLoadingScreen(screen) {  // metodo para mostrar Loader
             screen.modal("hide");
         });
 }
-

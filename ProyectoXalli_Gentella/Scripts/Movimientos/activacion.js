@@ -40,7 +40,7 @@ function obtenerURL() {
             break;
         //CATEGORIAS
         case "1":
-            DataTable("/Activar/getCategorias");
+            DataTable("/Activar/getCategoriasProducto");
             break;
         //TIPO ENTRADA
         case "2":
@@ -64,7 +64,7 @@ function obtenerURL() {
             break;
         //PLATILLOS
         case "7":
-            DataTable("/Activar/getPlatillos");
+            DataTable("/Activar/getMenus");
             break;
         //CATEGORIASMENU
         case "8":

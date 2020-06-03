@@ -61,7 +61,7 @@
 
                             <div class="form-group col-md-8 col-sm-8 col-xs-8">
                                 @Html.Label("Descripción", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-12" })
-                                <input id="platillo" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="50" autocomplete="off">
+                                <input id="platillo" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="50" autocomplete="off" style="text-transform:capitalize !important;">
                             </div>
 
                             <div class="form-group col-md-4 col-sm-4 col-xs-4">
@@ -108,7 +108,7 @@
 
 
                         <div id="preview" class="img-preview preview-md">
-                            <img id="img" src="~/images/Menu/Insert-image.png" style="width:100%;height:200px;" />
+                            <img id="img" src="~/images/Menu/Insert-image.jpg" style="width:100%;height:200px;" />
                         </div>
 
                     </div>
@@ -119,7 +119,6 @@
 </div>
 
 <script src="~/Scripts/bootstrap-tagsinput.js"></script>
-<script src="~/Scripts/Catalogos/menuItem.js"></script>
 
 <script>
     //INICIALIZADOR DE STEP WIZARD

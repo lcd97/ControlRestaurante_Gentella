@@ -272,7 +272,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="images\BlackLogo.png" />
-    <Content Include="images\Menu\Insert-image.png" />
+    <Content Include="images\Menu\Insert-image.jpg" />
     <Content Include="images\picture.jpg" />
     <Content Include="images\Small_Logo.png" />
     <Content Include="images\user.png" />
@@ -312,6 +312,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Catalogos\CRUD.js" />
     <Content Include="Scripts\Catalogos\menuItem.js" />
+    <Content Include="Scripts\Catalogos\proveedor.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\datatable\dataTables.bootstrap.js" />
     <Content Include="Scripts\datatable\jquery.dataTables.js" />
@@ -382,6 +383,8 @@
     <Content Include="Views\CategoriasMenu\Edit.cshtml" />
     <Content Include="Views\Menus\Index.cshtml" />
     <Content Include="Views\Menus\Create.cshtml" />
+    <Content Include="Views\Menus\Detail.cshtml" />
+    <Content Include="Views\Menus\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="images\Comanda\" />

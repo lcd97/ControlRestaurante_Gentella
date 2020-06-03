@@ -41,8 +41,8 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/datatableJS")
     <script src="~/Scripts/Catalogos/CRUD.js"></script>
+    <script src="~/Scripts/Catalogos/menuItem.js"></script>
     <script src="~/Scripts/switchery.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="~/Scripts/jquery.smartWizard.js"></script>
 
     <!--DATATABLE CATEGORIA-->
@@ -64,6 +64,7 @@
                     {   //DEFINIENDO LOS BOTONES PARA EDITAR Y ELIMINAR POR MEDIO DE JS
                         data: "Id", "render": function (data) {
                             return "<a class='btn btn-success' onclick=CargarParcial('/Menus/Edit/" + data + "')><i class='fa fa-pencil'></i></a>" +
+                                "<a class='btn btn-primary' Style='margin-left: 3px' onclick=CargarParcial('/Menus/Detail/" + data + "')><i class='fa fa-eye'></i></a>" +
                                 "<a class='btn btn-danger' Style='margin-left: 3px' onclick=deleteAlert('/Menus/Delete/'," + data + ")><i class='fa fa-trash'></i></a>"
                         }
                     }

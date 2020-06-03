@@ -127,139 +127,134 @@ C:\Users\Daniela Cordero\Desktop\ProyectoXalli_Gentella\ProyectoXalli_Gentella\o
 C:\Users\Daniela Cordero\Desktop\ProyectoXalli_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.dll
 C:\Users\Daniela Cordero\Desktop\ProyectoXalli_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.pdb
 C:\Users\Daniela Cordero\Desktop\ProyectoXalli_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csprojAssemblyReference.cache
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\ProyectoXalli_Gentella.dll.config
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\ProyectoXalli_Gentella.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\ProyectoXalli_Gentella.pdb
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\csc.exe
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\csc.exe.config
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\csc.rsp
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\csi.exe
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\csi.exe.config
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\csi.rsp
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CSharp.Core.targets
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.Managed.Core.targets
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.VisualBasic.Core.targets
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.AppContext.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Collections.Immutable.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Console.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Diagnostics.StackTrace.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.IO.Compression.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.IO.FileSystem.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.IO.FileSystem.Primitives.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.IO.Pipes.AccessControl.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.IO.Pipes.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Reflection.Metadata.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Security.AccessControl.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Security.Claims.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Security.Cryptography.Algorithms.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Security.Cryptography.Encoding.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Security.Cryptography.Primitives.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Security.Principal.Windows.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Text.Encoding.CodePages.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.ValueTuple.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Xml.ReaderWriter.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Xml.XmlDocument.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Xml.XPath.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Xml.XPath.XDocument.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\vbc.exe
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\vbc.exe.config
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\vbc.rsp
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\VBCSCompiler.exe
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\VBCSCompiler.exe.config
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Antlr3.Runtime.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\EntityFramework.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\EntityFramework.SqlServer.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.AspNet.Identity.Core.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.AspNet.Identity.EntityFramework.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.AspNet.Identity.Owin.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Host.SystemWeb.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Cookies.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Facebook.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Google.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.OAuth.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Twitter.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Web.Infrastructure.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Newtonsoft.Json.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Owin.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Net.Http.Formatting.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Helpers.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Http.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Http.Owin.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Http.WebHost.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Mvc.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Optimization.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Razor.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.WebPages.Deployment.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.WebPages.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.WebPages.Razor.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\WebGrease.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Newtonsoft.Json.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Net.Http.Formatting.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Helpers.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Http.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Http.WebHost.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Mvc.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Optimization.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Razor.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.WebPages.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.WebPages.Deployment.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.WebPages.Razor.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Antlr3.Runtime.pdb
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\EntityFramework.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\EntityFramework.SqlServer.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.AspNet.Identity.Core.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.AspNet.Identity.Owin.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.AspNet.Identity.EntityFramework.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Host.SystemWeb.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Facebook.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Cookies.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Google.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Twitter.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.OAuth.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Http.Owin.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Net.Http.Formatting.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.Helpers.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.Http.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.Http.WebHost.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.Mvc.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.Optimization.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.Razor.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.WebPages.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.WebPages.Deployment.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.WebPages.Razor.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\EntityFramework.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\EntityFramework.SqlServer.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\Microsoft.AspNet.Identity.Owin.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\Microsoft.AspNet.Identity.EntityFramework.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.Http.Owin.resources.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.Migrations.InitialCreate.resources
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.Migrations.AddDataTable.resources
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.Migrations.AddDataTable1.resources
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.Migrations.Changes.resources
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.Migrations.ModuloMenu.resources
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.Migrations.ChangesCampos.resources
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csproj.GenerateResource.cache
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csproj.CoreCompileInputs.cache
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csproj.CopyComplete
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.dll
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.pdb
-C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csprojAssemblyReference.cache
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\ProyectoXalli_Gentella.dll.config
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\ProyectoXalli_Gentella.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\ProyectoXalli_Gentella.pdb
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\csc.exe
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\csc.exe.config
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\csc.rsp
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\csi.exe
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\csi.exe.config
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\csi.rsp
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.Managed.Core.targets
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.AppContext.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Console.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.IO.Compression.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.IO.Pipes.AccessControl.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.IO.Pipes.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Security.Claims.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.ValueTuple.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Xml.XPath.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\vbc.exe
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\vbc.exe.config
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\vbc.rsp
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\VBCSCompiler.exe
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Antlr3.Runtime.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\EntityFramework.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\EntityFramework.SqlServer.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Newtonsoft.Json.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Owin.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Net.Http.Formatting.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Helpers.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Http.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Http.Owin.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Http.WebHost.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Mvc.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Optimization.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Razor.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.WebPages.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.WebPages.Razor.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\WebGrease.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Newtonsoft.Json.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Net.Http.Formatting.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Helpers.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Http.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Http.WebHost.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Mvc.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Optimization.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Razor.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.WebPages.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.WebPages.Razor.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Antlr3.Runtime.pdb
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\EntityFramework.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\EntityFramework.SqlServer.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\System.Web.Http.Owin.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Net.Http.Formatting.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.Helpers.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.Http.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.Http.WebHost.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.Mvc.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.Optimization.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.Razor.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.WebPages.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\EntityFramework.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\EntityFramework.SqlServer.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\Microsoft.AspNet.Identity.Owin.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\es\System.Web.Http.Owin.resources.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.Migrations.InitialCatalog.resources
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csproj.GenerateResource.cache
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csproj.CoreCompileInputs.cache
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csproj.CopyComplete
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.dll
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.pdb
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csprojAssemblyReference.cache

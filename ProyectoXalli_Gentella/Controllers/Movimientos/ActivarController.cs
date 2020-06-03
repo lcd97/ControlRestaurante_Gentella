@@ -39,7 +39,7 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
         /// LISTA TODAS LAS CATEGORIAS DESACTIVADAS
         /// </summary>
         /// <returns></returns>
-        public JsonResult getCategorias()
+        public JsonResult getCategoriasProducto()
         {
             var categorias = (from obj in db.CategoriasProducto.ToList()
                            where obj.EstadoCategoria == false
@@ -164,5 +164,16 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
             return Json(new { data = categorias }, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult getMenus() {
+            var platillos = (from obj in db.Menus.ToList()
+                              where obj.EstadoMenu == false
+                              select new {
+                                  Id = obj.Id,
+                                  Descripcion = obj.DescripcionMenu,
+                                  Codigo = obj.CodigoMenu
+                              });
+
+            return Json(new { data = platillos }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
