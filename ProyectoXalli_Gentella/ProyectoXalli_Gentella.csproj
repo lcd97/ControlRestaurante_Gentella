@@ -217,6 +217,7 @@
     <Compile Include="Controllers\Catalogos\UnidadesDeMedidaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Movimientos\ActivarController.cs" />
+    <Compile Include="Controllers\Movimientos\EntradasController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -257,6 +258,7 @@
       <DependentUpon>HotelDB.mdf</DependentUpon>
     </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-tagsinput.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -267,6 +269,8 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\jquery.bootstrap-touchspin.css" />
+    <Content Include="Content\select2.min.css" />
     <Content Include="Content\switchery.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -278,6 +282,7 @@
     <Content Include="images\user.png" />
     <Content Include="images\Volcancitos.png" />
     <Content Include="images\WhiteLogo.png" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap-tagsinput.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -312,7 +317,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Catalogos\CRUD.js" />
     <Content Include="Scripts\Catalogos\menuItem.js" />
-    <Content Include="Scripts\Catalogos\proveedor.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\datatable\dataTables.bootstrap.js" />
     <Content Include="Scripts\datatable\jquery.dataTables.js" />
@@ -322,6 +326,8 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.bootstrap-touchspin.js" />
+    <Content Include="Scripts\jquery.mask.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.smartWizard.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -331,6 +337,8 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\Movimientos\activacion.js" />
+    <Content Include="Scripts\Movimientos\entradas.js" />
+    <Content Include="Scripts\select2.full.min.js" />
     <Content Include="Scripts\switchery.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -385,6 +393,8 @@
     <Content Include="Views\Menus\Create.cshtml" />
     <Content Include="Views\Menus\Detail.cshtml" />
     <Content Include="Views\Menus\Edit.cshtml" />
+    <Content Include="Views\Entradas\Bar.cshtml" />
+    <Content Include="Views\Entradas\Restaurante.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="images\Comanda\" />

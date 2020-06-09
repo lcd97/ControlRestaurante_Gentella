@@ -137,6 +137,7 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
                       select new
                       {
                           Id = obj.Id,
+                          //CONSULTA PARA ASIGNARLE A LA VARIABLE DESCRIPCION EL NOMBRE COMERCIAL O NOMBRE DE LA PERSONA NATURAL
                           Descripcion = obj.NombreComercial != null ? obj.NombreComercial : u.PNombre + " " + u.PApellido,
                           Codigo = u.RUC != null ? u.RUC : u.DNI
                       });

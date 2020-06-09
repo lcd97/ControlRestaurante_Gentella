@@ -95,7 +95,12 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                     }
                 }
             }
-            return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+
+            //ESTO ES PARA AGREGARLO EN EL FORMULARIO DE ENTRADAS
+            var um = db.UnidadesDeMedida.Find(Producto.UnidadMedidaId);
+            var pro = Producto.DescripcionProducto + " " + Producto.MarcaProducto + " " + um.DescripcionUnidadMedida;
+
+            return Json(new { success = completado, message = mensaje, Id = Producto.Id, Producto = pro  }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: CategoriasProducto/Edit/5

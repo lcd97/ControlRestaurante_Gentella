@@ -59,7 +59,8 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         {
             //SE CREAR UNA INSTANCIA PARA ALMACENAR AL PROVEEDOR
             Proveedor proveedor = new Proveedor();
-            int datoId = 1;//SE CREA UNA VARIABLE ENTERA PARA ALMACENAR EL ID DE DATO Y SE INICIALIZA EN 1 (EL ID 1 CORRESPONDE A LA PLANTILLA)
+            int datoId = 1, proveedorId = 0;//SE CREA UNA VARIABLE ENTERA PARA ALMACENAR EL ID DE DATO Y SE INICIALIZA EN 1 (EL ID 1 CORRESPONDE A LA PLANTILLA)
+            string providerName = "";
 
             if (NombreComercial == "" || CedulaProveedor == "")
             {
@@ -109,9 +110,12 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                             db.Proveedores.Add(proveedor);
                             completado = db.SaveChanges() > 0 ? true : false;
                             mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                            //AGARRAR LOS DATOS A UTILIZAR PARA EL MAESTRO DETALLE DE ENTRADAS
+                            proveedorId = proveedor.Id;
+                            providerName = dato.PNombre + " " + dato.PApellido;
                         }//FIN SAVECHANGES
                     }//FIN VALIDACION
-                    else
+                    else//SI EXISTE YA UN REGISTRO CON LA CEDULA O RUC
                     {
                         if (validando == null)
                         {
@@ -133,6 +137,10 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                             mensaje = "El proveedor local ya se encuentra registrado";
                         }
 
+                        proveedorId = proveedor.Id;
+
+                        dato = db.Datos.Find(datoId);
+                        providerName = dato.PNombre + " " + dato.PApellido;
                     }//FIN ELSE VALIDACION      
 
                 }//FIN LOCAL
@@ -155,6 +163,9 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                         db.Proveedores.Add(proveedor);
                         completado = db.SaveChanges() > 0 ? true : false;
                         mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+
+                        proveedorId = proveedor.Id;
+                        providerName = proveedor.NombreComercial;
                     }
                     else
                     {
@@ -166,7 +177,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                 }//FIN ELSE NO LOCAL
             }
 
-            return Json(new { data = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = completado, message = mensaje, Id = proveedorId, Proveedor = providerName }, JsonRequestBehavior.AllowGet);
         }//FIN POST CREATE
 
         // GET: Categorias/Edit/5
