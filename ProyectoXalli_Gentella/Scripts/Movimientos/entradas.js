@@ -1,6 +1,21 @@
-﻿//INICIALIZADOR DE DATEPICKER
+﻿//CARGA EL CODIGO DE LA ENTRADA AUTOMATICAMENTE
+function cargarCodigo() {
+    $.ajax({
+        type: "GET",
+        url: "/Entradas/EntradaCode",
+        success: function (data) {
+            $("#codigo").val(data.data);
+        }
+    });
+}
+
+$(document).ready(function () {
+    cargarCodigo();
+});
+
+//INICIALIZADOR DE DATEPICKER
 $('#myDatepicker2').datetimepicker({
-    format: 'DD/MM/YYYY',
+    format: 'MM/DD/YYYY',
     defaultDate: new Date()
 });
 
@@ -79,6 +94,28 @@ $(document).ready(function () {
             }
 
             $("#producto").append(agregar);
+        },
+        error: function (data) {
+            alert("Error");
+        }
+    });
+});
+
+//CARGAR DATOS DE PROVEEDOR PARA SELECT2
+$(document).ready(function () {
+    $.ajax({
+        type: "GET",
+        url: '/Entradas/getArea',
+        dataType: 'JSON',
+        success: function (data) {
+
+            var agregar = "";
+
+            for (var i = 0; i < Object.keys(data.data).length; i++) {
+                agregar += '<option value="' + data.data[i].Id + '">' + data.data[i].Bodega + '</option>';
+            }
+
+            $("#area").append(agregar);
         },
         error: function (data) {
             alert("Error");
@@ -193,6 +230,7 @@ function SubmitForm(form) {
 }//FIN FUNCTION
 
 function TableAdd() {
+    //ALMACENAR LAS VARIABLES
     var producto = $("#producto").find("option:selected").val(), precio = $("#precio").val(), cantidad = $("#cantidad").val();
     var dec = Math.pow(10, 2);
     var precioTotal = parseInt((precio * cantidad) * dec, 10) / dec;
@@ -202,7 +240,6 @@ function TableAdd() {
     if (producto === null || precio === "" || cantidad === "") {
         Alert("Error", "Llene todos los campos para agregar el producto", "error");
     } else {
-
         //GUARDAR LAS FILAS EXISTENTES DE LA TABLA
         var filas = $("#table_body").find("tr");
         var registrado = false, i = 0; 
@@ -211,6 +248,7 @@ function TableAdd() {
         while (i < filas.length && registrado === false) {
             var celdas = $(filas[i]).find("td"); //devolverá las celdas de una fila
 
+            //AGARRAR EL VALUE ALMACENADO EN LA FILA - PRODUCTO
             var comp = $(celdas[0]).attr("value");
 
             //COMPARAMOS QUE EL PRODUCTO A INGRESAR NO SEA EL MISMO AL QUE YA ESTA AGREGADO
@@ -225,10 +263,6 @@ function TableAdd() {
 
         //SI NO SE EN
         if (!registrado) {
-            
-            //ELIMINAR ULTIMA FILA DE LA TABLA
-            //$('#table_body').find('tr:last').remove();            
-
             //GENERAR FILA DEL PRODUCTO A LA TABLA
             agregar += '<tr class="even pointer">';
             agregar += '<td class="" value ="' + producto + '">' + $("#producto").find("option:selected").text() + '</td>';
@@ -246,7 +280,6 @@ function TableAdd() {
             $("#table_body").append(agregar);
             //AGREGAR EL TOTAL TFOOT
             $("#total").html("C$ " + (total + precioTotal));
-            //$("#table_body").last().before(agregar);
 
             //LIMPIAR LOS INPUTS Y SELECT
             $("#producto").val("-1");
@@ -255,10 +288,7 @@ function TableAdd() {
             $("#cantidad").val("");
         } else {
             Alert("Error", "El producto seleccionado ya se encuentra en la tabla", "error");
-        }
-
-        
-
+        }      
     }//FIN ELSE DE VALIDACION CAMPOS VACIOS
 }//FIN FUNCTION
 
@@ -296,30 +326,21 @@ function editProduct(indice) {
 
 //FUNCION PARA ELIMINAR UNA FILA SELECCIONADA DE LA TABLA
 function deleteProduct(row) {
-    //SE BUSCA LA POSICION DE LA FILA SELECCIONADA
+    //SE BUSCA LA POSICION DE LA FILA SELECCIONADA PARA ELIMINARLA
     var indice = row.parentNode.parentNode.rowIndex;
     document.getElementById('productTable').deleteRow(indice);
 
-    $("#productTable").on("click", "#boton", function () {
-        var precio = $(this).parents("tr").find("td").eq(1).html();
-        var cantidad = $(this).parents("tr").find("td").eq(2).html();
-
-        var str = precio;
-        var res = str.split("C$ ");
-
-        //RECALCULAR TOTAL TFOOT
-        var totalF = $("#total").html();
-        var prodPrecio = totalF.split("C$ ");
-        var resta = parseFloat(prodPrecio[1] - (res[1] * cantidad));
-
-        $("#total").html(resta);
-    });
+    //RECALCULAMOS EL TOTAL
+    var resta = parseFloat(CalcularTotal());
+    $("#total").html("C$ " + resta);
+    
 }//FIN FUNCTION
 
-
+//FUNCION PARA CALCULAR EL TOTAL GENERAL DE LA TABLA
 function CalcularTotal() {
     var total = 0;
 
+    //RECORRER LA TABLA PARA SUMAR TODOS LOS TOTALES DE PRODUCTOS
     $("#table_body tr").each(function () {
         var str = $(this).find("td").eq(3).html();
         var res = str.split("C$ ");
@@ -329,9 +350,79 @@ function CalcularTotal() {
     return total;
 }//FIN FUNCTION
 
-
-
-
+//FUNCION PARA ALMACENAR EL INVENTARIO
 function saveInventario() {
-    alert("guardado");
+    var data = false, codigo = $("#codigo").val(), fecha = $("#myDatepicker2").val(), entrada = $("#entrada").find("option:selected").val(),
+        proveedor = $("#proveedor").find("option:selected").val(), area = $("#area").find("option:selected").val();
+
+    if (codigo !== "" && fecha !== "" && entrada !== "" && proveedor !== "" && area !== "") {
+
+        var detalleEntrada = new Array();
+
+        $("#table_body tr").each(function () {
+
+            var row = $(this);
+            var item = {};
+
+            if (row.length > 0) {
+                data = true;
+            } else {
+                data = false;
+            }
+
+            item["Id"] = 0;
+            item["ProductoId"] = row.find("td").eq(0).attr("value");
+            var precio = row.find("td").eq(1).html();
+            var getPrice = precio.split("C$ ");
+            item["PrecioEntrada"] = getPrice[1];
+            item["CantidadEntrada"] = row.find("td").eq(2).html();
+            item["Entrada"] = null;
+            item["Producto"] = null;
+
+            detalleEntrada.push(item);
+        });
+
+        //alert(JSON.stringify(detalleEntrada));
+
+        if (data) {
+
+            var datos = "Codigo=" + codigo + "&FechaEntrada=" + fecha + "&TipoEntradaId=" + entrada + "&BodegaId=" + area + "&ProveedorId=" + proveedor + "&detalleEntrada=" + JSON.stringify(detalleEntrada);
+
+            $.ajax({
+                type: "POST",
+                url: "/Entradas/AddEntrada",
+                data: datos,
+                dataType: "JSON",                
+                success: function (data) {
+                    if (data.success) {
+                        Alert("Almacenado correctamente", "", "success");
+                        limpiarPantalla();
+                    } else {
+                        Alert("Error", "Hubieron errores al guardar", "error");
+                    }
+                },
+                error: function (data) {
+                    Alert("Error", "Revise", "error");
+                }
+            });
+        } else {
+            Alert("Error", "No se encontraron registros de productos", "error");
+        }
+    } else {
+        Alert("Error", "Campos vacios. Revise e intente de nuevo", "error");
+    }//FIN VALIDACION
 }//FIN FUNCTION
+
+//FUNCION PARA LIMPIAR LA PANTALLA
+function limpiarPantalla() {
+    //LIMPIAR INPUTS
+    $("#codigo").val(cargarCodigo());
+    $("#total").html("C$ 0.00");
+    //LIMPIAR TABLA
+    $("#table_body tr").remove();
+    //LIMPIAR LOS SELECT2
+    $("#entrada").select2("val", "-1");
+    $("#area").select2("val", "-1");
+    $("#producto").select2("val", "-1");
+    $("#proveedor").select2("val", "-1");
+}

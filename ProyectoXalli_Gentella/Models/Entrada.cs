@@ -27,11 +27,12 @@ namespace ProyectoXalli_Gentella.Models
         [Required(ErrorMessage = "La {0} es obligatorio")]
         [DataType(DataType.Date)]
         [Display(Name = "Fecha de entrada")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:DD-MM-YYYY}")]
         public DateTime FechaEntrada { get; set; }
 
         [Required(ErrorMessage = "El {0} es obligatorio")]
         [Display(Name = "Activo")]
-        public bool EstadoTipoEntrada { get; set; }
+        public bool EstadoEntrada { get; set; }
 
         //DEFINCION DE FK
         public int TipoEntradaId { get; set; }

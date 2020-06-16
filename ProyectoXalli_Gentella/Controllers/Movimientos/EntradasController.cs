@@ -1,4 +1,5 @@
-﻿using ProyectoXalli_Gentella.Models;
+﻿using Newtonsoft.Json;
+using ProyectoXalli_Gentella.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +11,14 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
     public class EntradasController : Controller
     {
         private DBControl db = new DBControl();
-
-        /// <summary>
-        /// MUESTRA INDEX DE ENTRADAS DE BAR
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Bar()
-        {
-            return View();
-        }
+        bool completado = false;
+        string mensaje = "";
 
         /// <summary>
         /// MUESTRA INDEX DE ENTRADAS RESTAURANTE
         /// </summary>
         /// <returns></returns>
-        public ActionResult Restaurante() 
+        public ActionResult Index() 
         {
             return View();
         }
@@ -63,6 +57,10 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
             return Json(new { data = entrada }, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// OBTIENE UNA LISTA DE LOS PRODUCTOS ALMACENADOS
+        /// </summary>
+        /// <returns></returns>
         public ActionResult getProductos() 
         {
             var producto = from obj in db.Productos.ToList()
@@ -74,6 +72,85 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
                           };
 
             return Json(new { data = producto }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// OBTIENE UNA LISTA DE LAS BODEGAS REGISTRADAS
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult getArea() {
+            var bodegas = from obj in db.Bodegas.ToList()
+                           select new {
+                               //CONSULTA PARA ASIGNARLE A LA VARIABLE PROVEEDOR EL NOMBRE COMERCIAL O NOMBRE DE LA PERSONA NATURAL
+                               Bodega = obj.DescripcionBodega,
+                               Id = obj.Id
+                           };
+
+            return Json(new { data = bodegas }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult AddEntrada(string Codigo, DateTime FechaEntrada, int TipoEntradaId, int BodegaId, int ProveedorId, string detalleEntrada)
+        {
+            var DetalleEntrada = JsonConvert.DeserializeObject<List<DetalleDeEntrada>>(detalleEntrada);
+
+            //GUARDAR PRIMERO EL ENCABEZAADO
+            Entrada entrada = new Entrada();
+
+            entrada.CodigoEntrada = Codigo;
+            entrada.FechaEntrada = Convert.ToDateTime(FechaEntrada);
+            entrada.TipoEntradaId = TipoEntradaId;
+            entrada.BodegaId = BodegaId;
+            entrada.ProveedorId = ProveedorId;
+            entrada.EstadoEntrada = true;
+
+            db.Entradas.Add(entrada);
+
+            if (db.SaveChanges() > 0) {
+
+                foreach (var item in DetalleEntrada) {
+                    DetalleDeEntrada detalleItem = new DetalleDeEntrada();
+
+                    detalleItem.CantidadEntrada = item.CantidadEntrada;
+                    detalleItem.PrecioEntrada = item.PrecioEntrada;
+                    detalleItem.ProductoId = item.ProductoId;
+                    detalleItem.EntradaId = entrada.Id;
+                    
+                    db.DetallesDeEntrada.Add(detalleItem);
+                }
+
+                completado = db.SaveChanges() > 0 ? true : false;
+                mensaje = completado ? "Almacenado correctamente" : "Error al almacenar";
+            }
+            
+            return Json(new { success = completado }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// RETORNA EL CODIGO DE ENTRADA AUTOMATICAMENTE
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult EntradaCode() 
+        {
+            var code = db.Entradas.Max(x => x.CodigoEntrada.Trim());
+            int valor;
+            string num ;
+
+            if (code != null) {
+
+                valor = int.Parse(code);
+
+                if (valor <= 8)
+                    num = "00" + (valor + 1);
+                else
+                if (valor >= 9 && valor < 100)
+                    num = "0" + (valor + 1);
+                else
+                    num = (valor + 1).ToString();
+            } else
+                num = "001";            
+
+            return Json(new { data = num }, JsonRequestBehavior.AllowGet);
         }
     }
 }

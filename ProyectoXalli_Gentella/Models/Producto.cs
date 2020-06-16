@@ -36,11 +36,11 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Marca")]
         public string MarcaProducto { get; set; }
 
-        [Required(ErrorMessage = "La {0} es obligatorio")]
-        //[Range(5, int.MaxValue)]
-        [Display(Name = "Cantidad de existente")]
-        [DisplayFormat(DataFormatString = "(0:c2)")]//MUESTRA EL FORMATO "10.20"
-        public double CantidadProducto { get; set; }
+        //[Required(ErrorMessage = "La {0} es obligatorio")]
+        ////[Range(5, int.MaxValue)]
+        //[Display(Name = "Cantidad de existente")]
+        //[DisplayFormat(DataFormatString = "(0:c2)")]//MUESTRA EL FORMATO "10.20"
+        //public double CantidadProducto { get; set; }
 
         [Required(ErrorMessage = "La {0} es obligatorio")]
         //[Range(5, int.MaxValue, ErrorMessage = "La cantidad mínima de producto debe ser mayor a 0")]

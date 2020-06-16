@@ -222,9 +222,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202005262054046_InitialCatalog.cs" />
-    <Compile Include="Migrations\202005262054046_InitialCatalog.Designer.cs">
-      <DependentUpon>202005262054046_InitialCatalog.cs</DependentUpon>
+    <Compile Include="Migrations\202006160008093_InitialCatalog.cs" />
+    <Compile Include="Migrations\202006160008093_InitialCatalog.Designer.cs">
+      <DependentUpon>202006160008093_InitialCatalog.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -253,10 +253,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\HotelDB.mdf" />
-    <Content Include="App_Data\HotelDB_log.ldf">
-      <DependentUpon>HotelDB.mdf</DependentUpon>
-    </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-tagsinput.css" />
@@ -393,10 +389,11 @@
     <Content Include="Views\Menus\Create.cshtml" />
     <Content Include="Views\Menus\Detail.cshtml" />
     <Content Include="Views\Menus\Edit.cshtml" />
-    <Content Include="Views\Entradas\Bar.cshtml" />
-    <Content Include="Views\Entradas\Restaurante.cshtml" />
+    <Content Include="Views\Entradas\Index.cshtml" />
+    <Content Include="Views\Shared\_xsModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="images\Comanda\" />
     <Folder Include="images\Pago\" />
   </ItemGroup>
@@ -430,8 +427,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202005262054046_InitialCatalog.resx">
-      <DependentUpon>202005262054046_InitialCatalog.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202006160008093_InitialCatalog.resx">
+      <DependentUpon>202006160008093_InitialCatalog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -65,7 +65,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoProducto,DescripcionProducto,MarcaProducto,CantidadProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
+        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoProducto,DescripcionProducto,MarcaProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
         {
             Producto bod = db.Productos.DefaultIfEmpty(null).FirstOrDefault(b => b.CodigoProducto.Trim() == Producto.CodigoProducto.Trim());
 
@@ -127,7 +127,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoProducto,DescripcionProducto,MarcaProducto,CantidadProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoProducto,DescripcionProducto,MarcaProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
         {
             if (ModelState.IsValid)
             {
@@ -157,16 +157,53 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Producto producto = await db.Productos.FindAsync(id);
+            Producto producto = await db.Productos.FindAsync(id);            
             if (producto == null)
             {
                 return HttpNotFound();
             }
 
-            ViewBag.CategoriaId = new SelectList(db.CategoriasProducto, "Id", "DescripcionCategoria", producto.CategoriaId);
-            ViewBag.UnidadMedidaId = new SelectList(db.UnidadesDeMedida, "Id", "DescripcionUnidadMedida", producto.UnidadMedidaId);
-
             return View(producto);
+        }
+
+        public ActionResult getDetails(int id) 
+        {
+            var producto = from obj in db.Productos.ToList()
+                           join c in db.CategoriasProducto.ToList() on obj.CategoriaId equals c.Id
+                           join u in db.UnidadesDeMedida.ToList() on obj.UnidadMedidaId equals u.Id
+                           where obj.Id == id
+                           select new {
+                               CodigoProducto = obj.CodigoProducto,
+                               DescripcionProducto = obj.DescripcionProducto,
+                               MarcaProducto = obj.MarcaProducto,
+                               CantidadMaxProducto = obj.CantidadMaxProducto,
+                               CantidadMinProducto = obj.CantidadMinProducto,
+                               EstadoProducto = obj.EstadoProducto,
+                               UnidadMedida = u.DescripcionUnidadMedida,
+                               Categoria = c.DescripcionCategoria
+                           };
+
+            return Json(new { data = producto }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// DEVUELVE LA CANTIDAD ACTUAL DEL PRODUCTO Y DONDE SE ALMACENA (SOLO SE LLEVARA EL CONTROL DEL BAR)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult CantidadActual(int id) {
+            var cantActual = (from bod in db.Bodegas
+                              join ent in db.Entradas on bod.Id equals ent.BodegaId
+                              join det in db.DetallesDeEntrada on ent.Id equals det.EntradaId
+                              join pro in db.Productos on det.ProductoId equals pro.Id
+                              where pro.Id == id
+                              group new { bod, det } by new { bod.Id } into grouped
+                              select new {
+                                  Destino = grouped.Key.Id,
+                                  cantActual = grouped.Sum(b => b.det.CantidadEntrada)
+                              });
+
+            return Json(new { data = cantActual }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Productos/Delete/5

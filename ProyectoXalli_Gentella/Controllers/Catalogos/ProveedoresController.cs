@@ -276,6 +276,44 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
+        // GET: CategoriasProducto/Details/5
+        public async Task<ActionResult> Details(int? id) {
+            if (id == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Proveedor proveedor = await db.Proveedores.FindAsync(id);
+            if (proveedor == null) {
+                return HttpNotFound();
+            }
+
+            return View(proveedor);
+        }
+
+        /// <summary>
+        /// METODO RETORNA DETALLE DE PROVEEDOR
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult getDetails(int id) 
+        {
+            var proveedor = from obj in db.Proveedores.ToList()
+                            join d in db.Datos.ToList() on obj.DatoId equals d.Id
+                            where obj.Id == id
+                            select new {
+                                //CONDICION PARA ASIGNAR A UN CAMPO UN VALOR ALTERNATIVO EN CASO DE SER NULO (CASE-WHEN)
+                                NombreComercial = obj.NombreComercial,
+                                NombreProveedor = d.PNombre + " " + d.PApellido,
+                                Telefono = obj.Telefono,
+                                RUC = d.RUC,
+                                Cedula = d.DNI,
+                                Local = obj.Local,
+                                RetieneIR = obj.RetenedorIR,
+                                Estado = obj.EstadoProveedor
+                            };
+
+            return Json(new { data = proveedor }, JsonRequestBehavior.AllowGet);
+        }
+
         // POST: Proveedor/Delete/5
         [HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]

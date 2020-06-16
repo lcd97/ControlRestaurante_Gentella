@@ -11,6 +11,19 @@ function CargarParcial(url) { //RECIBE LA URL DE LA UBICACION DEL METODO
     });//FIN AJAX
 }//FIN FUNCTION
 
+//FUNCION PARA CARGAR LA MODAL DEL CRUD -- SOLO PARA MOSTRAR LOS CAMPOS DEL OBJETO
+function CargarSmallParcial(url) { //RECIBE LA URL DE LA UBICACION DEL METODO
+    $("#smallModal").modal("show"); //MUESTRA LA MODAL
+    $("#vParcial").html("");//LIMPIA LA MODAL POR DATOS PRECARGADOS
+    $.ajax({
+        "type": "GET", //TIPO DE ACCION
+        "url": url, //URL DEL METODO A USAR
+        success: function (parcial) {
+            $("#vParcial").html(parcial);//CARGA LA PARCIAL CON ELEMENTOS QUE CONTEGA
+        }//FIN SUCCESS
+    });//FIN AJAX
+}//FIN FUNCTION
+
 //FUNCION PARA HACER EL CRUD A BODEGA POR MEDIO DEL MODAL (RECIBE UN FORM = FORMULARIO)
 function SubmitForm(form) {
     $.validator.unobtrusive.parse(form);

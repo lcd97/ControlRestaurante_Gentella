@@ -36,6 +36,7 @@
 </div>
 
 @Html.Partial("_small-modal")
+@Html.Partial("_xsModal")
 
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
@@ -61,7 +62,7 @@
                     {   //DEFINIENDO LOS BOTONES PARA EDITAR Y ELIMINAR POR MEDIO DE JS
                         data: "Id", "render": function (data) {
                             return "<a class='btn btn-success' onclick=CargarParcial('/Proveedores/Edit/" + data + "')><i class='fa fa-pencil'></i></a>" +
-                                "<a class='btn btn-primary' Style='margin-left: 3px' onclick=CargarParcial('/Proveedores/Details/" + data + "')><i class='fa fa-eye'></i></a>" +
+                                "<a class='btn btn-primary' Style='margin-left: 3px' onclick=CargarSmallParcial('/Proveedores/Details/" + data + "')><i class='fa fa-eye'></i></a>" +
                                 "<a class='btn btn-danger' Style='margin-left: 3px' onclick=deleteAlert('/Proveedores/Delete/'," + data + ")><i class='fa fa-trash'></i></a>"
                         }
                     }
