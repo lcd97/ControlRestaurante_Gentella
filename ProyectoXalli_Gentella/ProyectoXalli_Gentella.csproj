@@ -209,22 +209,26 @@
     <Compile Include="Controllers\Catalogos\BodegasController.cs" />
     <Compile Include="Controllers\Catalogos\CategoriasProductoController.cs" />
     <Compile Include="Controllers\Catalogos\CategoriasMenuController.cs" />
+    <Compile Include="Controllers\Catalogos\ClientesController.cs" />
     <Compile Include="Controllers\Catalogos\MenusController.cs" />
+    <Compile Include="Controllers\Catalogos\MeserosController.cs" />
     <Compile Include="Controllers\Catalogos\ProductosController.cs" />
     <Compile Include="Controllers\Catalogos\ProveedoresController.cs" />
+    <Compile Include="Controllers\Catalogos\TiposDeClienteController.cs" />
     <Compile Include="Controllers\Catalogos\TiposDeEntradaController.cs" />
     <Compile Include="Controllers\Catalogos\TiposDeSalidaController.cs" />
     <Compile Include="Controllers\Catalogos\UnidadesDeMedidaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Movimientos\ActivarController.cs" />
     <Compile Include="Controllers\Movimientos\EntradasController.cs" />
+    <Compile Include="Controllers\Movimientos\SalidasController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202006160008093_InitialCatalog.cs" />
-    <Compile Include="Migrations\202006160008093_InitialCatalog.Designer.cs">
-      <DependentUpon>202006160008093_InitialCatalog.cs</DependentUpon>
+    <Compile Include="Migrations\202006161731357_InitialCatalog.cs" />
+    <Compile Include="Migrations\202006161731357_InitialCatalog.Designer.cs">
+      <DependentUpon>202006161731357_InitialCatalog.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -232,18 +236,23 @@
     <Compile Include="Models\Bodega.cs" />
     <Compile Include="Models\CategoriaProducto.cs" />
     <Compile Include="Models\CategoriaMenu.cs" />
+    <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\Dato.cs" />
     <Compile Include="Models\DBControl.cs" />
     <Compile Include="Models\DetalleDeEntrada.cs" />
+    <Compile Include="Models\DetalleDeOrden.cs" />
     <Compile Include="Models\DetalleDeSalida.cs" />
     <Compile Include="Models\Entrada.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Imagen.cs" />
     <Compile Include="Models\Menu.cs" />
+    <Compile Include="Models\Mesero.cs" />
+    <Compile Include="Models\Orden.cs" />
     <Compile Include="Models\Producto.cs" />
     <Compile Include="Models\Proveedor.cs" />
     <Compile Include="Models\Receta.cs" />
     <Compile Include="Models\Salida.cs" />
+    <Compile Include="Models\TipoDeCliente.cs" />
     <Compile Include="Models\TipoDeEntrada.cs" />
     <Compile Include="Models\TipoDeSalida.cs" />
     <Compile Include="Models\UnidadDeMedida.cs" />
@@ -391,6 +400,22 @@
     <Content Include="Views\Menus\Edit.cshtml" />
     <Content Include="Views\Entradas\Index.cshtml" />
     <Content Include="Views\Shared\_xsModal.cshtml" />
+    <Content Include="Views\Salidas\Index.cshtml" />
+    <Content Include="Views\Clientes\Index.cshtml" />
+    <Content Include="Views\Clientes\Create.cshtml" />
+    <Content Include="Views\Clientes\Detail.cshtml" />
+    <Content Include="Views\Clientes\Delete.cshtml" />
+    <Content Include="Views\Meseros\Index.cshtml" />
+    <Content Include="Views\Meseros\Create.cshtml" />
+    <Content Include="Views\Meseros\Delete.cshtml" />
+    <Content Include="Views\Meseros\Detail.cshtml" />
+    <Content Include="Views\TiposDeCliente\Index.cshtml" />
+    <Content Include="Views\TiposDeCliente\Create.cshtml" />
+    <Content Include="Views\TiposDeCliente\Edit.cshtml" />
+    <Content Include="Views\TiposDeCliente\Delete.cshtml" />
+    <Content Include="Views\TiposDeCliente\Detail.cshtml" />
+    <Content Include="Views\Meseros\Edit.cshtml" />
+    <Content Include="Views\Clientes\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -427,8 +452,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202006160008093_InitialCatalog.resx">
-      <DependentUpon>202006160008093_InitialCatalog.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202006161731357_InitialCatalog.resx">
+      <DependentUpon>202006161731357_InitialCatalog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

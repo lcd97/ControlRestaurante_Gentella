@@ -39,8 +39,8 @@ namespace ProyectoXalli_Gentella.Models
         public int BodegaId { get; set; }
         public int ProveedorId { get; set; }
 
-            //DEFINCION DE RELACIONES HIIJAS
-            public virtual ICollection<DetalleDeEntrada> DetallesDeEntrada { get; set; }
+        //DEFINCION DE RELACIONES HIJAS
+        public virtual ICollection<DetalleDeEntrada> DetallesDeEntrada { get; set; }
 
         //DEFINICION DE RELACIONES PADRES
         public virtual TipoDeEntrada TipoDeEntrada { get; set; }

@@ -15,7 +15,7 @@ $(document).ready(function () {
 
 //INICIALIZADOR DE DATEPICKER
 $('#myDatepicker2').datetimepicker({
-    format: 'MM/DD/YYYY',
+    format: 'DD/MM/YYYY',
     defaultDate: new Date()
 });
 

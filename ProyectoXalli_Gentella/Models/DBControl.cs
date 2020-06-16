@@ -33,7 +33,14 @@ namespace ProyectoXalli_Gentella.Models
         public DbSet<Menu> Menus { get; set; }
         public DbSet<CategoriaMenu> CategoriasMenu { get; set; }
         public DbSet<Imagen> Imagenes { get; set; }
-        
+
+        //MODULO ORDENES
+        public DbSet<Mesero> Meseros { get; set; }
+        public DbSet<TipoDeCliente> TiposDeCliente { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Orden> Ordenes { get; set; }
+        public DbSet<DetalleDeOrden> DetallesDeOrden { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

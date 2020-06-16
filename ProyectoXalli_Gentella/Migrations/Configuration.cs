@@ -72,6 +72,11 @@ namespace ProyectoXalli_Gentella.Migrations {
                 new CategoriaMenu { CodigoCategoriaMenu = "004", DescripcionCategoriaMenu = "Bebidas Alcholicas", EstadoCategoriaMenu = true },
                 new CategoriaMenu { CodigoCategoriaMenu = "004", DescripcionCategoriaMenu = "Bebidas Alcholicas", EstadoCategoriaMenu = true });
             context.SaveChanges();
+
+            context.TiposDeCliente.AddOrUpdate(d => d.CodigoTipoCliente,
+                new TipoDeCliente { CodigoTipoCliente = "001", DescripcionTipoCliente = "Cliente Ocacional", EstadoTipoCliente = true },
+                new TipoDeCliente { CodigoTipoCliente = "002", DescripcionTipoCliente = "Huésped", EstadoTipoCliente = true });
+            context.SaveChanges();
         }
     }
 }

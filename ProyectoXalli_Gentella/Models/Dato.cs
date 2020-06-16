@@ -14,6 +14,8 @@ namespace ProyectoXalli_Gentella.Models
         public Dato()
         {
             this.Proveedores = new HashSet<Proveedor>();
+            this.Clientes = new HashSet<Cliente>();
+            this.Meseros = new HashSet<Mesero>();
         }
 
         [Key]
@@ -41,5 +43,7 @@ namespace ProyectoXalli_Gentella.Models
 
         //DEFINCION DE RELACIONES HIIJAS
         public virtual ICollection<Proveedor> Proveedores { get; set; }
+        public virtual ICollection<Cliente> Clientes { get; set; }
+        public virtual ICollection<Mesero> Meseros { get; set; }
     }
 }

@@ -11,8 +11,10 @@ namespace ProyectoXalli_Gentella.Models
     public class Menu
     {
         //CONSTRUCTOR DE RELACION HIJA
-        public Menu() {
+        public Menu() 
+        {
             this.Recetas = new HashSet<Receta>();
+            this.DetallesDeOrden = new HashSet<DetalleDeOrden>();
         }
 
         [Key]
@@ -44,6 +46,7 @@ namespace ProyectoXalli_Gentella.Models
 
         //DEFINCION DE RELACIONES HIIJAS
         public virtual ICollection<Receta> Recetas { get; set; }
+        public virtual ICollection<DetalleDeOrden> DetallesDeOrden { get; set; }
 
         //DEFINICION DE RELACIONES PADRES
         public virtual CategoriaMenu CategoriaMenu { get; set; }
