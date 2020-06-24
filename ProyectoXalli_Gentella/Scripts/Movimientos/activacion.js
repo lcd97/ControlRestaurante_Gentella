@@ -70,26 +70,22 @@ function obtenerURL() {
         case "8":
             DataTable("/Activar/getCategoriasMenu");
             break;
-        //MESAS
-        case "9":
-            DataTable("/Activar/getMesas");
-            break;
         //MESEROS
-        case "10":
+        case "9":
             DataTable("/Activar/getMeseros");
             break;
         //TIPOS DE CLIENTE
-        case "11":
+        case "10":
             DataTable("/Activar/getTiposDeCliente");
             break;
-        //CLIENTES
-        case "12":
+        //CLIENTE
+        case "11":
             DataTable("/Activar/getClientes");
             break;
         //TIPOS DE PAGO
-        case "13":
+        case "12":
             DataTable("/Activar/getTiposDePago");
-            break;
+            break;        
         default: console.log("Fin");
     }//FIN SWITCH
 }//FIN FUNCTION 

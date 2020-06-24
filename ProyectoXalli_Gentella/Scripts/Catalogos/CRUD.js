@@ -82,7 +82,7 @@ function Delete(uri, id) {
 //FUNCION PARA CERRAR LA MODAL
 function CerrarModal() {
     $("#small-modal").modal("hide"); //CERRAR MODAL                
-    $("#xs-modal").modal("hide"); //CERRAR MODAL                
+    $("#smallModal").modal("hide"); //CERRAR MODAL                
 }//FIN FUNCION
 
 //MANDAR EL SWEET ALERT PARA CREAR/EDITAR

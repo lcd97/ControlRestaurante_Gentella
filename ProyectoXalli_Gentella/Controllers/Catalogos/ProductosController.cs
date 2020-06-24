@@ -203,6 +203,10 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                                   cantActual = grouped.Sum(b => b.det.CantidadEntrada)
                               });
 
+            if (cantActual !=null) {
+                mensaje = "fsdjfhskdf";
+            }
+
             return Json(new { data = cantActual }, JsonRequestBehavior.AllowGet);
         }
 

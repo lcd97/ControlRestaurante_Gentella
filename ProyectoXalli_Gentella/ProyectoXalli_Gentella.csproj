@@ -230,6 +230,10 @@
     <Compile Include="Migrations\202006161731357_InitialCatalog.Designer.cs">
       <DependentUpon>202006161731357_InitialCatalog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006200009533_NuevosCambios.cs" />
+    <Compile Include="Migrations\202006200009533_NuevosCambios.Designer.cs">
+      <DependentUpon>202006200009533_NuevosCambios.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -320,8 +324,10 @@
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Catalogos\clienteCRUD.js" />
     <Content Include="Scripts\Catalogos\CRUD.js" />
     <Content Include="Scripts\Catalogos\menuItem.js" />
+    <Content Include="Scripts\Catalogos\meseroCRUD.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\datatable\dataTables.bootstrap.js" />
     <Content Include="Scripts\datatable\jquery.dataTables.js" />
@@ -403,12 +409,12 @@
     <Content Include="Views\Salidas\Index.cshtml" />
     <Content Include="Views\Clientes\Index.cshtml" />
     <Content Include="Views\Clientes\Create.cshtml" />
-    <Content Include="Views\Clientes\Detail.cshtml" />
+    <Content Include="Views\Clientes\Details.cshtml" />
     <Content Include="Views\Clientes\Delete.cshtml" />
     <Content Include="Views\Meseros\Index.cshtml" />
     <Content Include="Views\Meseros\Create.cshtml" />
     <Content Include="Views\Meseros\Delete.cshtml" />
-    <Content Include="Views\Meseros\Detail.cshtml" />
+    <Content Include="Views\Meseros\Details.cshtml" />
     <Content Include="Views\TiposDeCliente\Index.cshtml" />
     <Content Include="Views\TiposDeCliente\Create.cshtml" />
     <Content Include="Views\TiposDeCliente\Edit.cshtml" />
@@ -454,6 +460,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202006161731357_InitialCatalog.resx">
       <DependentUpon>202006161731357_InitialCatalog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006200009533_NuevosCambios.resx">
+      <DependentUpon>202006200009533_NuevosCambios.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

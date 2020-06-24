@@ -19,7 +19,7 @@ $('#myDatepicker2').datetimepicker({
     defaultDate: new Date()
 });
 
-//INICIALIZADOR SELECT 2
+//INICIALIZADOR DE LENGUAJE SELECT 2
 $('.js-example-basic-single').select2({
     //MODIFICAR LAS FRASES DEFAULT DE SELECT2
     language: {

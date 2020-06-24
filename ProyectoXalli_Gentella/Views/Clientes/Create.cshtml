@@ -1,7 +1,126 @@
 ﻿
 @{
-    ViewBag.Title = "Create";
+    Layout = null;
 }
 
-<h2>Create</h2>
+<div class="row">
+    <div class="x_content">
+        <div data-parsley-validate class="form-horizontal form-label-left">
 
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    @Html.Label("Nombre", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                    <input id="nombre" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    @Html.Label("Apellido", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                    <input id="apellido" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    @Html.Label("Tipo de documento", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
+                    <select class="js-example-basic-single select2_group form-control" id="documento" style="width:100%">
+                        <option value="-1">Seleccione</option>
+                        <option value="1">Cedula</option>
+                        <option value="2">Pasaporte</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    @Html.Label("Número", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                    <input id="numero" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="16" autocomplete="off" required disabled>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    @Html.Label("Tipo de cliente", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
+                    @Html.DropDownList("TipoClienteId", null, htmlAttributes: new { @class = "js-example-basic-single select2_group form-control", @style = "width: 100%", @id = "tipo" })
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    @Html.Label("RUC", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                    <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="10" autocomplete="off" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    @Html.Label("Correo Electrónico", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
+                    <input id="email" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    @Html.Label("Teléfono", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                    <input id="telefono" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="9" autocomplete="off" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="ln_solid"></div>
+
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+                    <a onclick="CerrarModal()" class="btn btn-primary">Cerrar</a>
+                    <button type="button" onclick="saveCustomer()" class="btn btn-success">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //INICIALIZAR EL SELECT2
+    $('.js-example-basic-single').select2({
+        //MODIFICAR LAS FRASES DEFAULT DE SELECT2
+        language: {
+
+            noResults: function () {
+
+                return "No hay resultado";
+            },
+            searching: function () {
+
+                return "Buscando...";
+            }
+        }
+    });
+
+    //MANIPULAR EL CAMBIO DE TIPO DE DOCUMENTO
+    $("#documento").on("change", function () {
+        var selector = $("#numero");
+        selector.val("");//SE LIMPIA EL INPUT
+
+        //SI EL SELECT TIENE UN CAMPO DE ID
+        if ($("#documento").val() != "-1") {
+            selector.removeAttr("disabled");//HABILITAMOS EL INPUT
+        } else {
+            selector.attr("disabled", true);//DESHABILITAMOS EL INPUT
+            selector.val("");//LIMPIAMOS EL INPUT NUMERO
+        }
+    });
+
+    ////CARGAR EL SELECT2
+    //$(document).ready(function (){
+    //    $.ajax({
+    //        type: "GET",
+    //        url: '/TiposDeCliente/getData',
+    //        dataType: 'JSON',
+    //        success: function (data) {
+
+    //            var agregar = "";
+
+    //            for (var i = 0; i < Object.keys(data.data).length; i++) {
+    //                agregar += '<option value="' + data.data[i].Id + '">' + data.data[i].DescripcionTipo + '</option>';
+    //            }
+
+    //            $("#tipo").append(agregar);
+    //        },
+    //        error: function (data) {
+    //            alert("Error");
+    //        }
+    //    });
+    //});
+</script>

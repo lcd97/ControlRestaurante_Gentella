@@ -3,6 +3,7 @@
 }
 
 @Styles.Render("~/Content/datatableCSS")
+<link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
 
 <div class="page-title">
     <div class="title_left">
@@ -36,13 +37,12 @@
                             <option value="8">Categorías</option>
                         </optgroup>
                         <optgroup label="Ordenes">
-                            <option value="9">Mesas</option>
-                            <option value="10">Meseros</option>
-                            <option value="11">Tipos de cliente</option>
-                            <option value="12">Clientes</option>
+                            <option value="9">Meseros</option>
+                            <option value="10">Tipos de cliente</option>
+                            <option value="11">Clientes</option>
                         </optgroup>
                         <optgroup label="Facturacion">
-                            <option value="13">Tipos de pago</option>
+                            <option value="12">Tipos de pago</option>
                         </optgroup>
                     </select>
                 </div>
@@ -89,8 +89,11 @@
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/datatableJS")
+    <script src="~/Scripts/moment.min.js"></script>
     <script src="~/Scripts/Movimientos/activacion.js"></script>
     <script src="~/Scripts/Catalogos/CRUD.js"></script>
     <script src="~/Scripts/Catalogos/menuItem.js"></script>
+    <script src="~/Scripts/Catalogos/meseroCRUD.js"></script>
     <script src="~/Scripts/jquery.smartWizard.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 }

@@ -15,31 +15,31 @@ namespace ProyectoXalli_Gentella.Models
         }
 
         //MODULO CONTROL DE INSUMOS
-        public DbSet<Bodega> Bodegas { get; set; }
-        public DbSet<CategoriaProducto> CategoriasProducto { get; set; }
-        public DbSet<Dato> Datos { get; set; }
-        public DbSet<DetalleDeEntrada> DetallesDeEntrada { get; set; }
-        public DbSet<DetalleDeSalida> DetallesDeSalida { get; set; }
-        public DbSet<Entrada> Entradas { get; set; }
-        public DbSet<Producto> Productos { get; set; }
-        public DbSet<Proveedor> Proveedores { get; set; }
-        public DbSet<Salida> Salidas { get; set; }
-        public DbSet<TipoDeEntrada> TiposDeEntrada { get; set; }
-        public DbSet<TipoDeSalida> TiposDeSalida { get; set; }
-        public DbSet<UnidadDeMedida> UnidadesDeMedida { get; set; }
+        public virtual DbSet<Bodega> Bodegas { get; set; }
+        public virtual DbSet<CategoriaProducto> CategoriasProducto { get; set; }
+        public virtual DbSet<Dato> Datos { get; set; }
+        public virtual DbSet<DetalleDeEntrada> DetallesDeEntrada { get; set; }
+        public virtual DbSet<DetalleDeSalida> DetallesDeSalida { get; set; }
+        public virtual DbSet<Entrada> Entradas { get; set; }
+        public virtual DbSet<Producto> Productos { get; set; }
+        public virtual DbSet<Proveedor> Proveedores { get; set; }
+        public virtual DbSet<Salida> Salidas { get; set; }
+        public virtual DbSet<TipoDeEntrada> TiposDeEntrada { get; set; }
+        public virtual DbSet<TipoDeSalida> TiposDeSalida { get; set; }
+        public virtual DbSet<UnidadDeMedida> UnidadesDeMedida { get; set; }
 
         //MODULO MENU
-        public DbSet<Receta> Recetas { get; set; }
-        public DbSet<Menu> Menus { get; set; }
-        public DbSet<CategoriaMenu> CategoriasMenu { get; set; }
-        public DbSet<Imagen> Imagenes { get; set; }
+        public virtual DbSet<Receta> Recetas { get; set; }
+        public virtual DbSet<Menu> Menus { get; set; }
+        public virtual DbSet<CategoriaMenu> CategoriasMenu { get; set; }
+        public virtual DbSet<Imagen> Imagenes { get; set; }
 
         //MODULO ORDENES
-        public DbSet<Mesero> Meseros { get; set; }
-        public DbSet<TipoDeCliente> TiposDeCliente { get; set; }
-        public DbSet<Cliente> Clientes { get; set; }
-        public DbSet<Orden> Ordenes { get; set; }
-        public DbSet<DetalleDeOrden> DetallesDeOrden { get; set; }
+        public virtual DbSet<Mesero> Meseros { get; set; }
+        public virtual DbSet<TipoDeCliente> TiposDeCliente { get; set; }
+        public virtual DbSet<Cliente> Clientes { get; set; }
+        public virtual DbSet<Orden> Ordenes { get; set; }
+        public virtual DbSet<DetalleDeOrden> DetallesDeOrden { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

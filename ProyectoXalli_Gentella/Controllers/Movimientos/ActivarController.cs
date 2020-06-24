@@ -165,6 +165,10 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
             return Json(new { data = categorias }, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// LISTA TODAS LOS ITEMS DEL MENU (PLATILLOS)
+        /// </summary>
+        /// <returns></returns>
         public JsonResult getMenus() {
             var platillos = (from obj in db.Menus.ToList()
                               where obj.EstadoMenu == false
@@ -175,6 +179,46 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
                               });
 
             return Json(new { data = platillos }, JsonRequestBehavior.AllowGet);
+        }
+
+        /**************************************************
+         *                MODULO ORDENES                 */
+        public JsonResult getMeseros() {
+            var meseros = (from obj in db.Meseros.ToList()
+                           join d in db.Datos.ToList() on obj.DatoId equals d.Id
+                           where obj.EstadoMesero == false
+                           select new {
+                               Id = obj.Id,
+                               Descripcion = d.PNombre + " " + d.PApellido,
+                               Codigo = d.DNI.Trim()
+                           });
+
+            return Json(new { data = meseros }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult getTiposDeCliente() {
+            var tiposC = (from obj in db.TiposDeCliente.ToList()
+                           where obj.EstadoTipoCliente == false
+                           select new {
+                               Id = obj.Id,
+                               Descripcion = obj.DescripcionTipoCliente,
+                               Codigo = obj.CodigoTipoCliente
+                           });
+
+            return Json(new { data = tiposC }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult getClientes() {
+            var meseros = (from obj in db.Clientes.ToList()
+                           join d in db.Datos.ToList() on obj.DatoId equals d.Id
+                           where obj.EstadoCliente == false
+                           select new {
+                               Id = obj.Id,
+                               Descripcion = d.PNombre + " " + d.PApellido,
+                               Codigo = d.DNI.Trim()
+                           });
+
+            return Json(new { data = meseros }, JsonRequestBehavior.AllowGet);
         }
     }
 }
