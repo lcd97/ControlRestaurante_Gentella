@@ -2673,6 +2673,11 @@ input[type="search"] {
   margin-top: 0;
   margin-left: 10px;
 }
+/*AQUI ESTUVE YO*/
+.input-validation-error {
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
 input[type="radio"][disabled],
 input[type="checkbox"][disabled],
 input[type="radio"].disabled,

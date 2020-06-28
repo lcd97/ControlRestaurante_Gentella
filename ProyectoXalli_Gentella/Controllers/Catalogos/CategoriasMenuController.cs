@@ -47,23 +47,25 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,CodigoCategoriaMenu,DescripcionCategoriaMenu,EstadoCategoriaMenu")] CategoriaMenu CategoriaMenu)
         {
-            CategoriaMenu bod = db.CategoriasMenu.DefaultIfEmpty(null).FirstOrDefault(b => b.CodigoCategoriaMenu.Trim() == CategoriaMenu.CodigoCategoriaMenu.Trim());
+            //BUSCAR QUE EXISTA UNA CATEGORIA CON ESA DESCRIPCION
+            CategoriaProducto bod = db.CategoriasProducto.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionCategoria.ToUpper().Trim() == CategoriaMenu.DescripcionCategoriaMenu.ToUpper().Trim());
 
+            //SI EXISTE INGRESADO UNA CATEGORIA CON LA DESCRIPCION
             if (bod != null)
             {
-                ModelState.AddModelError("CodigoCategoriaMenu", "Código ya utilizado");
-                mensaje = "Código de categoria ya existente";
-            }
-
-            //ESTADO DE LA CATEGORIA CUANDO SE CREA SIEMPRE ES TRUE
-            CategoriaMenu.EstadoCategoriaMenu = true;
-            if (ModelState.IsValid)
+                ModelState.AddModelError("DescripcionCategoriaMenu", "Utilice otro nombre");
+                mensaje = "La descripción ya se encuentra registrada";
+            }else
             {
-                db.CategoriasMenu.Add(CategoriaMenu);
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                //ESTADO DE LA CATEGORIA CUANDO SE CREA SIEMPRE ES TRUE
+                CategoriaMenu.EstadoCategoriaMenu = true;
+                if (ModelState.IsValid)
+                {
+                    db.CategoriasMenu.Add(CategoriaMenu);
+                    completado = await db.SaveChangesAsync() > 0 ? true : false;
+                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                }
             }
-
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
@@ -89,13 +91,58 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoCategoriaMenu,DescripcionCategoriaMenu,EstadoCategoriaMenu")] CategoriaMenu CategoriaMenu)
         {
-            if (ModelState.IsValid)
+            //BUSCAR QUE EXISTA UNA CATEGORIA CON ESA DESCRIPCION
+            CategoriaProducto bod = db.CategoriasProducto.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionCategoria.ToUpper().Trim() == CategoriaMenu.DescripcionCategoriaMenu.ToUpper().Trim()
+            && b.Id != CategoriaMenu.Id);
+
+            //SI EXISTE INGRESADO UNA CATEGORIA CON LA DESCRIPCION
+            if (bod != null)
             {
-                db.Entry(CategoriaMenu).State = EntityState.Modified;
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                ModelState.AddModelError("DescripcionCategoriaMenu", "Utilice otro nombre");
+                mensaje = "La descripción ya se encuentra registrada";
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Entry(CategoriaMenu).State = EntityState.Modified;
+                    completado = await db.SaveChangesAsync() > 0 ? true : false;
+                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                }
             }
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// RETORNA EL CODIGO AUTOMATICAMENTE A LA VISTA CREATE
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SearchCode()
+        {
+            //BUSCAR EL VALOR MAXIMO DE LAS BODEGAS REGISTRADAS
+            var code = db.CategoriasMenu.Max(x => x.CodigoCategoriaMenu.Trim());
+            int valor;
+            string num;
+
+            //SI EXISTE ALGUN REGISTRO
+            if (code != null)
+            {
+                //CONVERTIR EL CODIGO A ENTERO
+                valor = int.Parse(code);
+
+                //SE COMIENZA A AGREGAR UN VALOR SECUENCIAL AL CODIGO ENCONTRADO
+                if (valor <= 8)
+                    num = "00" + (valor + 1);
+                else
+                if (valor >= 9 && valor < 100)
+                    num = "0" + (valor + 1);
+                else
+                    num = (valor + 1).ToString();
+            }
+            else
+                num = "001";//SE COMIENZA CON EL PRIMER CODIGO DEL REGISTRO
+
+            return Json(new { data = num }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Categorias/Delete/5
@@ -107,11 +154,15 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             //BUSCANDO QUE Categoria NO TENGA SALIDAS NI ENTRADAS REGISTRADAS CON SU ID
             Menu oMenu = db.Menus.DefaultIfEmpty(null).FirstOrDefault(p => p.CategoriaMenuId == categoriaMenu.Id);
 
+            //SI NO SE ENCUENTRA ASOCIADO NINGUN PLATILLO AL ID
             if (oMenu == null)
             {
                 db.CategoriasMenu.Remove(categoriaMenu);
                 completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Se encontraron productos en esta Categoria";
+                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+            }
+            else {
+                mensaje = "Se encontraron platillos asociados a esta cartegoría";
             }
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);

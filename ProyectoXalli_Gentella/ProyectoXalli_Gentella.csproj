@@ -226,14 +226,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202006161731357_InitialCatalog.cs" />
-    <Compile Include="Migrations\202006161731357_InitialCatalog.Designer.cs">
-      <DependentUpon>202006161731357_InitialCatalog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202006200009533_NuevosCambios.cs" />
-    <Compile Include="Migrations\202006200009533_NuevosCambios.Designer.cs">
-      <DependentUpon>202006200009533_NuevosCambios.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -279,6 +271,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\jquery.bootstrap-touchspin.css" />
+    <Content Include="Content\loading.css" />
     <Content Include="Content\select2.min.css" />
     <Content Include="Content\switchery.css" />
     <Content Include="favicon.ico" />
@@ -328,6 +321,7 @@
     <Content Include="Scripts\Catalogos\CRUD.js" />
     <Content Include="Scripts\Catalogos\menuItem.js" />
     <Content Include="Scripts\Catalogos\meseroCRUD.js" />
+    <Content Include="Scripts\Catalogos\proveedorCRUD.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\datatable\dataTables.bootstrap.js" />
     <Content Include="Scripts\datatable\jquery.dataTables.js" />
@@ -349,8 +343,10 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\Movimientos\activacion.js" />
     <Content Include="Scripts\Movimientos\entradas.js" />
+    <Content Include="Scripts\parsley.js" />
     <Content Include="Scripts\select2.full.min.js" />
     <Content Include="Scripts\switchery.js" />
+    <Content Include="Scripts\validator.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -422,6 +418,7 @@
     <Content Include="Views\TiposDeCliente\Detail.cshtml" />
     <Content Include="Views\Meseros\Edit.cshtml" />
     <Content Include="Views\Clientes\Edit.cshtml" />
+    <Content Include="Views\Shared\_loading.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -456,14 +453,6 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202006161731357_InitialCatalog.resx">
-      <DependentUpon>202006161731357_InitialCatalog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202006200009533_NuevosCambios.resx">
-      <DependentUpon>202006200009533_NuevosCambios.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

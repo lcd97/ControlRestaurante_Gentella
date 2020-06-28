@@ -61,30 +61,26 @@ namespace ProyectoXalli_Gentella.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,CodigoBodega,DescripcionBodega,EstadoBodega")] Bodega bodega)
         {
-            Bodega bod = db.Bodegas.DefaultIfEmpty(null).FirstOrDefault(b => b.CodigoBodega.Trim() == bodega.CodigoBodega.Trim());
+            //BUSCAR SI YA SE ENCUENTRA REGISTRADO UNA BODEGA CON LA DESCRIPCION INGRESADA
+            Bodega bod = db.Bodegas.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionBodega.ToUpper().Trim() == bodega.DescripcionBodega.ToUpper());
 
-            if (bod != null)
-            {
-                ModelState.AddModelError("CodigoBodega", "Código ya utilizado");
-                mensaje = "Código de bodega ya existente";
-            }
-
-            bodega.EstadoBodega = true;
-            if (ModelState.IsValid)
-            {
-                db.Bodegas.Add(bodega);
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
-            }
-            else
-            {
-                //ESTO ES PARA VER EL ERROR QUE DEVUELVE EL MODELO
-                string cad = "";
-                foreach (ModelState modelState in ViewData.ModelState.Values)
-                {
-                    foreach (ModelError error in modelState.Errors)
-                    {
-                        cad += (error);
+            //SI ENCUENTRA UNA BODEGA CON ESA DESCRIPCION
+            if (bod != null) {
+                ModelState.AddModelError("DescripcionBodega", "Utilice otro nombre");
+                mensaje = "La descripción ya se encuentra registrada";
+            } else {
+                bodega.EstadoBodega = true;
+                if (ModelState.IsValid) {
+                    db.Bodegas.Add(bodega);
+                    completado = await db.SaveChangesAsync() > 0 ? true : false;
+                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                } else {
+                    //ESTO ES PARA VER EL ERROR QUE DEVUELVE EL MODELO
+                    string cad = "";
+                    foreach (ModelState modelState in ViewData.ModelState.Values) {
+                        foreach (ModelError error in modelState.Errors) {
+                            cad += (error);
+                        }
                     }
                 }
             }
@@ -114,12 +110,21 @@ namespace ProyectoXalli_Gentella.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoBodega,DescripcionBodega,EstadoBodega")] Bodega bodega)
         {
+            //COMPROBAR QUE NO EXISTA LA MISMA DESCRIPCION DE BODEGAS
+            var comprobar = db.Bodegas.DefaultIfEmpty(null).FirstOrDefault(c=> c.DescripcionBodega.ToUpper().Trim() == bodega.DescripcionBodega.ToUpper().Trim() && c.Id != bodega.Id);
+
+            //SI YA EXISTE LA BODEGA MANDAR ERROR
+            if (comprobar != null) {
+                ModelState.AddModelError("DescripcionBodega", "Utilice otro nombre");
+                mensaje = "La descripción ya se encuentra registrada";
+            } else
             if (ModelState.IsValid)
             {
                 db.Entry(bodega).State = EntityState.Modified;
                 completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                mensaje = completado ? "Modificado correctamente" : "Error al modificar";
             }
+
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
@@ -138,6 +143,35 @@ namespace ProyectoXalli_Gentella.Controllers
             return View(bodega);
         }
 
+        /// <summary>
+        /// RETORNA EL CODIGO AUTOMATICAMENTE A LA VISTA CREATE
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SearchCode() {
+            //BUSCAR EL VALOR MAXIMO DE LAS BODEGAS REGISTRADAS
+            var code = db.Bodegas.Max(x => x.CodigoBodega.Trim());
+            int valor;
+            string num;
+
+            //SI EXISTE ALGUN REGISTRO
+            if (code != null) {
+                //CONVERTIR EL CODIGO A ENTERO
+                valor = int.Parse(code);
+
+                //SE COMIENZA A AGREGAR UN VALOR SECUENCIAL AL CODIGO ENCONTRADO
+                if (valor <= 8)
+                    num = "00" + (valor + 1);
+                else
+                if (valor >= 9 && valor < 100)
+                    num = "0" + (valor + 1);
+                else
+                    num = (valor + 1).ToString();
+            } else
+                num = "001";//SE COMIENZA CON EL PRIMER CODIGO DEL REGISTRO
+
+            return Json(new { data = num }, JsonRequestBehavior.AllowGet);
+        }
+
         // POST: Bodegas/Delete/5
         [HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
@@ -148,12 +182,13 @@ namespace ProyectoXalli_Gentella.Controllers
             var oEnt = db.Entradas.DefaultIfEmpty(null).FirstOrDefault(e => e.BodegaId == bodega.Id);
             var oSal = db.Salidas.DefaultIfEmpty(null).FirstOrDefault(s => s.BodegaId == bodega.Id);
 
-            if (oEnt == null || oSal == null)
-            {
+            //SI NO SE ENCONTRARON SALIDAS O ENTRADAS AL ALMACEN
+            if (oEnt == null || oSal == null) {
                 db.Bodegas.Remove(bodega);
                 completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Se encontraron salidas o entradas en esta bodega";
-            }
+                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+            } else
+                mensaje = "Se encontraron productos registrados a este almacen";
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }

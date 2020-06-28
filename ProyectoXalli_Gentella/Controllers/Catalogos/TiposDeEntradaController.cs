@@ -61,21 +61,21 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,CodigoTipoEntrada,DescripcionTipoEntrada,EstadoTipoEntrada")] TipoDeEntrada TipoDeEntrada)
         {
-            TipoDeEntrada bod = db.TiposDeEntrada.DefaultIfEmpty(null).FirstOrDefault(b => b.CodigoTipoEntrada.Trim() == TipoDeEntrada.CodigoTipoEntrada.Trim());
+            //BUSCAR QUE LA DESCRIPCION DE TIPO DE BODEGA NO EXISTA
+            TipoDeEntrada bod = db.TiposDeEntrada.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionTipoEntrada.ToUpper().Trim() == TipoDeEntrada.DescripcionTipoEntrada.ToUpper().Trim());
 
-            if (bod != null)
-            {
-                ModelState.AddModelError("CodigoTipoEntrada", "Código ya utilizado");
-                mensaje = "Código de Tipo de entrada ya existente";
-            }
-
-            //ESTADO DE TIPO DE ENTRADA CUANDO SE CREA SIEMPRE ES TRUE
-            TipoDeEntrada.EstadoTipoEntrada = true;
-            if (ModelState.IsValid)
-            {
-                db.TiposDeEntrada.Add(TipoDeEntrada);
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+            //SI LA BODEGA EXISTE CON ESA DESCRIPCION
+            if (bod != null) {
+                ModelState.AddModelError("DescripcionTipoEntrada", "Utilice otro nombre");
+                mensaje = "La descripción ya se encuentra registrada";
+            } else {
+                //ESTADO DE TIPO DE ENTRADA CUANDO SE CREA SIEMPRE ES TRUE
+                TipoDeEntrada.EstadoTipoEntrada = true;
+                if (ModelState.IsValid) {
+                    db.TiposDeEntrada.Add(TipoDeEntrada);
+                    completado = await db.SaveChangesAsync() > 0 ? true : false;
+                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                }
             }
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
@@ -103,13 +103,52 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoTipoEntrada,DescripcionTipoEntrada,EstadoTipoEntrada")] TipoDeEntrada TipoDeEntrada)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(TipoDeEntrada).State = EntityState.Modified;
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+            //BUSCAR QUE LA DESCRIPCION DE TIPO DE BODEGA NO EXISTA
+            TipoDeEntrada bod = db.TiposDeEntrada.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionTipoEntrada.ToUpper().Trim() == TipoDeEntrada.DescripcionTipoEntrada.ToUpper().Trim() && b.Id != TipoDeEntrada.Id);
+
+            //SI LA BODEGA EXISTE CON ESA DESCRIPCION
+            if (bod != null) {
+                ModelState.AddModelError("DescripcionTipoEntrada", "Utilice otro nombre");
+                mensaje = "La descripción ya se encuentra registrada";
+            } else {
+                if (ModelState.IsValid) {
+                    db.Entry(TipoDeEntrada).State = EntityState.Modified;
+                    completado = await db.SaveChangesAsync() > 0 ? true : false;
+                    mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                }
             }
+
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        /// <summary>
+        /// RETORNA EL CODIGO AUTOMATICAMENTE A LA VISTA CREATE
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SearchCode() {
+            //BUSCAR EL VALOR MAXIMO DE LAS BODEGAS REGISTRADAS
+            var code = db.TiposDeEntrada.Max(x => x.CodigoTipoEntrada.Trim());
+            int valor;
+            string num;
+
+            //SI EXISTE ALGUN REGISTRO
+            if (code != null) {
+                //CONVERTIR EL CODIGO A ENTERO
+                valor = int.Parse(code);
+
+                //SE COMIENZA A AGREGAR UN VALOR SECUENCIAL AL CODIGO ENCONTRADO
+                if (valor <= 8)
+                    num = "00" + (valor + 1);
+                else
+                if (valor >= 9 && valor < 100)
+                    num = "0" + (valor + 1);
+                else
+                    num = (valor + 1).ToString();
+            } else
+                num = "001";//SE COMIENZA CON EL PRIMER CODIGO DEL REGISTRO
+
+            return Json(new { data = num }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: TiposDeEntrada/Delete/5
@@ -121,11 +160,13 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             //BUSCANDO QUE TIPO DE ENTRADA NO TENGA SALIDAS NI ENTRADAS REGISTRADAS CON SU ID
             Entrada oEntrada = db.Entradas.DefaultIfEmpty(null).FirstOrDefault(p => p.TipoEntradaId == TipoDeEntrada.Id);
 
-            if (oEntrada == null)
-            {
+            //SI EL TIPO DE ENTRADA NO TIENE ENTRADAS ASOCIADAS AL ID
+            if (oEntrada == null) {
                 db.TiposDeEntrada.Remove(TipoDeEntrada);
                 completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Se encontraron entradas en este tipo de entrada";
+                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+            } else {
+                mensaje = "Se encontraron entradas registrados a esta tipo de entradas";
             }
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);

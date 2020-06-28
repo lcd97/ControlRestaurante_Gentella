@@ -5,6 +5,7 @@
 }
 
 @Styles.Render("~/Content/datatableCSS")
+<link href="~/Content/select2.min.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -19,7 +20,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <table id="Table" class="table table-striped table-bordered">
+                <table id="Table" class="table table-hover table-bordered" style="width:100% !important">
                     <thead>
                         <tr>
                             <th>@Html.DisplayNameFor(model => model.CodigoProducto)</th>
@@ -42,6 +43,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/datatableJS")
     <script src="~/Scripts/Catalogos/CRUD.js"></script>
+    <script src="~/Scripts/select2.full.min.js"></script>
 
     <!--DATATABLE Producto-->
     <script>

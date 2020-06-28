@@ -13,11 +13,11 @@ namespace ProyectoXalli_Gentella.Models
         [Key]
         public int Id { get; set; }
 
-        [StringLength(50, ErrorMessage = "La habitación no debe exceder los 50 dígitos")]
-        [Display(Name = "Habitación")]
-        public string Habitacion { get; set; }
+        //[StringLength(50, ErrorMessage = "La habitación no debe exceder los 50 dígitos")]
+        //[Display(Name = "Habitación")]
+        //public string Habitacion { get; set; }
 
-        [StringLength(50, ErrorMessage = "El correo no debe exceder los 50 dígitos")]
+        [StringLength(150, ErrorMessage = "El correo no debe exceder los 50 dígitos")]
         [Display(Name = "Correo Electrónico")]
         public string EmailCliente { get; set; }
 

@@ -27,7 +27,7 @@ function CargarSmallParcial(url) { //RECIBE LA URL DE LA UBICACION DEL METODO
 //FUNCION PARA HACER EL CRUD A BODEGA POR MEDIO DEL MODAL (RECIBE UN FORM = FORMULARIO)
 function SubmitForm(form) {
     $.validator.unobtrusive.parse(form);
-    //if ($(form).valid()) {
+    if ($(form).valid()) {
         $.ajax({
             type: "POST", //TIPO DE ACCION
             url: form.action, //ACCION O METODO A REALIZAR
@@ -41,16 +41,17 @@ function SubmitForm(form) {
                     Alert(data.message, "", "success");
 
                 }//FIN IF
-                else
+                else {
                     //MANDAR EL ERROR DEL CONTROLADOR
-                    Alert("Error", data.message ,"error");
+                    Alert("Error", data.message, "error");
+                }
             },//FIN SUCCESS
             error: function () {
                 //AQUI MANDAR EL MENSAJE DE ERROR
                 Alert("Error al almacenarlo", "Intentelo de nuevo", "error");
             }//FIN ERROR
         });//FIN AJAX
-    //}//FIN DEL IF FORM VALID
+    }//FIN DEL IF FORM VALID
     return false; //EVITA SALIRSE DEL METODO ACTUAL
 }//FIN FUNCTION
 
@@ -121,103 +122,18 @@ function deleteAlert(uri, id) {
         });//FIN THEN
 }//FIN FUCTION DELETE
 
-//FUNCION PARA ALMACENAR AL PROVEEDOR
-function saveSeller() {
-    //VARIABLES DE LA TABLA PROVEEDOR
-    var NombreComercial, Telefono, RUC, EstadoProveedor, Local, RetenedorIR, NombreProveedor, ApellidoProveedor, CedulaProveedor;
-    //ASIGNANDO VALORES GENERALES
-    Telefono = $("#telefono").val();
-    RUC = $("#ruc").val();
-    EstadoProveedor = true;
-    RetenedorIR = $(".ir").is(":checked");
-
-    Local = $('.btn-group > .btn.active').attr("value");
-    //ASIGNANDO VALORES SEGUN EL TIPO DE PROVEEDOR
-    if (Local == "true") {
-        NombreComercial = "0";
-        NombreProveedor = $("#nombre").val();
-        ApellidoProveedor = $("#apellido").val();
-        CedulaProveedor = $("#cedula").val();
-    } else {
-        NombreComercial = $("#nombre").val();
-        NombreProveedor = "0";
-        ApellidoProveedor = "0";
-        CedulaProveedor = "0";
-    }//FIN IF-ELSE
-
-    //FUNCION AJAX
-    $.ajax({
-        type: "POST",
-        url: "/Proveedores/Create",
-        data: {
-            //VALORES A ALMACENAR
-            NombreComercial, Telefono, RUC, EstadoProveedor, Local, RetenedorIR, NombreProveedor, ApellidoProveedor, CedulaProveedor
-        },
-        success: function (data) {
-            if (data.data) {
-                $("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
-                $("#small-modal").modal("hide"); //CERRAR MODAL
-                Alert("Almacenado correctamente", data.message, "success");//ALMACENADO CORRECTAMENTE
-            } else
-                Alert("Error al almacenar", data.message, "error");//MENSAJE DE ERROR
-        },
-        error: function () {
-            Alert("Error al almacenar", "Intentelo de nuevo", "error");
-        }
-    });//FIN AJAX
-}//FIN FUNCTION
-
-//FUNCION PARA ACTUALIZAR CAMPOS DEL PROVEEDOR
-function UpdateProvider(Id) {
-    //VARIABLES DE LA TABLA PROVEEDOR
-    var NombreComercial, Telefono, RUC, EstadoProveedor, Local, RetenedorIR, NombreProveedor, ApellidoProveedor, CedulaProveedor;
-    //ASIGNANDO VALORES GENERALES
-    Telefono = $("#telefono").val();
-    RUC = $("#ruc").val();
-    EstadoProveedor = $(".activo").is(":checked");
-    RetenedorIR = $(".ir").is(":checked");
-    Local = $('.btn-group > .btn.active').attr("value");
-    //ASIGNANDO VALORES SEGUN EL TIPO DE PROVEEDOR
-    if (Local=="true") {
-        NombreProveedor = $("#nombre").val();
-        ApellidoProveedor = $("#apellido").val();
-        CedulaProveedor = $("#cedula").val();
-    } else {
-        NombreComercial = $("#nombre").val();        
-    }//FIN IF-ELSE
-
-    //FUNCION AJAX
-    $.ajax({
-        type: "POST",
-        url: "/Proveedores/UpdateProveedor/" + Id,
-        data: {
-            //VALORES A ALMACENAR
-            Id, NombreComercial, Telefono, RUC, EstadoProveedor, Local, RetenedorIR, NombreProveedor, ApellidoProveedor, CedulaProveedor
-        },
-        dataType: "JSON",
-        success: function (data) {
-            if (data.success) {
-                $("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
-                $("#small-modal").modal("hide"); //CERRAR MODAL
-                Alert("Almacenado correctamente", data.message, "success");//ALMACENADO CORRECTAMENTE
-            } else
-                Alert("Error al almacenar", data.message, "error");//MENSAJE DE ERROR
-        },
-        error: function () {
-            Alert("Error al almacenar", "Intentelo de nuevo", "error");
-        }
-    });//FIN AJAX   
-}
-
+//PARA CARGAR EL LOADER EN CADA PETICION AJAX
 $(document).ready(function () {
     var screen = $('#Cargando'); //obtiene modal Cargando
     configureLoadingScreen(screen); //llamada a metodo usando AJAX
 });
 
+//PARA CARGAR EL LOADER EN CADA PETICION AJAX
 function configureLoadingScreen(screen) {  // metodo para mostrar Loader
     $(document)
         .ajaxStart(function () { //muestra imagen
             screen.modal("show");
+            $('#Cargando').modal({ backdrop: 'static', keyboard: true });//EVITAR SALIRSE DEL CARGANDO PRESIONANDO FUERA DE EL
         })
         .ajaxStop(function () { //oculta imagen
             screen.modal("hide");

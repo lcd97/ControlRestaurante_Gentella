@@ -19,13 +19,13 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <table id="Table" class="table table-striped table-bordered">
+                <table id="Table" class="table table-hover table-bordered" style="width:100% !important">
                     <thead>
                         <tr>
                             <th>@Html.DisplayNameFor(model => model.NombreComercial)</th>
                             <th>@Html.DisplayNameFor(model => model.Telefono)</th>
                             <th>Número RUC</th>
-                            <th>Local</th>
+                            <th>Tipo proveedor</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -42,6 +42,9 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/datatableJS")
     <script src="~/Scripts/Catalogos/CRUD.js"></script>
+    <script src="~/Scripts/Catalogos/proveedorCRUD.js"></script>
+    <script src="~/Scripts/jquery.mask.js"></script>
+
     <!--DATATABLE PROVEEDORES-->
     <script>
         //LLENANDO EL DATATABLE CRUD
@@ -58,7 +61,16 @@
                     { data: "NombreComercial" },
                     { data: "Telefono" },
                     { data: "RUC" },
-                    { data: "Local" },
+                    {
+                        //PERSONALIZANDO CELDA
+                        data: "Local", render: function (data) {
+                            if (data) {
+                                return '<a class="btn btn-dark btn-xs">Local</button>';
+                            } else {
+                                return '<a class="btn btn-dark btn-xs">Comercial</button>';
+                            }
+                        }
+                    },
                     {   //DEFINIENDO LOS BOTONES PARA EDITAR Y ELIMINAR POR MEDIO DE JS
                         data: "Id", "render": function (data) {
                             return "<a class='btn btn-success' onclick=CargarParcial('/Proveedores/Edit/" + data + "')><i class='fa fa-pencil'></i></a>" +

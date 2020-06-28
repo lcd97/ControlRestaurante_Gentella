@@ -17,7 +17,6 @@ function saveMenuItem() {
     //ESTA ES OTRA MANERA DE MANDAR PARAMETROS AL CONTROLADOR. EN ESTE CASO NO FUNCIONO
     //var data = "urlImage=" + formData + "&codigoMenu=" + codigoMenu + "&descripcionMenu=" + descripcionMenu;
 
-    //FUNCION AJAX
     $.ajax({
         type: "POST",
         url: "/Menus/Create",
@@ -35,7 +34,7 @@ function saveMenuItem() {
         error: function () {
             Alert("Error al almacenar", "Intentelo de nuevo", "error");
         }
-    });//FIN AJAX
+    });//FIN AJAX      
 }//FIN FUNCTION
 
 //FUNCION PARA ALMACENAR PLATILLO DEL MENU

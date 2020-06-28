@@ -28,6 +28,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// <returns></returns>
         public JsonResult GetData()
         {
+            //OBTIENE TODOS LOS OBJETOS UNIDADES DE MEDIDA ACTIVOS
             var unidades = (from u in db.UnidadesDeMedida.ToList()
                             where u.EstadoUnidadMedida == true
                             select new
@@ -68,21 +69,21 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,CodigoUnidadMedida,DescripcionUnidadMedida,AbreviaturaUM,EstadoUnidadMedida")] UnidadDeMedida UnidadDeMedida)
         {
-            UnidadDeMedida bod = db.UnidadesDeMedida.DefaultIfEmpty(null).FirstOrDefault(b => b.CodigoUnidadMedida.Trim() == UnidadDeMedida.CodigoUnidadMedida.Trim());
+            //SE BUSCA UNIDADES DE MEDIDA REGISTRADAS CON LA DESCRIPCION REGISTRADA
+            UnidadDeMedida bod = db.UnidadesDeMedida.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionUnidadMedida.ToUpper().Trim() == UnidadDeMedida.DescripcionUnidadMedida.ToUpper().Trim());
 
-            if (bod != null)
-            {
-                ModelState.AddModelError("CodigoUnidadMedida", "Código ya utilizado");
-                mensaje = "Código de unidad de medida ya existente";
-            }
-
-            //ESTADO DE UNIDADES DE MEDIDA CUANDO SE CREA SIEMPRE ES TRUE
-            UnidadDeMedida.EstadoUnidadMedida = true;
-            if (ModelState.IsValid)
-            {
-                db.UnidadesDeMedida.Add(UnidadDeMedida);
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+            //SI YA EXISTE UNA DESCRIPCION DE U/M
+            if (bod != null) {
+                ModelState.AddModelError("DescripcionUnidadMedida", "Utilice otro nombre");
+                mensaje = "La descripción ya se encuentra registrada";
+            } else {
+                //ESTADO DE UNIDADES DE MEDIDA CUANDO SE CREA SIEMPRE ES TRUE
+                UnidadDeMedida.EstadoUnidadMedida = true;
+                if (ModelState.IsValid) {
+                    db.UnidadesDeMedida.Add(UnidadDeMedida);
+                    completado = await db.SaveChangesAsync() > 0 ? true : false;
+                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                }
             }
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
@@ -110,13 +111,52 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoUnidadMedida,DescripcionUnidadMedida,AbreviaturaUM,EstadoUnidadMedida")] UnidadDeMedida UnidadDeMedida)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(UnidadDeMedida).State = EntityState.Modified;
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+            //SE BUSCA UNIDADES DE MEDIDA REGISTRADAS CON LA DESCRIPCION REGISTRADA
+             UnidadDeMedida bod = db.UnidadesDeMedida.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionUnidadMedida.Trim() == UnidadDeMedida.DescripcionUnidadMedida.Trim());
+
+            //SI YA EXISTE UNA DESCRIPCION DE U/M
+            if (bod != null) {
+                ModelState.AddModelError("DescripcionUnidadMedida", "Utilice otro nombre");
+                mensaje = "La descripción ya se encuentra registrada";
+            } else {
+                if (ModelState.IsValid) {
+                    db.Entry(UnidadDeMedida).State = EntityState.Modified;
+                    completado = await db.SaveChangesAsync() > 0 ? true : false;
+                    mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                }
             }
+
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        /// <summary>
+        /// RETORNA EL CODIGO AUTOMATICAMENTE A LA VISTA CREATE
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SearchCode() {
+            //BUSCAR EL VALOR MAXIMO DE LAS BODEGAS REGISTRADAS
+            var code = db.UnidadesDeMedida.Max(x => x.CodigoUnidadMedida.Trim());
+            int valor;
+            string num;
+
+            //SI EXISTE ALGUN REGISTRO
+            if (code != null) {
+                //CONVERTIR EL CODIGO A ENTERO
+                valor = int.Parse(code);
+
+                //SE COMIENZA A AGREGAR UN VALOR SECUENCIAL AL CODIGO ENCONTRADO
+                if (valor <= 8)
+                    num = "00" + (valor + 1);
+                else
+                if (valor >= 9 && valor < 100)
+                    num = "0" + (valor + 1);
+                else
+                    num = (valor + 1).ToString();
+            } else
+                num = "001";//SE COMIENZA CON EL PRIMER CODIGO DEL REGISTRO
+
+            return Json(new { data = num }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: UnidadDeMedida/Delete/5
@@ -128,11 +168,13 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             //BUSCANDO QUE UNIDAD DE MEDIDA NO TENGA PRODUCTOS REGISTRADOS CON SU ID
             Producto oProd = db.Productos.DefaultIfEmpty(null).FirstOrDefault(p => p.UnidadMedidaId == unidadDeMedida.Id);
 
-            if (oProd == null)
-            {
+            //SI NO SE ENCUENTRAN PRODUCTOS ASOCIADOS AL ID
+            if (oProd == null) {
                 db.UnidadesDeMedida.Remove(unidadDeMedida);
                 completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Se encontraron productos en esta unidad de medida";
+                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+            } else {
+                mensaje = "Se encontraron productos registrados a esta unidad de medida";
             }
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);

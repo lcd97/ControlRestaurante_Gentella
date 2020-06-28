@@ -61,21 +61,21 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,CodigoTipoSalida,DescripcionTipoSalida,EstadoTipoSalida")] TipoDeSalida TipoDeSalida)
         {
-            TipoDeSalida bod = db.TiposDeSalida.DefaultIfEmpty(null).FirstOrDefault(b => b.CodigoTipoSalida.Trim() == TipoDeSalida.CodigoTipoSalida.Trim());
+            //SE BUSCA UN TIPO DE SALIDA QUE TENGA LA MISMA DESCRIPCION
+            TipoDeSalida bod = db.TiposDeSalida.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionTipoSalida.ToUpper().Trim() == TipoDeSalida.DescripcionTipoSalida.ToUpper().Trim());
 
-            if (bod != null)
-            {
-                ModelState.AddModelError("CodigoTipoSalida", "Código ya utilizado");
-                mensaje = "Código de Tipo de salidas ya existente";
-            }
-
-            //ESTADO DE TIPO DE SALIDAS CUANDO SE CREA SIEMPRE ES TRUE
-            TipoDeSalida.EstadoTipoSalida = true;
-            if (ModelState.IsValid)
-            {
-                db.TiposDeSalida.Add(TipoDeSalida);
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+            //SI SE ENCUENTRA UN TIPO DE SALIDA CON ESA DESCRIPCION
+            if (bod != null) {
+                ModelState.AddModelError("DescripcionTipoSalida", "Utilice otro nombre");
+                mensaje = "La descripción ya se encuentra registrada";
+            } else {
+                //ESTADO DE TIPO DE SALIDAS CUANDO SE CREA SIEMPRE ES TRUE
+                TipoDeSalida.EstadoTipoSalida = true;
+                if (ModelState.IsValid) {
+                    db.TiposDeSalida.Add(TipoDeSalida);
+                    completado = await db.SaveChangesAsync() > 0 ? true : false;
+                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                }
             }
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
@@ -103,13 +103,51 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoTipoSalida,DescripcionTipoSalida,EstadoTipoSalida")] TipoDeSalida TipoDeSalida)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(TipoDeSalida).State = EntityState.Modified;
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+            //SE BUSCA UN TIPO DE SALIDA QUE TENGA LA MISMA DESCRIPCION
+            TipoDeSalida bod = db.TiposDeSalida.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionTipoSalida.ToUpper().Trim() == TipoDeSalida.DescripcionTipoSalida.ToUpper().Trim() && b.Id != TipoDeSalida.Id);
+
+            //SI SE ENCUENTRA UN TIPO DE SALIDA CON ESA DESCRIPCION
+            if (bod != null) {
+                ModelState.AddModelError("DescripcionTipoSalida", "Utilice otro nombre");
+                mensaje = "La descripción ya se encuentra registrada";
+            } else {
+                if (ModelState.IsValid) {
+                    db.Entry(TipoDeSalida).State = EntityState.Modified;
+                    completado = await db.SaveChangesAsync() > 0 ? true : false;
+                    mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                }
             }
+
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// RETORNA EL CODIGO AUTOMATICAMENTE A LA VISTA CREATE
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SearchCode() {
+            //BUSCAR EL VALOR MAXIMO DE LAS BODEGAS REGISTRADAS
+            var code = db.TiposDeSalida.Max(x => x.CodigoTipoSalida.Trim());
+            int valor;
+            string num;
+
+            //SI EXISTE ALGUN REGISTRO
+            if (code != null) {
+                //CONVERTIR EL CODIGO A ENTERO
+                valor = int.Parse(code);
+
+                //SE COMIENZA A AGREGAR UN VALOR SECUENCIAL AL CODIGO ENCONTRADO
+                if (valor <= 8)
+                    num = "00" + (valor + 1);
+                else
+                if (valor >= 9 && valor < 100)
+                    num = "0" + (valor + 1);
+                else
+                    num = (valor + 1).ToString();
+            } else
+                num = "001";//SE COMIENZA CON EL PRIMER CODIGO DEL REGISTRO
+
+            return Json(new { data = num }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: TiposDeSalida/Delete/5
@@ -121,11 +159,12 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             //BUSCANDO QUE TIPO DE SALIDA NO TENGA SALIDAS NI SALIDAS REGISTRADAS CON SU ID
             Salida oSalida = db.Salidas.DefaultIfEmpty(null).FirstOrDefault(p => p.TipoSalidaId == TipoDeSalida.Id);
 
-            if (oSalida == null)
-            {
+            if (oSalida == null) {
                 db.TiposDeSalida.Remove(TipoDeSalida);
                 completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Se encontraron salidas en este tipo de salida";
+                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+            } else {
+                mensaje = "Se encontraron salidas registrados a esta tipo de salidas";
             }
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);

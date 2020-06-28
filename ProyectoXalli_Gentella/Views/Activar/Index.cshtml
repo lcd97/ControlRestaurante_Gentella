@@ -4,13 +4,7 @@
 
 @Styles.Render("~/Content/datatableCSS")
 <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
-
-<div class="page-title">
-    <div class="title_left">
-
-    </div>
-</div>
-
+<link href="~/Content/select2.min.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -94,6 +88,24 @@
     <script src="~/Scripts/Catalogos/CRUD.js"></script>
     <script src="~/Scripts/Catalogos/menuItem.js"></script>
     <script src="~/Scripts/Catalogos/meseroCRUD.js"></script>
+    <script src="~/Scripts/Catalogos/proveedorCRUD.js"></script>
     <script src="~/Scripts/jquery.smartWizard.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Scripts/select2.full.min.js"></script>
+    <script>
+        $("#catalogo").select2({
+            //MODIFICAR LAS FRASES DEFAULT DE SELECT2
+            language: {
+
+                noResults: function () {
+
+                    return "No hay resultado";
+                },
+                searching: function () {
+
+                    return "Buscando...";
+                }
+            }
+        });
+    </script>
 }

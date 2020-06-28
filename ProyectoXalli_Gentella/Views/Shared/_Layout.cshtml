@@ -10,6 +10,8 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/switchery.css" rel="stylesheet" />
+    <link href="~/Content/loading.css" rel="stylesheet" />
+
 
 </head>
 <!--INICIO DEL BODY-->
@@ -281,6 +283,7 @@
 
                 <div class="">
                     @RenderBody()
+                    @Html.Partial("_loading")
                 </div>
 
             </div>

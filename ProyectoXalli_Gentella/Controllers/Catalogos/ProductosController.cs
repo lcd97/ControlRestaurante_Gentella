@@ -67,31 +67,30 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,CodigoProducto,DescripcionProducto,MarcaProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
         {
-            Producto bod = db.Productos.DefaultIfEmpty(null).FirstOrDefault(b => b.CodigoProducto.Trim() == Producto.CodigoProducto.Trim());
-
-            if (bod != null)
-            {
-                ModelState.AddModelError("CodigoProducto", "Código ya utilizado");
-                mensaje = "Código de producto ya existente";
-            }
-
-            //ESTADO DE LA CATEGORIA CUANDO SE CREA SIEMPRE ES TRUE
-            Producto.EstadoProducto = true;
-            if (ModelState.IsValid)
-            {
-                db.Productos.Add(Producto);
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
-            }
-            else
-            {
-                //ESTO ES PARA VER EL ERROR QUE DEVUELVE EL MODELO
-                string cad = "";
-                foreach (ModelState modelState in ViewData.ModelState.Values)
-                {
-                    foreach (ModelError error in modelState.Errors)
-                    {
-                        cad += (error);
+            //BUSCAR LA PRESENTACION DEL PRODUCTO (COMBINACION DE DESCRIPCION, MARCA Y UM - ID -)
+            Producto bod = db.Productos.DefaultIfEmpty(null)
+                .FirstOrDefault(b => b.DescripcionProducto.ToUpper().Trim() == Producto.DescripcionProducto.ToUpper().Trim() &&
+                                b.MarcaProducto.ToUpper().Trim() == Producto.MarcaProducto.ToUpper().Trim() && 
+                                b.UnidadMedidaId == Producto.UnidadMedidaId);
+            
+            //SI EL PRODUCTO YA EXISTE
+            if (bod != null) {
+                ModelState.AddModelError("DescripcionProducto", "La presentación del producto ya existe");
+                mensaje = "El producto con esas características ya existe";
+            } else {
+                //ESTADO DE LA CATEGORIA CUANDO SE CREA SIEMPRE ES TRUE
+                Producto.EstadoProducto = true;
+                if (ModelState.IsValid) {
+                    db.Productos.Add(Producto);
+                    completado = await db.SaveChangesAsync() > 0 ? true : false;
+                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                } else {
+                    //ESTO ES PARA VER EL ERROR QUE DEVUELVE EL MODELO
+                    string cad = "";
+                    foreach (ModelState modelState in ViewData.ModelState.Values) {
+                        foreach (ModelError error in modelState.Errors) {
+                            cad += (error);
+                        }
                     }
                 }
             }
@@ -129,24 +128,32 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoProducto,DescripcionProducto,MarcaProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(Producto).State = EntityState.Modified;
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
-            }
-            else
-            {
-                //ESTO ES PARA VER EL ERROR QUE DEVUELVE EL MODELO
-                string cad = "";
-                foreach (ModelState modelState in ViewData.ModelState.Values)
-                {
-                    foreach (ModelError error in modelState.Errors)
-                    {
-                        cad += (error);
+            //BUSCAR LA PRESENTACION DEL PRODUCTO (COMBINACION DE DESCRIPCION, MARCA Y UM - ID -)
+            Producto bod = db.Productos.DefaultIfEmpty(null)
+                .FirstOrDefault(b => b.DescripcionProducto.ToUpper().Trim() == Producto.DescripcionProducto.ToUpper().Trim() &&
+                                b.MarcaProducto.ToUpper().Trim() == Producto.MarcaProducto.ToUpper().Trim() &&
+                                b.UnidadMedidaId == Producto.UnidadMedidaId && b.Id != Producto.Id);
+
+            //SI EL PRODUCTO YA EXISTE
+            if (bod != null) {
+                ModelState.AddModelError("DescripcionProducto", "La presentación del producto ya existe");
+                mensaje = "El producto con esas características ya existe";
+            } else {
+                if (ModelState.IsValid) {
+                    db.Entry(Producto).State = EntityState.Modified;
+                    completado = await db.SaveChangesAsync() > 0 ? true : false;
+                    mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                } else {
+                    //ESTO ES PARA VER EL ERROR QUE DEVUELVE EL MODELO
+                    string cad = "";
+                    foreach (ModelState modelState in ViewData.ModelState.Values) {
+                        foreach (ModelError error in modelState.Errors) {
+                            cad += (error);
+                        }
                     }
                 }
             }
+
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
@@ -166,6 +173,11 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             return View(producto);
         }
 
+        /// <summary>
+        /// OBTIENE DETALLES DE UN OBJETO PRODUCTO
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult getDetails(int id) 
         {
             var producto = from obj in db.Productos.ToList()
@@ -192,6 +204,9 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// <param name="id"></param>
         /// <returns></returns>
         public ActionResult CantidadActual(int id) {
+            var enviar = "";
+
+            //DEVULEVE LA CANTIDAD DE EXISTENCIA DEL PRODUCTO
             var cantActual = (from bod in db.Bodegas
                               join ent in db.Entradas on bod.Id equals ent.BodegaId
                               join det in db.DetallesDeEntrada on ent.Id equals det.EntradaId
@@ -201,13 +216,43 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                               select new {
                                   Destino = grouped.Key.Id,
                                   cantActual = grouped.Sum(b => b.det.CantidadEntrada)
-                              });
+                              }).FirstOrDefault();
 
-            if (cantActual !=null) {
-                mensaje = "fsdjfhskdf";
-            }
+            if (cantActual != null) {
+                enviar = cantActual.ToString();
+            } else
+                enviar = "No disponible";
 
-            return Json(new { data = cantActual }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = enviar }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// RETORNA EL CODIGO AUTOMATICAMENTE A LA VISTA CREATE
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SearchCode() {
+            //BUSCAR EL VALOR MAXIMO DE LAS BODEGAS REGISTRADAS
+            var code = db.Productos.Max(x => x.CodigoProducto.Trim());
+            int valor;
+            string num;
+
+            //SI EXISTE ALGUN REGISTRO
+            if (code != null) {
+                //CONVERTIR EL CODIGO A ENTERO
+                valor = int.Parse(code);
+
+                //SE COMIENZA A AGREGAR UN VALOR SECUENCIAL AL CODIGO ENCONTRADO
+                if (valor <= 8)
+                    num = "00" + (valor + 1);
+                else
+                if (valor >= 9 && valor < 100)
+                    num = "0" + (valor + 1);
+                else
+                    num = (valor + 1).ToString();
+            } else
+                num = "001";//SE COMIENZA CON EL PRIMER CODIGO DEL REGISTRO
+
+            return Json(new { data = num }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Productos/Delete/5
@@ -220,11 +265,13 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             DetalleDeEntrada oEnt = db.DetallesDeEntrada.DefaultIfEmpty(null).FirstOrDefault(e => e.ProductoId == Producto.Id);
             DetalleDeSalida oSal = db.DetallesDeSalida.DefaultIfEmpty(null).FirstOrDefault(s => s.ProductoId == Producto.Id);
 
-            if (oEnt == null || oSal == null)
-            {
+            //SI NO SE ENCUENTRAN SALIDAS O ENTRADAS
+            if (oEnt == null || oSal == null) {
                 db.Productos.Remove(Producto);
                 completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Se encontraron movimientos en este producto";
+                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+            } else {
+                mensaje = "Se encontraron movimientos asociados a este producto";
             }
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);

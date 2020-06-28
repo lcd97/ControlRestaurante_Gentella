@@ -62,23 +62,22 @@ namespace ProyectoXalli_Gentella.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,CodigoCategoria,DescripcionCategoria,EstadoCategoria")] CategoriaProducto CategoriaProducto)
         {
-            CategoriaProducto bod = db.CategoriasProducto.DefaultIfEmpty(null).FirstOrDefault(b => b.CodigoCategoria.Trim() == CategoriaProducto.CodigoCategoria.Trim());
+            //BUSCAR QUE EXISTA UNA CATEGORIA CON ESA DESCRIPCION
+            CategoriaProducto bod = db.CategoriasProducto.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionCategoria.ToUpper().Trim() == CategoriaProducto.DescripcionCategoria.ToUpper().Trim());
 
-            if (bod != null)
-            {
-                ModelState.AddModelError("CodigoCategoria", "Código ya utilizado");
-                mensaje = "Código de CategoriaProducto ya existente";
+            //SI EXISTE INGRESADO UNA CATEGORIA CON LA DESCRIPCION
+            if (bod != null) {
+                ModelState.AddModelError("DescripcionCategoria", "Utilice otro nombre");
+                mensaje = "La descripción ya se encuentra registrada";
+            } else {
+                //ESTADO DE LA CATEGORIA CUANDO SE CREA SIEMPRE ES TRUE
+                CategoriaProducto.EstadoCategoria = true;
+                if (ModelState.IsValid) {
+                    db.CategoriasProducto.Add(CategoriaProducto);
+                    completado = await db.SaveChangesAsync() > 0 ? true : false;
+                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                }
             }
-
-            //ESTADO DE LA CATEGORIA CUANDO SE CREA SIEMPRE ES TRUE
-            CategoriaProducto.EstadoCategoria = true;
-            if (ModelState.IsValid)
-            {
-                db.CategoriasProducto.Add(CategoriaProducto);
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
-            }
-
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
@@ -104,13 +103,51 @@ namespace ProyectoXalli_Gentella.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoCategoria,DescripcionCategoria,EstadoCategoria")] CategoriaProducto CategoriaProducto)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(CategoriaProducto).State = EntityState.Modified;
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+            //BUSCAR QUE EXISTA UNA CATEGORIA CON ESA DESCRIPCION
+            CategoriaProducto bod = db.CategoriasProducto.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionCategoria.ToUpper().Trim() == CategoriaProducto.DescripcionCategoria.ToUpper().Trim() && b.Id != CategoriaProducto.Id);
+
+            //SI EXISTE INGRESADO UNA CATEGORIA CON LA DESCRIPCION
+            if (bod != null) {
+                ModelState.AddModelError("DescripcionCategoria", "Utilice otro nombre");
+                mensaje = "La descripción ya se encuentra registrada";
+            } else {
+                if (ModelState.IsValid) {
+                    db.Entry(CategoriaProducto).State = EntityState.Modified;
+                    completado = await db.SaveChangesAsync() > 0 ? true : false;
+                    mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                }
             }
+
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// RETORNA EL CODIGO AUTOMATICAMENTE A LA VISTA CREATE
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SearchCode() {
+            //BUSCAR EL VALOR MAXIMO DE LAS BODEGAS REGISTRADAS
+            var code = db.CategoriasProducto.Max(x => x.CodigoCategoria.Trim());
+            int valor;
+            string num;
+
+            //SI EXISTE ALGUN REGISTRO
+            if (code != null) {
+                //CONVERTIR EL CODIGO A ENTERO
+                valor = int.Parse(code);
+
+                //SE COMIENZA A AGREGAR UN VALOR SECUENCIAL AL CODIGO ENCONTRADO
+                if (valor <= 8)
+                    num = "00" + (valor + 1);
+                else
+                if (valor >= 9 && valor < 100)
+                    num = "0" + (valor + 1);
+                else
+                    num = (valor + 1).ToString();
+            } else
+                num = "001";//SE COMIENZA CON EL PRIMER CODIGO DEL REGISTRO
+
+            return Json(new { data = num }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: CategoriasProducto/Delete/5
@@ -119,14 +156,16 @@ namespace ProyectoXalli_Gentella.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             var CategoriaProducto = db.CategoriasProducto.Find(id);
-            //BUSCANDO QUE CategoriaProducto NO TENGA SALIDAS NI ENTRADAS REGISTRADAS CON SU ID
+            //BUSCANDO QUE CATEGORIA PRODUCTOS REGISTRADAS CON SU ID
             Producto oProd = db.Productos.DefaultIfEmpty(null).FirstOrDefault(p => p.CategoriaId == CategoriaProducto.Id);
 
-            if (oProd == null)
-            {
+            //SI NO SE ENCOTRARON PRODUCTOS EN LA CATEGORIA
+            if (oProd == null) {
                 db.CategoriasProducto.Remove(CategoriaProducto);
                 completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Se encontraron productos en esta CategoriaProducto";
+                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+            } else {
+                mensaje = "Se encontraron productos registrados a esta categoría";
             }
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);

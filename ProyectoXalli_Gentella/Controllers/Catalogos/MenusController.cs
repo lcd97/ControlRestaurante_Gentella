@@ -90,7 +90,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             }
 
             //QUE NO SE REPITA EL PLATILLO
-            var platillo = db.Menus.DefaultIfEmpty(null).FirstOrDefault(p => p.DescripcionMenu.Trim() == descripcionMenu.Trim());
+            var platillo = db.Menus.DefaultIfEmpty(null).FirstOrDefault(p => p.DescripcionMenu.ToUpper().Trim() == descripcionMenu.ToUpper().Trim());
 
             if (platillo != null) {
 
@@ -435,6 +435,35 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             }//FIN MENU VACIO
             
             return Json(new { data = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// RETORNA EL CODIGO AUTOMATICAMENTE A LA VISTA CREATE
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SearchCode() {
+            //BUSCAR EL VALOR MAXIMO DE LAS BODEGAS REGISTRADAS
+            var code = db.Menus.Max(x => x.CodigoMenu.Trim());
+            int valor;
+            string num;
+
+            //SI EXISTE ALGUN REGISTRO
+            if (code != null) {
+                //CONVERTIR EL CODIGO A ENTERO
+                valor = int.Parse(code);
+
+                //SE COMIENZA A AGREGAR UN VALOR SECUENCIAL AL CODIGO ENCONTRADO
+                if (valor <= 8)
+                    num = "00" + (valor + 1);
+                else
+                if (valor >= 9 && valor < 100)
+                    num = "0" + (valor + 1);
+                else
+                    num = (valor + 1).ToString();
+            } else
+                num = "001";//SE COMIENZA CON EL PRIMER CODIGO DEL REGISTRO
+
+            return Json(new { data = num }, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Proveedor/Delete/5

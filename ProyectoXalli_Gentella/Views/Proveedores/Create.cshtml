@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     Layout = null;
 }
 
@@ -12,7 +13,7 @@
 
 <div class="row">
     <div class="x_content">
-        <div data-parsley-validate class="form-horizontal form-label-left">
+        <form class="form-horizontal form-label-left">
 
             <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-6">
@@ -31,31 +32,37 @@
 
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     @Html.Label("Teléfono", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
-                    <input id="telefono" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="9" autocomplete="off" required>
+                    <input id="telefono" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="9" data-minlength="9"  
+                           autocomplete="off" required data-error="Campo obligatorio">
+                    <div class="help-block with-errors"></div>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    @Html.Label("No RUC", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-12" })
-                    <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="14" autocomplete="off">
+                    @Html.Label("No RUC", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
+                    <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="14" autocomplete="off" style="text-transform:uppercase;" required data-error="Campo obligatorio">
+                    <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    @Html.Label("Cédula", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-12" })
-                    <input id="cedula" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="16" autocomplete="off" disabled>
+                    @Html.Label("Cédula", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
+                    <input id="cedula" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="16" autocomplete="off" disabled style="text-transform:uppercase;">
+                    <div class="help-block with-errors"></div>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    @Html.Label("Nombre", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
-                    <input id="nombre" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+                    @Html.Label("Nombre", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
+                    <input id="nombre" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required data-error="Campo obligatorio">
+                    <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    @Html.Label("Apellido", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
-                    <input id="apellido" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" disabled required>
+                    @Html.Label("Apellido", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
+                    <input id="apellido" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" disabled>
+                    <div class="help-block with-errors"></div>
                 </div>
             </div>
 
@@ -81,13 +88,14 @@
 
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
                     <a onclick="CerrarModal()" class="btn btn-primary">Cerrar</a>
-                    <button type="button" onclick="saveSeller()" class="btn btn-success">Guardar</button>
+                    <button type="submit" onclick="saveSeller()" class="btn btn-success">Guardar</button>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
+<script src="~/Scripts/validator.js"></script>
 <script>
 
     //INICIALIZA LOS ELEMENTOS DE JQUERY A SWITCHERY
@@ -113,6 +121,13 @@
             $("#comercio").toggleClass("active");
             $("#local").removeClass("active");
         }
+
+        //AGREGAR ATRIBUTO REQUIRED
+        $("#ruc").attr("required", true);
+
+        //QUITAR ATRIBUTO REQUIRED
+        $("#cedula").removeAttr("required");
+        $("#apellido").removeAttr("required");
     });
 
     //EVENTO CLICK DEL BOTON COMERCIO PARA ACTIVAR CAMPOS
@@ -126,6 +141,29 @@
             $("#local").toggleClass("active");
             $("#comercio").removeClass("active");
         }
+
+        //QUITAR ATRIBUTO REQUIRED
+        $("#ruc").removeAttr("required");
+
+        //AGREGAR ATRIBUTO REQUIRED
+        $("#cedula").attr("required", true);
+        $("#apellido").attr("required", true);
     });
 
+    //AGREGAR EL TIPO DE FORMATO DE LOS CAMPOS
+    $(document).ready(function () {
+        //MASCARA PARA NUMERO TELEFONICO
+        $("#telefono").mask("0000-0000");
+        //MASCARA PARA EL NUMERO RUC
+        $("#ruc").mask("00000000000000", {
+            translation: {
+                '0': { pattern: /[0-9A-Za-z]/ }//MODIFICAR PARA QUE ACEPTE NUMEROS Y LETRAS
+            }
+        });
+        $("#cedula").mask("000-000000-0000A", {
+            translation: {
+                'A': { pattern: /[a-zA-Z]/ }//MODIFICAR EL ULTIMO DIGITO A SOLO LETRA
+            }
+        });
+    });
 </script>

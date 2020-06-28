@@ -55,16 +55,21 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,CodigoTipoCliente,DescripcionTipoCliente,EstadoTipoCliente")] TipoDeCliente TipoDeCliente)
         {
-            TipoDeCliente cliente = db.TiposDeCliente.DefaultIfEmpty(null).FirstOrDefault(b => b.CodigoTipoCliente.Trim() == TipoDeCliente.CodigoTipoCliente.Trim());
+            //BUSCAR LA DESCRIPCION DE TIPO DE CLIENTE EN LA BD
+            TipoDeCliente cliente = db.TiposDeCliente.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionTipoCliente.ToUpper().Trim() == TipoDeCliente.DescripcionTipoCliente.ToUpper().Trim());
 
-            if (cliente != null) {
-                ModelState.AddModelError("CodigoTipoEntrada", "Código ya utilizado");
-                mensaje = "Código de Tipo de entrada ya existente";
-            } else {
-
+            //SI SE ENCONTRO YA UN TIPO DE CLIENTE
+            if (cliente != null)
+            {
+                ModelState.AddModelError("DescripcionTipoCliente", "Utilice otro nombre");
+                mensaje = "La descripción ya se encuentra registrada";
+            }
+            else
+            {
                 //ESTADO DE TIPO DE ENTRADA CUANDO SE CREA SIEMPRE ES TRUE
                 TipoDeCliente.EstadoTipoCliente = true;
-                if (ModelState.IsValid) {
+                if (ModelState.IsValid)
+                {
                     db.TiposDeCliente.Add(TipoDeCliente);
                     completado = await db.SaveChangesAsync() > 0 ? true : false;
                     mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
@@ -90,10 +95,23 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,CodigoTipoCliente,DescripcionTipoCliente,EstadoTipoCliente")] TipoDeCliente TipoDeCliente) 
         {
-            if (ModelState.IsValid) {
-                db.Entry(TipoDeCliente).State = EntityState.Modified;
-                completado = db.SaveChanges() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+            //BUSCAR LA DESCRIPCION DE TIPO DE CLIENTE EN LA BD
+            TipoDeCliente cliente = db.TiposDeCliente.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionTipoCliente.ToUpper().Trim() == TipoDeCliente.DescripcionTipoCliente.ToUpper().Trim() && b.Id != TipoDeCliente.Id);
+
+            //SI SE ENCONTRO YA UN TIPO DE CLIENTE
+            if (cliente != null)
+            {
+                ModelState.AddModelError("DescripcionTipoCliente", "Utilice otro nombre");
+                mensaje = "La descripción ya se encuentra registrada";
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Entry(TipoDeCliente).State = EntityState.Modified;
+                    completado = db.SaveChanges() > 0 ? true : false;
+                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                }
             }
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
@@ -107,13 +125,50 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             //BUSCANDO QUE TIPO DE ENTRADA NO TENGA SALIDAS NI ENTRADAS REGISTRADAS CON SU ID
             Cliente oCliente = db.Clientes.DefaultIfEmpty(null).FirstOrDefault(p => p.TipoClienteId == TipoDeCliente.Id);
 
-            if (oCliente == null) {
+            //SI NO SE ENCONTRARON CLIENTES EN ESTE TIPO DE CLIENTE
+            if (oCliente == null)
+            {
                 db.TiposDeCliente.Remove(TipoDeCliente);
                 completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Se encontraron entradas en este tipo de entrada";
+                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+            }
+            else {
+                mensaje = "Se encontraron clientes asociados a este tipo de cliente";
             }
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// RETORNA EL CODIGO AUTOMATICAMENTE A LA VISTA CREATE
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SearchCode()
+        {
+            //BUSCAR EL VALOR MAXIMO DE LAS BODEGAS REGISTRADAS
+            var code = db.TiposDeCliente.Max(x => x.CodigoTipoCliente.Trim());
+            int valor;
+            string num;
+
+            //SI EXISTE ALGUN REGISTRO
+            if (code != null)
+            {
+                //CONVERTIR EL CODIGO A ENTERO
+                valor = int.Parse(code);
+
+                //SE COMIENZA A AGREGAR UN VALOR SECUENCIAL AL CODIGO ENCONTRADO
+                if (valor <= 8)
+                    num = "00" + (valor + 1);
+                else
+                if (valor >= 9 && valor < 100)
+                    num = "0" + (valor + 1);
+                else
+                    num = (valor + 1).ToString();
+            }
+            else
+                num = "001";//SE COMIENZA CON EL PRIMER CODIGO DEL REGISTRO
+
+            return Json(new { data = num }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing) {
