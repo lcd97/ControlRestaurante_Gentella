@@ -11,17 +11,14 @@ using System.Data.Entity;
 using System.Data;
 using System.Data.Entity.Validation;
 
-namespace ProyectoXalli_Gentella.Controllers.Catalogos
-{
-    public class MenusController : Controller
-    {
+namespace ProyectoXalli_Gentella.Controllers.Catalogos {
+    public class MenusController : Controller {
         private DBControl db = new DBControl();
         private bool completado = false;
         private string mensaje = "";
 
         // GET: Platillos
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
             return View();
         }
 
@@ -29,28 +26,26 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// RECUPERA DATOS PARA LLENAR LA TABLA MENU A TRAVES DE JSON
         /// </summary>
         /// <returns></returns>
-        public JsonResult GetData()
-        {
-            var menu = (from obj in db.Menus.ToList()                             
-                             where obj.EstadoMenu == true
-                             select new
-                             {
-                                 Id = obj.Id,
-                                 DescripcionPlatillo = obj.DescripcionMenu,
-                                 CodigoPlatillo = obj.CodigoMenu,
-                                 Precio = obj.PrecioMenu
-                             });
+        public JsonResult GetData() {
+            var menu = (from obj in db.Menus.ToList()
+                        join i in db.Imagenes.ToList() on obj.ImagenId equals i.Id
+                        where obj.EstadoMenu == true
+                        select new {
+                            Id = obj.Id,
+                            DescripcionPlatillo = obj.DescripcionMenu,
+                            Precio = obj.PrecioMenu,
+                            Imagen = i.Ruta
+                        });
 
             return Json(new { data = menu }, JsonRequestBehavior.AllowGet);
         }
-        
+
         /// <summary>
         /// COMPRUEBA SI EL PLATILLO A INGRESAR EXISTE
         /// </summary>
         /// <param name="Codigo"></param>
         /// <returns></returns>
-        public ActionResult Comprobar(string Codigo) 
-       {
+        public ActionResult Comprobar(string Codigo) {
             var menu = db.Menus.DefaultIfEmpty(null).FirstOrDefault(m => m.CodigoMenu.Trim() == Codigo.Trim());
 
             if (menu != null) {
@@ -65,8 +60,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// MUESTRA LA VISTA DEL CREATE
         /// </summary>
         /// <returns></returns>
-        public ActionResult Create()
-        {
+        public ActionResult Create() {
             ViewBag.CategoriaId = new SelectList(db.CategoriasMenu, "Id", "DescripcionCategoriaMenu");
 
             return View();
@@ -77,15 +71,14 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Create(HttpPostedFileBase urlImage, string codigoMenu, string descripcionMenu, double precio, int categoriaId, string tiempo, string ingredientes)
-        {
+        public ActionResult Create(HttpPostedFileBase urlImage, string codigoMenu, string descripcionMenu, double precio, int categoriaId, string tiempo, string ingredientes) {
+            int EnviarId = 0;
             //PRIMERO SE ALMACENA LA IMAGEN Y SU DIRECCION EN LA BD
 
             string path = Server.MapPath("~/images/Menu");
 
             //CREA EL DIRECTORIO DONDE SE ALMACENARN LAS FOTOS, EN CASO NO EXISTA
-            if (!Directory.Exists(path))
-            {
+            if (!Directory.Exists(path)) {
                 Directory.CreateDirectory(path);
             }
 
@@ -145,6 +138,9 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                                 receta.Ingredientes = ingredientes;
                                 receta.MenuId = item.Id;
 
+                                //PARA BUSCAR Y AGREGAR EL ITEM EN EL INDEX
+                                EnviarId = item.Id;
+
                                 //
 
                                 try {
@@ -181,22 +177,19 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                 }
             }//FIN VALIDACION PLATILLO EXISTE
 
-            return Json(new { data = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = completado, message = mensaje, Id = EnviarId }, JsonRequestBehavior.AllowGet);
         }//FIN POST CREATE
 
         /// <summary>
         /// METODO GET PARA MOSTRAR LA VISTA EDIT
         /// </summary>
         /// <returns></returns>
-        public async Task<ActionResult> Edit(int? id) 
-        {
-            if (id == null)
-            {
+        public async Task<ActionResult> Edit(int? id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Menu menu = await db.Menus.FindAsync(id);
-            if (menu == null)
-            {
+            if (menu == null) {
                 return HttpNotFound();
             }
 
@@ -210,26 +203,24 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public ActionResult getMenuItem(int Id)
-        {
+        public ActionResult getMenuItem(int Id) {
             var menu = (from obj in db.Menus.ToList()
-                            join u in db.Imagenes.ToList() on obj.ImagenId equals u.Id
-                            join c in db.CategoriasMenu.ToList() on obj.CategoriaMenuId equals c.Id
-                            join r in db.Recetas.ToList() on obj.Id equals r.MenuId
-                            where obj.Id == Id
-                            select new
-                            {
-                                PlatilloId = obj.Id,
-                                Codigo = obj.CodigoMenu,
-                                Platillo = obj.DescripcionMenu,
-                                Precio = obj.PrecioMenu,
-                                Categoria = c.DescripcionCategoriaMenu,
-                                CategoriaId = c.Id,
-                                Tiempo = r.TiempoEstimado,
-                                Ingredientes = r.Ingredientes,
-                                Ruta = u.Ruta,
-                                Estado = obj.EstadoMenu
-                            });
+                        join u in db.Imagenes.ToList() on obj.ImagenId equals u.Id
+                        join c in db.CategoriasMenu.ToList() on obj.CategoriaMenuId equals c.Id
+                        join r in db.Recetas.ToList() on obj.Id equals r.MenuId
+                        where obj.Id == Id
+                        select new {
+                            PlatilloId = obj.Id,
+                            Codigo = obj.CodigoMenu,
+                            Platillo = obj.DescripcionMenu,
+                            Precio = obj.PrecioMenu,
+                            Categoria = c.DescripcionCategoriaMenu,
+                            CategoriaId = c.Id,
+                            Tiempo = r.TiempoEstimado,
+                            Ingredientes = r.Ingredientes,
+                            Ruta = u.Ruta,
+                            Estado = obj.EstadoMenu
+                        });
 
             return Json(menu, JsonRequestBehavior.AllowGet);
         }
@@ -238,8 +229,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// METODO GET PARA MOSTRAR LA VISTA DETAIL
         /// </summary>
         /// <returns></returns>
-        public ActionResult Detail(int? id) 
-        {
+        public ActionResult Detail(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -256,23 +246,23 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public ActionResult getDetail(int Id) 
-        {
+        public ActionResult getDetail(int Id) {
             //BUSCAR EL MENU
             var menu = (from obj in db.Menus
-                            join u in db.Imagenes on obj.ImagenId equals u.Id
-                            join o in db.Recetas on obj.Id equals o.MenuId
-                            join c in db.CategoriasMenu on obj.CategoriaMenuId equals c.Id
-                            where obj.Id == Id
-                            select new {
-                                //CAMPOS DEL PLATILLO                     
-                                Ruta = u.Ruta,
-                                Tiempo = o.TiempoEstimado,
-                                Categoria = c.DescripcionCategoriaMenu,
-                                Precio = obj.PrecioMenu,
-                                Platillo = obj.DescripcionMenu,
-                                Ingredientes = o.Ingredientes
-                            });
+                        join u in db.Imagenes on obj.ImagenId equals u.Id
+                        join o in db.Recetas on obj.Id equals o.MenuId
+                        join c in db.CategoriasMenu on obj.CategoriaMenuId equals c.Id
+                        where obj.Id == Id
+                        select new {
+                            //CAMPOS DEL PLATILLO  
+                            Id = obj.Id,
+                            Ruta = u.Ruta,
+                            Tiempo = o.TiempoEstimado,
+                            Categoria = c.DescripcionCategoriaMenu,
+                            Precio = obj.PrecioMenu,
+                            Platillo = obj.DescripcionMenu,
+                            Ingredientes = o.Ingredientes
+                        }).FirstOrDefault();
 
             return Json(new { data = menu }, JsonRequestBehavior.AllowGet);
         }
@@ -290,9 +280,11 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// <returns></returns>
         [HttpPost]
         public ActionResult Edit(HttpPostedFileBase urlImage, string codigoMenu, string descripcionMenu, double precio, int categoriaId, string tiempo, string ingredientes, bool estado) {
-
+            //BUSCAR EL OBJETO A MODIFICAR
             var menu = db.Menus.DefaultIfEmpty(null).FirstOrDefault(m => m.CodigoMenu.Trim() == codigoMenu.Trim());
 
+            //ALMACENAR EL ID DEL PLATILLO (PARA ACTUALIZAR EN INDEX)
+            int Id = menu.Id;
             //BUSCAR EL PLATILLO
             if (menu != null) {
 
@@ -433,8 +425,8 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                     }
                 }
             }//FIN MENU VACIO
-            
-            return Json(new { data = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+
+            return Json(new { data = completado, message = mensaje, Id }, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -470,8 +462,9 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         [HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id) {
-
+            //BUSCAR EL PLATILLO CORRESPONDIENTE AL ID
             var Menu = db.Menus.Find(id);
+            //BUSCAR SU RECETA
             var Receta = db.Recetas.FirstOrDefault(r => r.MenuId == Menu.Id);
 
             //SE BUSCA OBJETO IMAGEN
@@ -498,12 +491,11 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                         completado = await db.SaveChangesAsync() > 0 ? true : false;
                         mensaje = completado ? "Actualizado correctamente" : "Error al Eliminar";
                     }
-                }
-                else {
+                } else {
                     completado = false;
                     mensaje = "Eliminación incorrecto";
                 }
-            }else {
+            } else {
                 completado = false;
                 mensaje = "Archivo Inexistente";
             }

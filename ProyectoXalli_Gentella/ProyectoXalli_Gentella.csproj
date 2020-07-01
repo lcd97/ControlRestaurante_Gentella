@@ -272,6 +272,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\jquery.bootstrap-touchspin.css" />
     <Content Include="Content\loading.css" />
+    <Content Include="Content\pagination.css" />
     <Content Include="Content\select2.min.css" />
     <Content Include="Content\switchery.css" />
     <Content Include="favicon.ico" />

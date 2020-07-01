@@ -6,7 +6,7 @@
 
 @Styles.Render("~/Content/datatableCSS")
 <link href="~/Content/select2.min.css" rel="stylesheet" />
-
+<link href="~/Content/pagination.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -21,16 +21,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <table id="Table" class="table table-hover table-bordered" style="width:100% !important">
-                    <thead>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.CodigoMenu)</th>
-                            <th>@Html.DisplayNameFor(model => model.DescripcionMenu)</th>
-                            <th>@Html.DisplayNameFor(model => model.PrecioMenu)</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="row" id="menuAdd"></div>
             </div>
         </div>
     </div>
@@ -40,63 +31,58 @@
 
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/datatableJS")
     <script src="~/Scripts/Catalogos/CRUD.js"></script>
     <script src="~/Scripts/Catalogos/menuItem.js"></script>
     <script src="~/Scripts/select2.full.min.js"></script>
     <script src="~/Scripts/jquery.smartWizard.js"></script>
     <script src="~/Scripts/jquery.mask.js"></script>
+    <script src="~/Scripts/Pagination.js"></script>
 
     <!--DATATABLE CATEGORIA-->
     <script>
-        //LLENANDO EL DATATABLE CRUD
+        var results = new Array(); //arreglo para almacenar datos
+
+        //CARGAR TODOS LOS PLATILLOS
         $(document).ready(function () {
-            //DEFINIENDO EL DATATABLE
-            $("#Table").DataTable({
-                ajax: {
-                    url: "/Menus/GetData", //URL DE LA UBICACION DEL METODO
-                    type: "GET", //TIPO DE ACCION
-                    dataType: "JSON" //TIPO DE DATO A RECIBIR O ENVIAR
-                },
-                //DEFINIENDO LAS COLUMNAS A LLENAR
-                columns: [
-                    { data: "CodigoPlatillo" },
-                    { data: "DescripcionPlatillo" },
-                    { data: "Precio" },
-                    {   //DEFINIENDO LOS BOTONES PARA EDITAR Y ELIMINAR POR MEDIO DE JS
-                        data: "Id", "render": function (data) {
-                            return "<a class='btn btn-success' onclick=CargarParcial('/Menus/Edit/" + data + "')><i class='fa fa-pencil'></i></a>" +
-                                "<a class='btn btn-primary' Style='margin-left: 3px' onclick=CargarParcial('/Menus/Detail/" + data + "')><i class='fa fa-eye'></i></a>" +
-                                "<a class='btn btn-danger' Style='margin-left: 3px' onclick=deleteAlert('/Menus/Delete/'," + data + ")><i class='fa fa-trash'></i></a>"
+            $.ajax({
+                url: "/Menus/GetData", //URL DE LA UBICACION DEL METODO
+                type: "GET", //TIPO DE ACCION
+                dataType: "JSON",
+                success: function (data) {
+                    if (data.data.length <= 0) {
+                        var agregar = '<h1 style="text-align:center;" col-md-12 col-sm-12 col-xs-12>Sin elementos disponibles</h1>';
+                        $("#menuAdd").append(agregar);
+                    } else if (data.data.length > 0) {
+                        var agregarMenu = "";
+
+                        //RECORRER TODOS LOS ELEMENTOS A MOSTRAR
+                        for (var i = 0; i < data.data.length; i++) {
+                            agregarMenu += '<div class="col-md-55" id="' + data.data[i].Id + '">' +//SE LE ASIGNA UN IDENTIFICADOR PARA REALIZAR EL CRUD Y ACTUALIZAR VISTA
+                                '<div class="thumbnail">' +
+                                '<div class="image view view-first">' +
+                                '<img style="width: 100%; height:100%; display: block;" src="' + data.data[i].Imagen + '"alt="image" />' +
+                                '<div class="mask no-caption">' +
+                                '<div class="tools tools-bottom">' +
+                                '<a onclick=CargarParcial("/Menus/Edit/' + data.data[i].Id + '")><i class="fa fa-pencil"></i></a>' +
+                                '<a onclick=CargarParcial("/Menus/Detail/' + data.data[i].Id + '")><i class="fa fa-eye"></i></a>' +
+                                '<a onclick=deleteAlertItem("/Menus/Delete/",' + data.data[i].Id + ')><i class="fa fa-trash"></i></a>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="caption" id="data">' +
+                                '<p>' +
+                                '<strong>' + data.data[i].DescripcionPlatillo + '</strong>' +
+                                '</p>' +
+                                '<p> $ ' + data.data[i].Precio + '</p>' +
+                                '</div>' +
+                                '</div >' +
+                                '</div >';
                         }
+
+                        $("#menuAdd").append(agregarMenu);
                     }
-                ],//FIN DE COLUMNAS
-                //IDIOMA DE DATATABLE
-                "language": {
-
-                    "sProcessing": "Procesando...",
-                    "sLengthMenu": "Mostrar _MENU_ registros",
-                    "sZeroRecords": "No se encontraron resultados",
-                    "sEmptyTable": "Ningún dato disponible en esta tabla",
-                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sSearch": "Buscar:",
-                    "sUrl": "",
-                    "sInfoThousands": ",",
-                    "sLoadingRecords": "Cargando...",
-
-                    "oPaginate": {
-                        "sFirst": "Primero",
-                        "sLast": "Último",
-                        "sNext": "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                }//FIN IDIOMA DATATABLE
-            });//FIN DECLARACION DEL DATATABLE
-        });//FIN FUNCTION
-
-
+                }//FIN SUCCESS
+            });//FIN AJAX
+        });//DOCUMENT READY FIN
     </script>
 }

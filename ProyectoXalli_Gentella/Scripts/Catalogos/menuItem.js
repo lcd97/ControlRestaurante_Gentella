@@ -25,9 +25,11 @@ function saveMenuItem() {
         contentType: false,
         success: function (data) {
             if (data.data) {
-                $("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
+                //$("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
                 $("#small-modal").modal("hide"); //CERRAR MODAL
-                Alert("Almacenado correctamente", data.message, "success");//ALMACENADO CORRECTAMENTE
+                //AGREGAR EL NUEVO PLATILLO AL INDEX
+                agregarItem(data.Id);
+                Alert("Almacenado correctamente", data.message, "success");//ALMACENADO CORRECTAMENTE                
             } else
                 Alert("Error al almacenar", data.message, "error");//MENSAJE DE ERROR
         },
@@ -64,8 +66,9 @@ function editMenuItem() {
         contentType: false,
         success: function (data) {
             if (data.data) {
-                $("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
+                //$("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
                 $("#small-modal").modal("hide"); //CERRAR MODAL
+                modificarItem(data.Id);//MODIFICAR EL REGISTRO EN LA VISTA INDEX
                 Alert("Almacenado correctamente", data.message, "success");//ALMACENADO CORRECTAMENTE
             } else
                 Alert("Error al almacenar", data.message, "error");//MENSAJE DE ERROR
@@ -94,3 +97,106 @@ function comprobar() {
         }
     });
 }
+
+//AGREGAR UN CAMPO MAS AL INDEX
+function agregarItem(id) {
+    $.ajax({
+        type: "POST",
+        url: "/Menus/getDetail/" + id,
+        success: function (data) {
+            var agregarMenu = '<div class="col-md-55" id="' + data.data.Id + '">' +
+                '<div class="thumbnail">' +
+                '<div class="image view view-first">' +
+                '<img style="width: 100%; height:100%; display: block;" src="' + data.data.Ruta + '"alt="image" />' +
+                '<div class="mask no-caption">' +
+                '<div class="tools tools-bottom">' +
+                '<a onclick=CargarParcial("/Menus/Edit/' + data.data.Id + '")><i class="fa fa-pencil"></i></a>' +
+                '<a onclick=CargarParcial("/Menus/Detail/' + data.data.Id + '")><i class="fa fa-eye"></i></a>' +
+                '<a onclick=deleteAlert("/Menus/Delete/",' + data.data.Id + ')><i class="fa fa-trash"></i></a>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="caption" id="data">' +
+                '<p>' +
+                '<strong>' + data.data.Platillo + '</strong>' +
+                '</p>' +
+                '<p> $ ' + data.data.Precio + '</p>' +
+                '</div>' +
+                '</div >' +
+                '</div >';
+
+            $("#menuAdd").append(agregarMenu);  
+        },
+        error: function () {
+            Alert("Error al almacenar", "Intentelo de nuevo", "error");
+        }
+    });//FIN AJAX      
+}
+
+function modificarItem(id) {
+    $.ajax({
+        type: "GET",
+        url: "/Menus/getDetail/" + id,
+        success: function (data) {
+            //$("#" + id).find("strong").text(data.Platillo);
+            //$("#" + id).find("p:last-child").text(data.Precio);
+        },
+        error: function () {
+            Alert("Error al almacenar", "Intentelo de nuevo", "error");
+        }
+    });//FIN AJAX      
+}
+
+//FUNCION POST PARA ELIMINAR UN REGISTRO (CRUD) -- SOLO PARA ELIMINAR (RECARGA LA PAGINA CON AJAX -OJO-)
+function DeleteItem(uri, id) {
+
+    //COMIENZO DE LA PETICION AJAX PARA ELIMINAR REGISTRO
+    $.ajax({
+        type: "POST", //TIPO DE ACCION
+        url: uri,//ACCION O METODO A REALIZAR
+        data: { "id": id }, //SERIALIZACION DE LOS DATOS A ENVIAR
+        success: function (data) {
+            if (data.success) {//SI SE ELIMINO CORRECTAMENTE
+                //$("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
+                //ELIMINAR EL DIV DEL OBJETO ELIMINADO
+                $("div").remove("#" + id);
+                swal(data.message, { icon: "success" });
+            }//FIN IF
+            else
+                swal("Error", data.message, "error");
+        },//FIN SUCCESS
+        error: function () {
+            swal("Error", "Vuelvalo a intentar", "error");
+        }//FIN ERROR
+    });//FIN AJAX
+
+    return false;
+
+}//FIN FUNCTION
+
+//MANDAR EL SWEET ALERT PARA ELIMINAR
+function deleteAlertItem(uri, id) {
+    swal({
+        title: "¿Desea eliminar el registro?",
+        text: "Una vez eliminado no se podrá volver a recuperar",
+        icon: "warning",
+        buttons: {
+            cancel: "Cancelar",
+            catch: {
+                text: "Eliminar",
+                value: "catch"
+            }
+        }//FIN DE BUTTONS
+    })//FIN DEL SWAL
+
+        .then((value) => {
+            switch (value) {
+
+                case "catch": DeleteItem(uri, id);
+                    break;
+
+                default:
+                    swal.close();
+            }//FIN SWITCH
+        });//FIN THEN
+}//FIN FUCTION DELETE

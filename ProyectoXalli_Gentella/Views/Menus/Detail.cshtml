@@ -63,14 +63,14 @@
             url: "/Menus/getDetail/" + @Model.Id,
             dataType: "JSON",
             success: function (data) {
-                $("#titulo").text(data.data[0].Platillo);
-                $("#tiempo").text("Tiempo de preparación: " + data.data[0].Tiempo);
-                $("#categoria").text("Categoría: " + data.data[0].Categoria);
-                $("#precio").text("Precio: $" + data.data[0].Precio);
+                $("#titulo").text(data.data.Platillo);
+                $("#tiempo").text("Tiempo de preparación: " + data.data.Tiempo);
+                $("#categoria").text("Categoría: " + data.data.Categoria);
+                $("#precio").text("Precio: $" + data.data.Precio);
                 //INSERTAR IMAGEN
-                $("#img").attr("src", data.data[0].Ruta);
+                $("#img").attr("src", data.data.Ruta);
                 //INSERTAR INGREDIENTES
-                var agregar = "", res = (data.data[0].Ingredientes).split(",");
+                var agregar = "", res = (data.data.Ingredientes).split(",");
 
                 for (var i = 0; i < res.length; i++) {
                     //INSERTAR LAS ETIQUETAS DONDE IRAN LOS INGREDIENTES
