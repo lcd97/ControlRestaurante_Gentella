@@ -387,8 +387,3 @@ C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXa
 C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.dll
 C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.pdb
 C:\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csprojAssemblyReference.cache
-C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\csc.exe
-C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
-C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\Microsoft.CodeAnalysis.dll
-C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Collections.Immutable.dll
-C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\bin\roslyn\System.Reflection.Metadata.dll

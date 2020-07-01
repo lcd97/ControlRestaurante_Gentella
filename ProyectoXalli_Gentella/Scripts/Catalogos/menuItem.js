@@ -16,7 +16,7 @@ function saveMenuItem() {
 
     //ESTA ES OTRA MANERA DE MANDAR PARAMETROS AL CONTROLADOR. EN ESTE CASO NO FUNCIONO
     //var data = "urlImage=" + formData + "&codigoMenu=" + codigoMenu + "&descripcionMenu=" + descripcionMenu;
-
+   
     $.ajax({
         type: "POST",
         url: "/Menus/Create",
@@ -36,7 +36,13 @@ function saveMenuItem() {
         error: function () {
             Alert("Error al almacenar", "Intentelo de nuevo", "error");
         }
-    });//FIN AJAX      
+    });//FIN AJAX   
+    //    } else {
+    //    }
+    //} else {
+    //    Alert("Error", "Campos Vacios", "error");
+    //}
+
 }//FIN FUNCTION
 
 //FUNCION PARA ALMACENAR PLATILLO DEL MENU
@@ -56,8 +62,15 @@ function editMenuItem() {
     formData.append("ingredientes", $("#ingredientes").val());
     //TOMAR EL VALOR DEL SWITCHERY
     formData.append("estado", $("#activo").is(":checked"));
+
+    //VALIDACION
+    var code = $("#codigo").val();
+    var precio = $("#precio").val();
+    var time = $("#tiempo").val();
+    var ingredients = $("#ingredientes").val();
+
     
-    //FUNCION AJAX
+        //FUNCION AJAX
     $.ajax({
         type: "POST",
         url: "/Menus/Edit",
@@ -77,11 +90,14 @@ function editMenuItem() {
             Alert("Error al almacenar", "Intentelo de nuevo", "error");
         }
     });//FIN AJAX
+    //} else {
+    //    Alert("Error", "Campos Vacios", "error");
+    //}
 }//FIN FUNCTION
 
 //TIPO DE METODO A UTILIZAR
 function comprobar() {
-
+    //AGARRAR EL CODIGO DE LA VISTA
     var codigo = $("#codigo").val();
 
     $.ajax({
@@ -89,11 +105,12 @@ function comprobar() {
         url: "/Menus/Comprobar/",
         data: { codigo },
         success: function (data) {
-            if (data.completado) {
-                saveMenuItem();
-            }
-            else
-                editMenuItem();
+            //if (data.completado) {
+            //    saveMenuItem();//METODO PARA ALMACENAR UN NUEVO ELEMENTO
+            //}
+            //else
+            //    editMenuItem();//METODO PARA EDITAR UN ELEMENTO
+            validar(data.completado);
         }
     });
 }
@@ -107,7 +124,7 @@ function agregarItem(id) {
             var agregarMenu = '<div class="col-md-55" id="' + data.data.Id + '">' +
                 '<div class="thumbnail">' +
                 '<div class="image view view-first">' +
-                '<img style="width: 100%; height:100%; display: block;" src="' + data.data.Ruta + '"alt="image" />' +
+                '<img style="width: 100%; height:100%; display: block;" src="' + data.data.Ruta + '"alt="' + data.data.Platillo +'" />' +
                 '<div class="mask no-caption">' +
                 '<div class="tools tools-bottom">' +
                 '<a onclick=CargarParcial("/Menus/Edit/' + data.data.Id + '")><i class="fa fa-pencil"></i></a>' +
@@ -133,13 +150,15 @@ function agregarItem(id) {
     });//FIN AJAX      
 }
 
+//MODIFICAR EL DIV DEL ELEMENTO DEL MENU
 function modificarItem(id) {
     $.ajax({
         type: "GET",
         url: "/Menus/getDetail/" + id,
         success: function (data) {
-            //$("#" + id).find("strong").text(data.Platillo);
-            //$("#" + id).find("p:last-child").text(data.Precio);
+            //ASIGNAR NUEVOS VALORES EN LA VISTA
+            $("#" + id).find("strong").text(data.data.Platillo);
+            $("#" + id).find("p:last-child").text(data.data.Precio);
         },
         error: function () {
             Alert("Error al almacenar", "Intentelo de nuevo", "error");
@@ -200,3 +219,34 @@ function deleteAlertItem(uri, id) {
             }//FIN SWITCH
         });//FIN THEN
 }//FIN FUCTION DELETE
+
+//FUNCION VALIDA QUE NO EXISTAN CAMPOS VACIOS
+function validar(nuevo) {
+    var a = $("#platillo").val();
+    var img = $("#file")[0].files[0];
+    var code = $("#codigo").val();
+    var precio = $("#precio").val();
+    var time = $("#tiempo").val();
+    var ingredients = $("#ingredientes").val();
+
+    //SI ES VERDADERO
+    if (nuevo === true) {
+        //VALIDACIONES SHAMPOO
+        if (code !== "" && a !== "" && precio !== "" && time !== "" && ingredients !== "") {
+            if (img != null) {
+                saveMenuItem();//METODO PARA ALMACENAR UN NUEVO ELEMENTO
+            } else {
+                Alert("Error", "Adjunte una imagen", "error");
+            }//FIN VALIDACION IMAGEN
+        } else {
+            Alert("Error", "Campos vacios", "error");
+        }//FIN IF-ELSE VALIDACIONES
+    } else {
+        //VALIDACIONES SHAMPOO
+        if (code !== "" && a !== "" && precio !== "" && time !== "" && ingredients !== "") {
+            editMenuItem();//METODO PARA EDITAR UN ELEMENTO
+        } else {
+            Alert("Error", "Campos vacios", "error");
+        }//FIN VALIDACIONES IF-ELSE
+    }//FIN IF-ELSE NUEVO
+}

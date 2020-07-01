@@ -285,6 +285,7 @@
     <Content Include="images\user.png" />
     <Content Include="images\Volcancitos.png" />
     <Content Include="images\WhiteLogo.png" />
+    <Content Include="Scripts\bootpag.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap-tagsinput.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -347,7 +348,6 @@
     <Content Include="Scripts\parsley.js" />
     <Content Include="Scripts\select2.full.min.js" />
     <Content Include="Scripts\switchery.js" />
-    <Content Include="Scripts\validator.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
