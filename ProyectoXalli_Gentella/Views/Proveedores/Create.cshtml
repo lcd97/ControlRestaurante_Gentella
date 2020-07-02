@@ -32,31 +32,26 @@
 
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     @Html.Label("Teléfono", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
-                    <input id="telefono" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="9" data-minlength="9"  
-                           autocomplete="off" required data-error="Campo obligatorio">
-                    <div class="help-block with-errors"></div>
+                    <input id="telefono" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="9" data-minlength="9" autocomplete="off">
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     @Html.Label("No RUC", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
-                    <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="14" autocomplete="off" style="text-transform:uppercase;" required data-error="Campo obligatorio">
-                    <div class="help-block with-errors"></div>
+                    <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="14" autocomplete="off" style="text-transform:uppercase;">
                 </div>
 
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     @Html.Label("Cédula", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
                     <input id="cedula" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="16" autocomplete="off" disabled style="text-transform:uppercase;">
-                    <div class="help-block with-errors"></div>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     @Html.Label("Nombre", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
-                    <input id="nombre" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required data-error="Campo obligatorio">
-                    <div class="help-block with-errors"></div>
+                    <input id="nombre" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off">
                 </div>
 
                 <div class="col-md-6 col-sm-6 col-xs-6">
@@ -88,16 +83,14 @@
 
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
                     <a onclick="CerrarModal()" class="btn btn-primary">Cerrar</a>
-                    <button type="submit" onclick="saveSeller()" class="btn btn-success">Guardar</button>
+                    <a onclick="saveSeller()" class="btn btn-success">Guardar</a>
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-<script src="~/Scripts/validator.js"></script>
 <script>
-
     //INICIALIZA LOS ELEMENTOS DE JQUERY A SWITCHERY
     var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
 
@@ -121,13 +114,6 @@
             $("#comercio").toggleClass("active");
             $("#local").removeClass("active");
         }
-
-        //AGREGAR ATRIBUTO REQUIRED
-        $("#ruc").attr("required", true);
-
-        //QUITAR ATRIBUTO REQUIRED
-        $("#cedula").removeAttr("required");
-        $("#apellido").removeAttr("required");
     });
 
     //EVENTO CLICK DEL BOTON COMERCIO PARA ACTIVAR CAMPOS
@@ -141,13 +127,6 @@
             $("#local").toggleClass("active");
             $("#comercio").removeClass("active");
         }
-
-        //QUITAR ATRIBUTO REQUIRED
-        $("#ruc").removeAttr("required");
-
-        //AGREGAR ATRIBUTO REQUIRED
-        $("#cedula").attr("required", true);
-        $("#apellido").attr("required", true);
     });
 
     //AGREGAR EL TIPO DE FORMATO DE LOS CAMPOS

@@ -31,7 +31,7 @@
 
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     @Html.Label("Número", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
-                    <input id="numero" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="16" autocomplete="off" required disabled>
+                    <input id="numero" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" autocomplete="off" disabled style="text-transform:uppercase">
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
 
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     @Html.Label("RUC", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
-                    <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="10" autocomplete="off" required>
+                    <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="14" autocomplete="off" required style="text-transform:uppercase">
                 </div>
             </div>
 
@@ -88,6 +88,16 @@
         }
     });
 
+    //MASCARA DE NUMERO TELEFONICO
+    $("#telefono").mask("0000-0000");
+
+    //MASCARA DEL NUMERO RUC
+    $("#ruc").mask("00000000000000", {
+        translation: {
+            '0': { pattern: /[0-9A-Za-z]/ }//MODIFICAR PARA QUE ACEPTE NUMEROS Y LETRAS
+        }
+    });
+
     //MANIPULAR EL CAMBIO DE TIPO DE DOCUMENTO
     $("#documento").on("change", function () {
         var selector = $("#numero");
@@ -96,31 +106,27 @@
         //SI EL SELECT TIENE UN CAMPO DE ID
         if ($("#documento").val() != "-1") {
             selector.removeAttr("disabled");//HABILITAMOS EL INPUT
+
+            //SI SE SELECCIONO COMO DOCUMENTO CEDULA
+            if ($("#documento").val() == "1") {
+                $("#numero").attr("maxlength", 16);
+                $("#numero").mask("000-000000-0000A", {
+                    translation: {
+                        'A': { pattern: /[a-zA-Z]/ }//MODIFICAR EL ULTIMO DIGITO A SOLO LETRA
+                    }
+                });
+            } else {
+                //CAMBIAR FORMATO SI ES PASAPORTE
+                $("#numero").attr("maxlength", 10);
+                $("#numero").mask("AAA0000000", {
+                    translation: {
+                        'A': { pattern: /[a-zA-Z]/ }//MODIFICAR EL ULTIMO DIGITO A SOLO LETRA
+                    }
+                });
+            }
         } else {
             selector.attr("disabled", true);//DESHABILITAMOS EL INPUT
-            selector.val("");//LIMPIAMOS EL INPUT NUMERO
+            selector.val("");//LIMPIAMOS EL INPUT NUMERO            
         }
     });
-
-    ////CARGAR EL SELECT2
-    //$(document).ready(function (){
-    //    $.ajax({
-    //        type: "GET",
-    //        url: '/TiposDeCliente/getData',
-    //        dataType: 'JSON',
-    //        success: function (data) {
-
-    //            var agregar = "";
-
-    //            for (var i = 0; i < Object.keys(data.data).length; i++) {
-    //                agregar += '<option value="' + data.data[i].Id + '">' + data.data[i].DescripcionTipo + '</option>';
-    //            }
-
-    //            $("#tipo").append(agregar);
-    //        },
-    //        error: function (data) {
-    //            alert("Error");
-    //        }
-    //    });
-    //});
 </script>

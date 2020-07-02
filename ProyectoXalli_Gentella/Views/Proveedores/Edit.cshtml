@@ -41,18 +41,6 @@
 
             <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    @Html.Label("Nombre", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
-                    <input id="nombre" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
-                </div>
-
-                <div class="col-md-6 col-sm-6 col-xs-6">
-                    @Html.Label("Apellido", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
-                    <input id="apellido" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-6 col-sm-6 col-xs-6">
                     @Html.Label("No RUC", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-12" })
                     <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="50" autocomplete="off" style="text-transform:uppercase;">
                 </div>
@@ -60,6 +48,18 @@
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     @Html.Label("Cédula", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-12" })
                     <input id="cedula" class="form-control col-md-2 col-sm-2 col-xs-2" required type="text" maxlength="50" autocomplete="off" disabled>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    @Html.Label("Nombre", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                    <input id="nombre" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    @Html.Label("Apellido", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                    <input id="apellido" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
                 </div>
             </div>
 
@@ -92,7 +92,6 @@
 </div>
 
 <script>
-
     //INICIALIZA LOS ELEMENTOS DE JQUERY A SWITCHERY
     var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
 
@@ -157,6 +156,17 @@
         $("#telefono").mask("0000-0000");        
     });
 
+    $(document).ready(function () {
+        //MASCARA PARA NUMERO TELEFONICO
+        $("#telefono").mask("0000-0000");
+        //MASCARA PARA EL NUMERO RUC
+        $("#ruc").mask("00000000000000", {
+            translation: {
+                '0': { pattern: /[0-9A-Za-z]/ }//MODIFICAR PARA QUE ACEPTE NUMEROS Y LETRAS
+            }
+        });
+    });
+
     //CARGA LA INFORMACION DEL PROVEEDOR SELECCIONADO
     $(document).ready(function () {
         var ir = document.querySelector('.ir');
@@ -179,10 +189,10 @@
                     ir.click();
                 }
 
-                if (data[0].local) {
-                    $("#local").toggleClass("active");
-                    $("#comercio").removeClass("active");
-                }
+                //if (data[0].local) {
+                //    $("#local").toggleClass("active");
+                //    $("#comercio").removeClass("active");
+                //}
 
                 //SI ES LOCAL O NO LLENAR SUS CAMPOS
                 if (data[0].local) {
@@ -190,12 +200,17 @@
                     $("#apellido").val(data[0].Apellido);
                     $("#cedula").val(data[0].Cedula);
                     //AGREGO LA CLASE ACTIVO AL BOTON SELECCIONADO
+                    $("#local").toggleClass("active");
+                    $("#comercio").removeClass("active");
                 } else {
                     $("#nombre").val(data[0].NombreComercial);
+                    $("#nombre").attr("disabled", true);
 
                     //DESHABILITAR LOS CAMPOS
                     $("#apellido").attr("disabled", true);
                     $("#cedula").attr("disabled", true);
+
+                    $("#ruc").attr("disabled", true);
                 }
             }
         });

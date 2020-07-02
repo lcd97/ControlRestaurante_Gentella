@@ -28,7 +28,7 @@
 
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     @Html.Label("Número", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
-                    <input id="numero" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="16" autocomplete="off" disabled>
+                    <input id="numero" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="16" autocomplete="off" disabled style="text-transform:capitalize">
                 </div>
             </div>
 
@@ -40,7 +40,7 @@
 
                 <div class="col-md-6 col-sm-6 col-xs-6">
                     @Html.Label("RUC", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
-                    <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="10" autocomplete="off" required>
+                    <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="10" autocomplete="off" style="text-transform:capitalize">
                 </div>
             </div>
 
@@ -69,7 +69,7 @@
 
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
                     <a onclick="CerrarModal()" class="btn btn-primary">Cerrar</a>
-                    <button type="button" onclick="editCustomer()" class="btn btn-success">Guardar</button>
+                    <button type="button" onclick="editCustomer(@Model.Id)" class="btn btn-success">Guardar</button>
                 </div>
             </div>
         </div>
@@ -163,6 +163,18 @@
                 } else {
                     $("#documento").val("Pasaporte");
                 }
+            }
+        });
+    });
+
+    //APLICAR FORMATOS A INPUTS
+    $(document).ready(function () {
+        //MASCARA PARA NUMERO TELEFONICO
+        $("#telefono").mask("0000-0000");
+        //MASCARA PARA EL NUMERO RUC
+        $("#ruc").mask("00000000000000", {
+            translation: {
+                '0': { pattern: /[0-9A-Za-z]/ }//MODIFICAR PARA QUE ACEPTE NUMEROS Y LETRAS
             }
         });
     });

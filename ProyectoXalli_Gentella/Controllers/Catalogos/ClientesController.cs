@@ -66,82 +66,91 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             Cliente cliente = new Cliente();
             Dato dato = new Dato();
 
-            //SI ES UN CLIENTE NACIONAL
-            if (Tipo == 1) {
-                dato = db.Datos.DefaultIfEmpty(null).FirstOrDefault(t => t.DNI.Trim() == Documento.Trim());
-                if (dato!=null) {
-                    cliente = db.Clientes.DefaultIfEmpty(null).FirstOrDefault(c => c.DatoId == dato.Id);
-                }
+            //BUSCAR QUE EL RUC INGRESADO NO EXISTA
+            var bruc = db.Datos.DefaultIfEmpty(null).FirstOrDefault(r => r.RUC == RUC.Trim().ToUpper());
+
+            //SI EL NUMERO RUC YA SE ENCUENTRA REGISTRADO
+            if (bruc != null) {
+                mensaje = "ya existe una ruc registrado";
+                return Json(new { mensaje });
             } else {
-                //CLIENTE EXTRANJERO
-                cliente = db.Clientes.DefaultIfEmpty(null).FirstOrDefault(c => c.PasaporteCliente.Trim() == Documento.Trim());
-                if (cliente != null) {
-                    dato = db.Datos.DefaultIfEmpty(null).FirstOrDefault(d => d.Id == cliente.DatoId);
-                }
-            }//FIN BUSCAR
-
-            //SI EXISTE ALGUN REGISTRO DE CLIENTE
-            if (dato != null && cliente != null) {
-                //SI EXISTE UN REGISTRO CLIENTE
-                if (cliente != null) {
-                    mensaje = "Ya se encuentra registrado un cliente con esa identificación";
-                } else {
-                    //SI SOLO EXISTE LOS DATOS DE LA PERSONA                    
-                    //SI EL NUMERO RUC NO ESTA NULO
-                    if (RUC != null) {
-                        dato.RUC = RUC;
-                        //SE ACTUALIZA EL CAMPO
-                        db.Entry(dato).State = EntityState.Modified;
-                    }
-
-                    Cliente client = new Cliente();
-
-                    //SE COMPRUEBA EL TIPO DE DOCUMENTO PARA ACTUALIZAR
-                    if (Tipo == 2) {
-                        client.PasaporteCliente = Documento;
-                    }
-                    //ALMACENAR LOS CAMPOS DE CLIENTE
-                    client.EmailCliente = Email;
-                    client.TelefonoCliente = Telefono;
-                    client.EstadoCliente = true;
-                    client.TipoClienteId = TipoCliente;
-                    client.DatoId = dato.Id;
-
-                    db.Clientes.Add(client);
-                    completado = db.SaveChanges() > 0 ? true : false;
-                    mensaje = completado ? "Almacenado correctamente" : "Error al almacenar";
-                }
-            } else {
-                //SI NO SE ENCUENTRAN COINCIDENCIAS
-                Dato data = new Dato();
-
-                //SI EL DOCUMENTO ES CEDULA
+                //SI ES UN CLIENTE NACIONAL
                 if (Tipo == 1) {
-                    data.DNI = Documento.Trim();
-                }
-                data.PNombre = Nombre;
-                data.PApellido = Apellido;
-                data.RUC = RUC;
-
-                db.Datos.Add(data);
-
-                if (db.SaveChanges() > 0) {
-                    //ALMACENAR DATOS DE CLIENTE
-                    Cliente customer = new Cliente();
-
-                    if (Tipo == 2) {
-                        customer.PasaporteCliente = Documento;
+                    dato = db.Datos.DefaultIfEmpty(null).FirstOrDefault(t => t.DNI.Trim() == Documento.Trim());
+                    if (dato != null) {
+                        cliente = db.Clientes.DefaultIfEmpty(null).FirstOrDefault(c => c.DatoId == dato.Id);
                     }
-                    customer.EmailCliente = Email;
-                    customer.TelefonoCliente = Telefono;
-                    customer.EstadoCliente = true;
-                    customer.TipoClienteId = TipoCliente;
-                    customer.DatoId = data.Id;
+                } else {
+                    //CLIENTE EXTRANJERO
+                    cliente = db.Clientes.DefaultIfEmpty(null).FirstOrDefault(c => c.PasaporteCliente.Trim() == Documento.Trim());
+                    if (cliente != null) {
+                        dato = db.Datos.DefaultIfEmpty(null).FirstOrDefault(d => d.Id == cliente.DatoId);
+                    }
+                }//FIN BUSCAR
 
-                    db.Clientes.Add(customer);
+                //SI EXISTE ALGUN REGISTRO DE CLIENTE
+                if (dato != null && cliente != null) {
+                    //SI EXISTE UN REGISTRO CLIENTE
+                    if (cliente != null) {
+                        mensaje = "Ya se encuentra registrado un cliente con esa identificación";
+                    } else {
+                        //SI SOLO EXISTE LOS DATOS DE LA PERSONA                    
+                        //SI EL NUMERO RUC NO ESTA NULO
+                        if (RUC != null) {
+                            dato.RUC = RUC;
+                            //SE ACTUALIZA EL CAMPO
+                            db.Entry(dato).State = EntityState.Modified;
+                        }
 
-                    completado = db.SaveChanges() > 0 ? true : false;
-                    mensaje = completado ? "Almacenado correctamente" : "Error al almacenar";
+                        Cliente client = new Cliente();
+
+                        //SE COMPRUEBA EL TIPO DE DOCUMENTO PARA ACTUALIZAR
+                        if (Tipo == 2) {
+                            client.PasaporteCliente = Documento;
+                        }
+                        //ALMACENAR LOS CAMPOS DE CLIENTE
+                        client.EmailCliente = Email != "" ? Email : null;
+                        client.TelefonoCliente = Telefono != "" ? Telefono : null;
+                        client.EstadoCliente = true;
+                        client.TipoClienteId = TipoCliente;
+                        client.DatoId = dato.Id;
+
+                        db.Clientes.Add(client);
+                        completado = db.SaveChanges() > 0 ? true : false;
+                        mensaje = completado ? "Almacenado correctamente" : "Error al almacenar";
+                    }
+                } else {
+                    //SI NO SE ENCUENTRAN COINCIDENCIAS
+                    Dato data = new Dato();
+
+                    //SI EL DOCUMENTO ES CEDULA
+                    if (Tipo == 1) {
+                        data.DNI = Documento.Trim();
+                    }
+                    data.PNombre = Nombre;
+                    data.PApellido = Apellido;
+                    data.RUC = RUC != "" ? RUC : null;
+
+                    db.Datos.Add(data);
+
+                    if (db.SaveChanges() > 0) {
+                        //ALMACENAR DATOS DE CLIENTE
+                        Cliente customer = new Cliente();
+
+                        if (Tipo == 2) {
+                            customer.PasaporteCliente = Documento;
+                        }
+                        customer.EmailCliente = Email != "" ? Email : null;
+                        customer.TelefonoCliente = Telefono != "" ? Telefono : null;
+                        customer.EstadoCliente = true;
+                        customer.TipoClienteId = TipoCliente;
+                        customer.DatoId = data.Id;
+
+                        db.Clientes.Add(customer);
+
+                        completado = db.SaveChanges() > 0 ? true : false;
+                        mensaje = completado ? "Almacenado correctamente" : "Error al almacenar";
+                    }
                 }
             }
 
@@ -162,13 +171,6 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                 return HttpNotFound();
             }
 
-            //if (Cliente.PasaporteCliente != null) {
-            //    ViewBag.Documento = new SelectList(db.Clientes, "PasaporteCliente", Cliente.PasaporteCliente.Trim());
-            //} else {
-            //    Dato dato = db.Datos.Find(Cliente.DatoId);
-            //    ViewBag.Documento = new SelectList(db.Datos, "PasaporteCliente", dato.DNI.Trim());
-            //}
-
             ViewBag.TipoClienteId = new SelectList(db.TiposDeCliente, "Id", "DescripcionTipoCliente", Cliente.TipoClienteId);
 
             return View(Cliente);
@@ -188,40 +190,39 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// <param name="Estado"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Edit(string Nombre, string Apellido, string Documento, string RUC, string Email, string Telefono, int TipoCliente, int TipoDocumento, bool Estado) {
+        public ActionResult Edit(int Id, string Nombre, string Apellido, string Documento, string RUC, string Email, string Telefono, int TipoCliente, int TipoDocumento, bool Estado) {
             //SE BUSCA DESDE LAS DOS TABLAS
-            Cliente cliente = new Cliente();
-            Dato dato = new Dato();
+            Cliente cliente = db.Clientes.Find(Id);
+            Dato dato = db.Datos.Find(cliente.DatoId);
 
-            //SI ES UN CLIENTE NACIONAL
-            if (TipoDocumento == 1) {
-                dato = db.Datos.DefaultIfEmpty(null).FirstOrDefault(t => t.DNI.Trim() == Documento.Trim());
-                if (dato != null) {
-                    cliente = db.Clientes.DefaultIfEmpty(null).FirstOrDefault(c => c.DatoId == dato.Id);
-                }
+            //BUSCAR QUE EL RUC INGRESADO NO EXISTA
+            var bruc = db.Datos.DefaultIfEmpty(null).FirstOrDefault(r => r.RUC.Trim() == RUC.Trim() && r.Id != cliente.DatoId);
+
+            //SI EL NUMERO RUC YA SE ENCUENTRA REGISTRADO
+            if (bruc != null) {
+                mensaje = "El número RUC ya se encuentra registrado";
+                return Json(new { mensaje });
             } else {
-                //CLIENTE EXTRANJERO
-                cliente = db.Clientes.DefaultIfEmpty(null).FirstOrDefault(c => c.PasaporteCliente.Trim() == Documento.Trim());
-                if (cliente != null) {
-                    dato = db.Datos.DefaultIfEmpty(null).FirstOrDefault(d => d.Id == cliente.DatoId);
+                dato.PNombre = Nombre;
+                dato.PApellido = Apellido;          
+                dato.RUC = RUC != "" ? RUC : null;
+
+                db.Entry(dato).State = EntityState.Modified;
+
+                if (db.SaveChanges() > 0) {
+                    cliente.EmailCliente = Email != "" ? Email : null;
+
+                    cliente.TipoClienteId = TipoCliente;
+                    cliente.TelefonoCliente = Telefono != "" ? Telefono : null;
+
+                    cliente.EstadoCliente = Estado;
+
+                    db.Entry(cliente).State = EntityState.Modified;
+
+                    completado = db.SaveChanges() > 0 ? true : false;
+                    mensaje = completado ? "Modificado correctamente" : "Error al actualizar";
                 }
-            }//FIN BUSCAR
-
-            dato.PNombre = Nombre;
-            dato.PApellido = Apellido;
-            dato.RUC = RUC;
-
-            db.Entry(dato).State = EntityState.Modified;
-            if (db.SaveChanges() > 0) {
-                cliente.EmailCliente = Email;
-                cliente.TipoClienteId = TipoCliente;
-                cliente.TelefonoCliente = Telefono;
-                cliente.EstadoCliente = Estado;
-
-                completado = db.SaveChanges() > 0 ? true : false;
-                mensaje = completado ? "Modificado correctamente" : "Error al actualizar";
             }
-
             return Json(new { success = completado, message = mensaje});
         }
 
@@ -273,10 +274,13 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             //BUSCANDO QUE CLIENTE NO TENGA ORDENES REGISTRADAS CON SU ID
             Orden orden = db.Ordenes.DefaultIfEmpty(null).FirstOrDefault(p => p.ClienteId == cliente.Id);
 
+            //SI NO EXISTEN ORDENES DEL CLIENTE
             if (orden == null) {
                 db.Clientes.Remove(cliente);
                 completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Se encontraron ordenes realizadas con este cliente";
+                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+            } else {
+                mensaje = "Se encontraron ordenes realizadas con el cliente";
             }
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);

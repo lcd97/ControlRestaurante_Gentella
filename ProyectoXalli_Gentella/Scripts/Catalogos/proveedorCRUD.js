@@ -22,27 +22,30 @@ function saveSeller() {
         CedulaProveedor = "0";
     }//FIN IF-ELSE    
 
-
-    //FUNCION AJAX
-    $.ajax({
-        type: "POST",
-        url: "/Proveedores/Create",
-        data: {
-            //VALORES A ALMACENAR
-            NombreComercial: NombreComercial, Telefono: Telefono, RUC: RUC, Local: Local, RetenedorIR: RetenedorIR, NombreProveedor: NombreProveedor, ApellidoProveedor: ApellidoProveedor, CedulaProveedor: CedulaProveedor
-        },
-        success: function (data) {
-            if (data.success) {
-                $("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
-                $("#small-modal").modal("hide"); //CERRAR MODAL
-                Alert("Almacenado correctamente", data.message, "success");//ALMACENADO CORRECTAMENTE
-            } else
-                Alert("Error al almacenar", data.message, "error");//MENSAJE DE ERROR
-        },
-        error: function () {
-            Alert("Error al almacenar", "Intentelo de nuevo", "error");
-        }
-    });//FIN AJAX
+    if (validado(Local) === true) {
+        $.ajax({
+            type: "POST",
+            url: "/Proveedores/Create",
+            data: {
+                //VALORES A ALMACENAR
+                NombreComercial, Telefono, RUC, Local, RetenedorIR, NombreProveedor, ApellidoProveedor, CedulaProveedor
+            },
+            dataType: "JSON",
+            success: function (data) {
+                if (data.success) {
+                    $("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
+                    $("#small-modal").modal("hide"); //CERRAR MODAL
+                    Alert(data.message, "", "success");//ALMACENADO CORRECTAMENTE
+                } else
+                    Alert("Error", data.message, "error");//MENSAJE DE ERROR
+            },
+            error: function () {
+                Alert("Error", "Intentelo de nuevo", "error");
+            }
+        });//FIN AJAX
+    } else {
+        Alert("Error", "Campos vacios", "error");
+    }
 }//FIN FUNCTION
 
 //FUNCION PARA ACTUALIZAR CAMPOS DEL PROVEEDOR
@@ -64,25 +67,48 @@ function UpdateProvider(Id) {
         NombreComercial = $("#nombre").val();
     }//FIN IF-ELSE
 
-    //FUNCION AJAX
-    $.ajax({
-        type: "POST",
-        url: "/Proveedores/UpdateProveedor/" + Id,
-        data: {
-            //VALORES A ALMACENAR
-            Id, NombreComercial, Telefono, RUC, EstadoProveedor, Local, RetenedorIR, NombreProveedor, ApellidoProveedor, CedulaProveedor
-        },
-        dataType: "JSON",
-        success: function (data) {
-            if (data.success) {
-                $("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
-                $("#small-modal").modal("hide"); //CERRAR MODAL
-                Alert(data.message, "","success");//ALMACENADO CORRECTAMENTE
-            } else
-                Alert("Error", data.message, "error");//MENSAJE DE ERROR
-        },
-        error: function () {
-            Alert("Error", "Intentelo de nuevo", "error");
+    //VALIDACION SHAMPOO
+    if (validado(Local) === true) {
+        //FUNCION AJAX
+        $.ajax({
+            type: "POST",
+            url: "/Proveedores/UpdateProveedor/" + Id,
+            data: {
+                //VALORES A ALMACENAR
+                Id, NombreComercial, Telefono, RUC, EstadoProveedor, Local, RetenedorIR, NombreProveedor, ApellidoProveedor, CedulaProveedor
+            },
+            dataType: "JSON",
+            success: function (data) {
+                if (data.success) {
+                    $("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
+                    $("#small-modal").modal("hide"); //CERRAR MODAL
+                    Alert(data.message, "", "success");//ALMACENADO CORRECTAMENTE
+                } else
+                    Alert("Error", data.message, "error");//MENSAJE DE ERROR
+            },
+            error: function () {
+                Alert("Error", "Intentelo de nuevo", "error");
+            }
+        });//FIN AJAX   
+    } else {
+        Alert("Eror", "Campos vacios", "error");
+    }
+}//FIN FUNCTION
+
+//VALIDACIONES
+function validado(Local) {
+    //SI EL PROVEEDOR ES LOCAL
+    if (Local == "true") {
+        if ($("#nombre").val() != "" && $("#apellido").val() != "" && $("#cedula").val() != "" && $("#telefono").val() != "") {
+            return true;
+        } else {
+            return false;
         }
-    });//FIN AJAX   
+    } else {//SI EL PROVEEDOR ES UN COMERCIO
+        if ($("#nombre").val() != "" && $("#ruc").val() != "" && $("#telefono").val() != "" ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -92,7 +92,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                 if (Validacion == null)
                 {
                     //SE GUARDAN DATOS DEL PROVEEDOR LOCAL
-                    dato.DNI = CedulaProveedor;
+                    dato.DNI = CedulaProveedor.ToUpper();
                     dato.PNombre = NombreProveedor;
                     dato.PApellido = ApellidoProveedor;
                     dato.RUC = RUC;
@@ -265,7 +265,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                 //ASIGNAMOS VALORES A DATOS DE PROVEEDOR LOCAL
                 dato.PNombre = NombreProveedor;
                 dato.PApellido = ApellidoProveedor;
-                dato.RUC = RUC;
+                //dato.RUC = RUC;
 
                 //GUARDAR CAMBIOS
                 db.Entry(dato).State = EntityState.Modified;
@@ -288,14 +288,14 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             }
             else {
                 //BUSCAR EL REGISTRO DATO DEL PROVEEDOR ATRAVES DEL RUC
-                var buscarDato = db.Datos.DefaultIfEmpty(null).FirstOrDefault(r => r.RUC.Trim() == RUC);
+                //var buscarDato = db.Datos.DefaultIfEmpty(null).FirstOrDefault(r => r.RUC.Trim() == RUC);
 
                 //MODIFICAR RUC
-                buscarDato.RUC = RUC;
-                db.Entry(buscarDato).State = EntityState.Modified;
+                //buscarDato.RUC = RUC;
+                //db.Entry(buscarDato).State = EntityState.Modified;
 
                 //ASIGNAMOS VALORES DE PROVEEDOR
-                proveedor.NombreComercial = NombreComercial;
+                //proveedor.NombreComercial = NombreComercial;NO PIENSO CAMBIAR DE NOMBRE COMERCIAL
                 proveedor.Telefono = Telefono;
                 proveedor.RetenedorIR = RetenedorIR;
                 proveedor.EstadoProveedor = EstadoProveedor;
@@ -333,8 +333,9 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                             where obj.Id == id
                             select new {
                                 //CONDICION PARA ASIGNAR A UN CAMPO UN VALOR ALTERNATIVO EN CASO DE SER NULO (CASE-WHEN)
-                                NombreComercial = obj.NombreComercial,
-                                NombreProveedor = d.PNombre + " " + d.PApellido,
+                                //NombreComercial = obj.NombreComercial,
+                                //NombreProveedor = d.PNombre + " " + d.PApellido,
+                                Nombre = obj.NombreComercial != null ? obj.NombreComercial : d.PNombre + " " + d.PApellido,
                                 Telefono = obj.Telefono,
                                 RUC = d.RUC,
                                 Cedula = d.DNI,

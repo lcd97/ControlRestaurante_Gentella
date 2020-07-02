@@ -9,6 +9,7 @@ function cargarCodigo() {
     });
 }
 
+//CARGA DE ENTRADA EL CODIGO A LA VISTA
 $(document).ready(function () {
     cargarCodigo();
 });

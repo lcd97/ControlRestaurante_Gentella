@@ -4,11 +4,9 @@
     Layout = null;
 }
 
-
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_content">
-
             <div class="form-group">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div>
@@ -20,8 +18,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="ln_solid"></div>
 
@@ -29,9 +25,7 @@
                         <a onclick="CerrarModal()" class="btn btn-primary">Cerrar</a>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>
@@ -42,16 +36,25 @@
             type: "GET",
             url: "/Clientes/getCustomer/" + @Model.Id,
             success: function (data) {
-                var agregar = "";
+                var agregar = "", correo="N/A", telefono="N/A";
 
-                agregar += '<h3 class="title green" style="text-align:center!important;"><i class="fa fa-user green">' +
+                if (data.data[0].Email != null) {
+                    correo = data.data[0].Email;
+                }
+
+                if (data.data[0].Telefono != null) {
+                    correo = data.data[0].Telefono;
+                }
+
+
+                agregar += '<h3 class="title" style="text-align:center!important;"><i class="fa fa-user">' +
                     '</i>&nbsp;&nbsp;' + data.data[0].Nombre + " " + data.data[0].Apellido + '</h3></br>';
 
                 agregar += '<p><i class="fa fa-list-alt"></i>&nbsp;&nbsp;<strong>Documento: </strong><small>' + data.data[0].Documento + '</small></p>';
-                agregar += '<p><i class="fa fa-at"></i>&nbsp;&nbsp;<strong>Correo: </strong><small>' + data.data[0].Email + '</small></p>';
-                agregar += '<p><i class="fa fa-phone"></i>&nbsp;&nbsp;<strong>Telefono: </strong><small>' + data.data[0].Telefono + '</small></p>';
+                agregar += '<p><i class="fa fa-at"></i>&nbsp;&nbsp;<strong>Correo: </strong><small>' + correo + '</small></p>';
+                agregar += '<p><i class="fa fa-phone"></i>&nbsp;&nbsp;<strong>Telefono: </strong><small>' + telefono + '</small></p>';
 
-                if (data.data[0].RUC != "") {
+                if (data.data[0].RUC != null) {
                     agregar += '<p><i class="fa fa-calculator"></i>&nbsp;&nbsp;<strong>RUC: </strong><small>' + data.data[0].RUC + '</small></p>';
                 } else {
                     agregar += '<p><i class="fa fa-calculator"></i>&nbsp;&nbsp;<strong>RUC: </strong><small>N/A</small></p>';
