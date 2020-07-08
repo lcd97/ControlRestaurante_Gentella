@@ -1,4 +1,50 @@
-﻿//FUNCION PARA ALMACENAR PLATILLO DEL MENU
+﻿$(document).ready(function () {
+    $.ajax({
+        url: "/Menus/GetData", //URL DE LA UBICACION DEL METODO
+        type: "GET", //TIPO DE ACCION
+        dataType: "JSON",
+        success: function (data) {
+            //SI NO SE ENCUENTRA NINGUN ELEMENTO
+            if (data.data.length <= 0) {
+                var agregar = '<h1 style="text-align:center;" col-md-12 col-sm-12 col-xs-12>Sin elementos disponibles</h1>';
+                $("#menuAdd").append(agregar);
+            } else if (data.data.length > 0) {
+                var agregarMenu = "";
+                $("#filtro").removeAttr("disabled");
+
+                //RECORRER TODOS LOS ELEMENTOS A MOSTRAR
+                for (var i = 0; i < data.data.length; i++) {
+                    agregarMenu += '<div class="col-md-55 items" id="' + data.data[i].Id + '">' +//SE LE ASIGNA UN IDENTIFICADOR PARA REALIZAR EL CRUD Y ACTUALIZAR VISTA
+                        '<div class="thumbnail">' +
+                        '<div class="image view view-first">' +
+                        '<img style="width: 100%; height:100%; display: block;" src="' + data.data[i].Imagen + '"alt="' + data.data[i].DescripcionPlatillo + '" />' +
+                        '<div class="mask no-caption">' +
+                        '<div class="tools tools-bottom">' +
+                        '<a onclick=CargarParcial("/Menus/Edit/' + data.data[i].Id + '")><i class="fa fa-pencil"></i></a>' +
+                        '<a onclick=CargarParcial("/Menus/Detail/' + data.data[i].Id + '")><i class="fa fa-eye"></i></a>' +
+                        '<a onclick=deleteAlertItem("/Menus/Delete/",' + data.data[i].Id + ')><i class="fa fa-trash"></i></a>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="caption" id="data">' +
+                        '<p>' +
+                        '<strong>' + data.data[i].DescripcionPlatillo + '</strong>' +
+                        '</p>' +
+                        '<p> $ ' + data.data[i].Precio + '</p>' +
+                        '</div>' +
+                        '</div >' +
+                        '</div >';
+                }
+                //AGREGAR LOS ELEMENTOS ASCENDENTE
+                $("#menuAdd").append(agregarMenu);
+                //LLAMAR LA FUNCION PARA AGREGAR LA PAGINACION
+                agregarPagination();
+            }//FIN IF-ELSE
+        }//FIN SUCCESS
+    });//FIN AJAX
+});//DOCUMENT READY FIN
+
+//FUNCION PARA ALMACENAR PLATILLO DEL MENU
 function saveMenuItem() {
     //SE CREA UN OBJETO DE LA CLASE FORMDATA
     var formData = new FormData();
@@ -14,9 +60,6 @@ function saveMenuItem() {
     formData.append("tiempo", $("#tiempo").val());
     formData.append("ingredientes", $("#ingredientes").val());
 
-    //ESTA ES OTRA MANERA DE MANDAR PARAMETROS AL CONTROLADOR. EN ESTE CASO NO FUNCIONO
-    //var data = "urlImage=" + formData + "&codigoMenu=" + codigoMenu + "&descripcionMenu=" + descripcionMenu;
-   
     $.ajax({
         type: "POST",
         url: "/Menus/Create",
@@ -25,10 +68,9 @@ function saveMenuItem() {
         contentType: false,
         success: function (data) {
             if (data.data) {
-                //$("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
                 $("#small-modal").modal("hide"); //CERRAR MODAL
-                //AGREGAR EL NUEVO PLATILLO AL INDEX
-                agregarItem(data.Id);
+                deletePagination();//LIMPIAR PAGINACION
+                agregarItem(data.Id);//AGREGAR EL ELEMENTO CREADO
                 Alert("Almacenado correctamente", data.message, "success");//ALMACENADO CORRECTAMENTE                
             } else
                 Alert("Error al almacenar", data.message, "error");//MENSAJE DE ERROR
@@ -36,12 +78,7 @@ function saveMenuItem() {
         error: function () {
             Alert("Error al almacenar", "Intentelo de nuevo", "error");
         }
-    });//FIN AJAX   
-    //    } else {
-    //    }
-    //} else {
-    //    Alert("Error", "Campos Vacios", "error");
-    //}
+    });
 
 }//FIN FUNCTION
 
@@ -69,8 +106,8 @@ function editMenuItem() {
     var time = $("#tiempo").val();
     var ingredients = $("#ingredientes").val();
 
-    
-        //FUNCION AJAX
+
+    //FUNCION AJAX
     $.ajax({
         type: "POST",
         url: "/Menus/Edit",
@@ -90,9 +127,6 @@ function editMenuItem() {
             Alert("Error al almacenar", "Intentelo de nuevo", "error");
         }
     });//FIN AJAX
-    //} else {
-    //    Alert("Error", "Campos Vacios", "error");
-    //}
 }//FIN FUNCTION
 
 //TIPO DE METODO A UTILIZAR
@@ -105,15 +139,10 @@ function comprobar() {
         url: "/Menus/Comprobar/",
         data: { codigo },
         success: function (data) {
-            //if (data.completado) {
-            //    saveMenuItem();//METODO PARA ALMACENAR UN NUEVO ELEMENTO
-            //}
-            //else
-            //    editMenuItem();//METODO PARA EDITAR UN ELEMENTO
             validar(data.completado);
         }
     });
-}
+}//FIN FUNCTION
 
 //AGREGAR UN CAMPO MAS AL INDEX
 function agregarItem(id) {
@@ -121,10 +150,11 @@ function agregarItem(id) {
         type: "POST",
         url: "/Menus/getDetail/" + id,
         success: function (data) {
-            var agregarMenu = '<div class="col-md-55" id="' + data.data.Id + '">' +
+            //CREAR HTML DE OBJETO CREADO
+            var agregarMenu = '<div class="col-md-55 items" id="' + data.data.Id + '">' +
                 '<div class="thumbnail">' +
                 '<div class="image view view-first">' +
-                '<img style="width: 100%; height:100%; display: block;" src="' + data.data.Ruta + '"alt="' + data.data.Platillo +'" />' +
+                '<img style="width: 100%; height:100%; display: block;" src="' + data.data.Ruta + '"alt="' + data.data.Platillo + '" />' +
                 '<div class="mask no-caption">' +
                 '<div class="tools tools-bottom">' +
                 '<a onclick=CargarParcial("/Menus/Edit/' + data.data.Id + '")><i class="fa fa-pencil"></i></a>' +
@@ -142,13 +172,15 @@ function agregarItem(id) {
                 '</div >' +
                 '</div >';
 
-            $("#menuAdd").append(agregarMenu);  
+            $("#menuAdd").prepend(agregarMenu);//AGREGARLO DE PRIMERO
+            //CREAR LA PAGINACION DE NUEVO
+            agregarPagination();
         },
         error: function () {
             Alert("Error al almacenar", "Intentelo de nuevo", "error");
         }
     });//FIN AJAX      
-}
+}//FIN FUNCTION
 
 //MODIFICAR EL DIV DEL ELEMENTO DEL MENU
 function modificarItem(id) {
@@ -161,10 +193,10 @@ function modificarItem(id) {
             $("#" + id).find("p:last-child").text(data.data.Precio);
         },
         error: function () {
-            Alert("Error al almacenar", "Intentelo de nuevo", "error");
+            Alert("Error al modificar", "Intentelo de nuevo", "error");
         }
     });//FIN AJAX      
-}
+}//FIN FUNCTION
 
 //FUNCION POST PARA ELIMINAR UN REGISTRO (CRUD) -- SOLO PARA ELIMINAR (RECARGA LA PAGINA CON AJAX -OJO-)
 function DeleteItem(uri, id) {
@@ -249,4 +281,62 @@ function validar(nuevo) {
             Alert("Error", "Campos vacios", "error");
         }//FIN VALIDACIONES IF-ELSE
     }//FIN IF-ELSE NUEVO
+}//FIN FUNCTION
+
+//FUNCION PARA CREAR LA PAGINACION
+function agregarPagination() {
+    //HACER VISIBLES LOS DIVS DE LAS OTRAS PAGINAS
+    var item = document.getElementsByClassName('items');//BUSCAR TODOS LOS ITEMS DE PLATILLO
+
+    //RECORRER TODOS LOS ELEMENTOS PARA HACERLOS VISIBLES
+    for (var i = 0; i < item.length; i++) {
+        item[i].style.display = "block";
+    }//FIN FOR
+
+    //CREAR LA PAGINACION
+    var paginationAdd = '<nav id="paginar" aria-label="Page navigation example" class="col-md-12 col-sm-12 col-xs-12">' +
+        '<ul class="pagination" id="myPager"></ul>' +
+        '</nav>';
+
+    //AGREGAR LA PAGINACION AL FINAL
+    $('#menuAdd').append(paginationAdd);
+
+    //INICIALIZAR PAGINACION
+    $('#menuAdd').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: false, perPage: 10 });
+}//FIN FUNCTION
+
+//FUNCION PARA LIMPIAR PAGINACION
+function deletePagination() {
+    $("#paginar").remove();
+}//FIN FUNCTION
+
+$("#filtro").keyup(function () {
+
+    var value = $(this).val().toLowerCase().trim();
+    //SI EL INPUT TIENE VALORES VACIOS
+    if (value == "") {
+        deletePagination();//ELIMINO LA PAGINACION
+
+        //CREAR LA PAGINACION
+        var paginationAdd = '<nav id="paginar" aria-label="Page navigation example" class="col-md-12 col-sm-12 col-xs-12">' +
+            '<ul class="pagination" id="myPager"></ul>' +
+            '</nav>';
+
+        //AGREGAR LA PAGINACION AL FINAL
+        $('#menuAdd').append(paginationAdd);
+
+        //INICIALIZAR PAGINACION
+        $('#menuAdd').pageMe({ pagerSelector: '#myPager', showPrevNext: true, hidePageNumbers: false, perPage: 10 });
+    } else {//SI EL INPUT ES DIFERENTE A VACIO
+        //FILTRA LOS DATOS A BUSCAR
+        deletePagination();//ELIMINO LA PAGINACION
+        filtrar(value);
+    }
+});
+
+//FUNCION FILTRA LOS ELEMENTOS DEL DIV
+function filtrar(value) {
+    $(".items").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);//SI ES DIFERENTE A -1 ES QUE ENCONTRO
+    });
 }

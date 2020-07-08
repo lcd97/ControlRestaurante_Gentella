@@ -30,6 +30,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
             var menu = (from obj in db.Menus.ToList()
                         join i in db.Imagenes.ToList() on obj.ImagenId equals i.Id
                         where obj.EstadoMenu == true
+                        orderby obj.Id descending
                         select new {
                             Id = obj.Id,
                             DescripcionPlatillo = obj.DescripcionMenu,

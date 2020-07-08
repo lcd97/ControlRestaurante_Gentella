@@ -221,6 +221,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Movimientos\ActivarController.cs" />
     <Compile Include="Controllers\Movimientos\EntradasController.cs" />
+    <Compile Include="Controllers\Movimientos\OrdenesController.cs" />
     <Compile Include="Controllers\Movimientos\SalidasController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -285,7 +286,6 @@
     <Content Include="images\user.png" />
     <Content Include="images\Volcancitos.png" />
     <Content Include="images\WhiteLogo.png" />
-    <Content Include="Scripts\bootpag.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap-tagsinput.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -334,6 +334,7 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.bootstrap-touchspin.js" />
+    <Content Include="Scripts\jquery.easyPaginate.js" />
     <Content Include="Scripts\jquery.mask.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.smartWizard.js" />
@@ -345,7 +346,9 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\Movimientos\activacion.js" />
     <Content Include="Scripts\Movimientos\entradas.js" />
-    <Content Include="Scripts\parsley.js" />
+    <Content Include="Scripts\Movimientos\ordenes.js" />
+    <Content Include="Scripts\pagination.js" />
+    <Content Include="Scripts\paginga.jquery.js" />
     <Content Include="Scripts\select2.full.min.js" />
     <Content Include="Scripts\switchery.js" />
     <Content Include="Web.config">
@@ -420,6 +423,7 @@
     <Content Include="Views\Meseros\Edit.cshtml" />
     <Content Include="Views\Clientes\Edit.cshtml" />
     <Content Include="Views\Shared\_loading.cshtml" />
+    <Content Include="Views\Ordenes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

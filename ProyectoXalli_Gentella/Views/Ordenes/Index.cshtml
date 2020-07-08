@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Title = "Ordenes";
+}
+
+<link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+<link href="~/Content/select2.min.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Orden <small>Hotel Xalli</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li class="pull-right">
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div data-parsley-validate class="form-horizontal form-label-left">
+
+                    <div class="form-group">
+                        <div class="col-md-2 col-sm-2 col-xs-4">
+                            <label>Código</label>
+                            <input id="codigo" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" autocomplete="off" readonly>
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-4 xdisplay_inputx form-group has-feedback">
+                            <label>Fecha</label>
+                            <input type="text" class="form-control has-feedback-left" id='fechaOrden'>
+                            <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+
+                        <div class="col-md-2 col-sm-2 col-xs-4">
+                            <label class="col-md-4 col-sm-4 col-xs-4">Hora</label>
+                            <input id="hora" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+                        </div>
+
+                        <div class="col-md-5 col-sm-5 col-xs-6">
+                            <label class="col-md-4 col-sm-4 col-xs-4">Mesero</label>
+                            <input id="mesero" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <label class="col-md-4 col-sm-4 col-xs-4">Datos del cliente</label>
+                            <input id="mesero" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Menu</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li class="pull-right">
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="form-horizontal form-label-left">
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <label>Categoría</label>
+                            @Html.DropDownList("CategoriaId", null, "Seleccione", htmlAttributes: new { @class = "js-example-basic-single form-control", @Style = "width:100%", @id = "categoria" })
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <input id="filtro" class="form-control" type="text" autocomplete="off" placeholder="Buscar Platillo" style="margin-top:25px" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="menuAdd">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Detalle</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li class="pull-right">
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="form-horizontal form-label-left">
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table class="table table-striped jambo_table bulk_action" id="productTable">
+                                <thead>
+                                    <tr class="headings">
+                                        <th class="column-title">Platillo </th>
+                                        <th class="column-title">P/U </th>
+                                        <th class="column-title">Cantidad </th>
+                                        <th class="column-title">Precio Total </th>
+                                        <th class="column-title no-link last">
+                                            <span class="nobr">Acciones</span>
+                                        </th>
+                                        <th class="bulk-actions" colspan="7">
+                                            <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table_body">
+                                    <!--AQUI VA LA LISTA DE LOS PRODUCTOS-->
+                                    <tr>
+                                        <td colspan="5" style="text-align:center!important;">- Sin pedidos aun -</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="even pointer">
+                                        <td class="" colspan="2"></td>
+                                        <td class="column-title">Total</td>
+                                        <td class="" id="total">C$ 0.00</td>
+                                        <td class=""></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_small-modal")
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/select2.full.min.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Scripts/Movimientos/ordenes.js"></script>
+    <script src="~/Scripts/pagination.js"></script>
+}

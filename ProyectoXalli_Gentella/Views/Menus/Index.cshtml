@@ -20,6 +20,11 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+                <div class="form-group">
+                    <div class="col-md-offset-8">
+                        <input id="filtro" class="form-control" type="text" autocomplete="off" placeholder="Buscar Platillo" style="margin-top:25px" disabled>
+                    </div>
+                </div>
                 <div class="row" id="menuAdd"></div>
             </div>
         </div>
@@ -34,51 +39,5 @@
     <script src="~/Scripts/Catalogos/menuItem.js"></script>
     <script src="~/Scripts/select2.full.min.js"></script>
     <script src="~/Scripts/jquery.smartWizard.js"></script>
-
-    <!--DATATABLE CATEGORIA-->
-    <script>
-        //CARGAR TODOS LOS PLATILLOS
-        $(document).ready(function () {
-            $.ajax({
-                url: "/Menus/GetData", //URL DE LA UBICACION DEL METODO
-                type: "GET", //TIPO DE ACCION
-                dataType: "JSON",
-                success: function (data) {
-
-                    if (data.data.length <= 0) {
-                        var agregar = '<h1 style="text-align:center;" col-md-12 col-sm-12 col-xs-12>Sin elementos disponibles</h1>';
-                        $("#menuAdd").append(agregar);
-                    } else if (data.data.length > 0) {
-                        var agregarMenu = "";
-
-                        //RECORRER TODOS LOS ELEMENTOS A MOSTRAR
-                        for (var i = 0; i < data.data.length; i++) {
-                            agregarMenu += '<div class="col-md-55" id="' + data.data[i].Id + '">' +//SE LE ASIGNA UN IDENTIFICADOR PARA REALIZAR EL CRUD Y ACTUALIZAR VISTA
-                                '<div class="thumbnail">' +
-                                '<div class="image view view-first">' +
-                                '<img style="width: 100%; height:100%; display: block;" src="' + data.data[i].Imagen + '"alt="' + data.data[i].DescripcionPlatillo + '" />' +
-                                '<div class="mask no-caption">' +
-                                '<div class="tools tools-bottom">' +
-                                '<a onclick=CargarParcial("/Menus/Edit/' + data.data[i].Id + '")><i class="fa fa-pencil"></i></a>' +
-                                '<a onclick=CargarParcial("/Menus/Detail/' + data.data[i].Id + '")><i class="fa fa-eye"></i></a>' +
-                                '<a onclick=deleteAlertItem("/Menus/Delete/",' + data.data[i].Id + ')><i class="fa fa-trash"></i></a>' +
-                                '</div>' +
-                                '</div>' +
-                                '</div>' +
-                                '<div class="caption" id="data">' +
-                                '<p>' +
-                                '<strong>' + data.data[i].DescripcionPlatillo + '</strong>' +
-                                '</p>' +
-                                '<p> $ ' + data.data[i].Precio + '</p>' +
-                                '</div>' +
-                                '</div >' +
-                                '</div >';
-                        }
-
-                        $("#menuAdd").append(agregarMenu);                        
-                    }//FIN IF-ELSE
-                }//FIN SUCCESS
-            });//FIN AJAX
-        });//DOCUMENT READY FIN
-    </script>
+    <script src="~/Scripts/pagination.js"></script>
 }
