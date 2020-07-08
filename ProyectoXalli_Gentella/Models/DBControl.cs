@@ -10,8 +10,7 @@ namespace ProyectoXalli_Gentella.Models
 {
     public class DBControl : DbContext
     {
-        public DBControl() : base("HotelDB")
-        {
+        public DBControl() : base("HotelDB") {
         }
 
         //MODULO CONTROL DE INSUMOS
@@ -27,6 +26,7 @@ namespace ProyectoXalli_Gentella.Models
         public virtual DbSet<TipoDeEntrada> TiposDeEntrada { get; set; }
         public virtual DbSet<TipoDeSalida> TiposDeSalida { get; set; }
         public virtual DbSet<UnidadDeMedida> UnidadesDeMedida { get; set; }
+        public virtual DbSet<Turno> Turnos { get; set; }
 
         //MODULO MENU
         public virtual DbSet<Receta> Recetas { get; set; }
@@ -36,7 +36,6 @@ namespace ProyectoXalli_Gentella.Models
 
         //MODULO ORDENES
         public virtual DbSet<Mesero> Meseros { get; set; }
-        public virtual DbSet<TipoDeCliente> TiposDeCliente { get; set; }
         public virtual DbSet<Cliente> Clientes { get; set; }
         public virtual DbSet<Orden> Ordenes { get; set; }
         public virtual DbSet<DetalleDeOrden> DetallesDeOrden { get; set; }

@@ -19,23 +19,24 @@ namespace ProyectoXalli_Gentella.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "La longitud debe ser de 3 dígitos")]
         [Display(Name = "Código")]
         public string CodigoSalida { get; set; }
 
-        [Required(ErrorMessage = "La {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [DataType(DataType.Date)]
         [Display(Name = "Fecha de salida")]
         public DateTime FechaSalida { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoTipoSalida { get; set; }
 
         //DECLARACION DE FK
         public int TipoSalidaId { get; set; }
         public int BodegaId { get; set; }
+        public int TurnoId { get; set; }
 
         //DECLARACION DE RELACIONES HIJAS
         public virtual ICollection<DetalleDeSalida> DetallesDeSalida { get; set; }
@@ -43,5 +44,6 @@ namespace ProyectoXalli_Gentella.Models
         //DECLARACION DE RELACIONES PADRES
         public virtual TipoDeSalida TipoDeSalida { get; set; }
         public virtual Bodega Bodega { get; set; }
+        public virtual Turno Turno { get; set; }
     }
 }

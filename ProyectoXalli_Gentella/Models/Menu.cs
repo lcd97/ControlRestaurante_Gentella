@@ -20,22 +20,24 @@ namespace ProyectoXalli_Gentella.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "La longitud debe ser de 3 dígitos")]
         [Display(Name = "Código")]
         public string CodigoMenu { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(100, ErrorMessage = "La longitud no debe exceder de 100 dígitos")]
         [Display(Name = "Platillo")]
         public string DescripcionMenu { get; set; }
 
-        [Required(ErrorMessage = "La {0} es obligatorio")]
-        [DisplayFormat(DataFormatString = "(0:c2)")]//MUESTRA EL FORMATO "10.20"
+        [Required(ErrorMessage = "El campo es obligatorio")]
+        [Range(1, (double)decimal.MaxValue, ErrorMessage = "El precio debe ser mayor a 0")]
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "(0:c2)")]
         [Display(Name = "Precio")]
         public double PrecioMenu { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoMenu { get; set; }
 

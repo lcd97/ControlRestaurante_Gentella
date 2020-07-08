@@ -214,7 +214,6 @@
     <Compile Include="Controllers\Catalogos\MeserosController.cs" />
     <Compile Include="Controllers\Catalogos\ProductosController.cs" />
     <Compile Include="Controllers\Catalogos\ProveedoresController.cs" />
-    <Compile Include="Controllers\Catalogos\TiposDeClienteController.cs" />
     <Compile Include="Controllers\Catalogos\TiposDeEntradaController.cs" />
     <Compile Include="Controllers\Catalogos\TiposDeSalidaController.cs" />
     <Compile Include="Controllers\Catalogos\UnidadesDeMedidaController.cs" />
@@ -249,9 +248,9 @@
     <Compile Include="Models\Proveedor.cs" />
     <Compile Include="Models\Receta.cs" />
     <Compile Include="Models\Salida.cs" />
-    <Compile Include="Models\TipoDeCliente.cs" />
     <Compile Include="Models\TipoDeEntrada.cs" />
     <Compile Include="Models\TipoDeSalida.cs" />
+    <Compile Include="Models\Turno.cs" />
     <Compile Include="Models\UnidadDeMedida.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
@@ -334,7 +333,6 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.bootstrap-touchspin.js" />
-    <Content Include="Scripts\jquery.easyPaginate.js" />
     <Content Include="Scripts\jquery.mask.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.smartWizard.js" />
@@ -415,11 +413,6 @@
     <Content Include="Views\Meseros\Create.cshtml" />
     <Content Include="Views\Meseros\Delete.cshtml" />
     <Content Include="Views\Meseros\Details.cshtml" />
-    <Content Include="Views\TiposDeCliente\Index.cshtml" />
-    <Content Include="Views\TiposDeCliente\Create.cshtml" />
-    <Content Include="Views\TiposDeCliente\Edit.cshtml" />
-    <Content Include="Views\TiposDeCliente\Delete.cshtml" />
-    <Content Include="Views\TiposDeCliente\Detail.cshtml" />
     <Content Include="Views\Meseros\Edit.cshtml" />
     <Content Include="Views\Clientes\Edit.cshtml" />
     <Content Include="Views\Shared\_loading.cshtml" />

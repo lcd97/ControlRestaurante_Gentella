@@ -112,7 +112,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoUnidadMedida,DescripcionUnidadMedida,AbreviaturaUM,EstadoUnidadMedida")] UnidadDeMedida UnidadDeMedida)
         {
             //SE BUSCA UNIDADES DE MEDIDA REGISTRADAS CON LA DESCRIPCION REGISTRADA
-             UnidadDeMedida bod = db.UnidadesDeMedida.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionUnidadMedida.Trim() == UnidadDeMedida.DescripcionUnidadMedida.Trim());
+             UnidadDeMedida bod = db.UnidadesDeMedida.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionUnidadMedida.Trim() == UnidadDeMedida.DescripcionUnidadMedida.Trim() && b.Id != UnidadDeMedida.Id);
 
             //SI YA EXISTE UNA DESCRIPCION DE U/M
             if (bod != null) {

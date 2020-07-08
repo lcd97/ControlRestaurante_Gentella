@@ -21,17 +21,17 @@ namespace ProyectoXalli_Gentella.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "La longitud debe ser de 3 dígitos")]
         [Display(Name = "Código")]
         public string CodigoProducto { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(50, ErrorMessage = "La longitud excede los 50 dígitos")]
         [Display(Name = "Producto")]
         public string DescripcionProducto { get; set; }
 
-        [Required(ErrorMessage = "La {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(50, ErrorMessage = "La longitud excede los 50 dígitos")]
         [Display(Name = "Marca")]
         public string MarcaProducto { get; set; }
@@ -42,19 +42,19 @@ namespace ProyectoXalli_Gentella.Models
         //[DisplayFormat(DataFormatString = "(0:c2)")]//MUESTRA EL FORMATO "10.20"
         //public double CantidadProducto { get; set; }
 
-        [Required(ErrorMessage = "La {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         //[Range(5, int.MaxValue, ErrorMessage = "La cantidad mínima de producto debe ser mayor a 0")]
         [DisplayFormat(DataFormatString = "(0:c2)")]//MUESTRA EL FORMATO "10.20"
         [Display(Name = "Cantidad máxima")]
         public double CantidadMaxProducto { get; set; }
 
-        [Required(ErrorMessage = "La {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         //[Range(5, int.MaxValue, ErrorMessage = "La cantidad mínima de producto debe ser mayor a 0")]
         [DisplayFormat(DataFormatString = "(0:c2)")]//MUESTRA EL FORMATO "10.20"
         [Display(Name = "Cantidad mínima")]
         public double CantidadMinProducto { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoProducto { get; set; }
 

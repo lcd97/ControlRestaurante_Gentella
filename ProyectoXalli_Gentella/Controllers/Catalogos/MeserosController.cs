@@ -34,8 +34,8 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                            where obj.EstadoMesero == true
                            select new {
                                Id = obj.Id,
+                               Documento = d.DNI,
                                NombreMesero = d.PNombre + " " + d.PApellido,
-                               HorarioTurno = obj.InicioTurno + " - " + obj.FinTurno,
                                Horario = obj.HoraEntrada + " - " + obj.HoraSalida
                            });
 
@@ -65,7 +65,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// <param name="FinTurno"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Create(string Nombres, string Apellido, string Cedula, string INSS, string RUC, string HoraEntrada, string HoraSalida, string InicioTurno, string FinTurno) {
+        public ActionResult Create(string Nombres, string Apellido, string Cedula, string INSS, string RUC, string HoraEntrada, string HoraSalida) {
             //BUSCAR SI LA PERSONA EXISTE
             var persona = db.Datos.DefaultIfEmpty(null).FirstOrDefault(p => p.DNI.Trim() == Cedula.Trim());
 
@@ -85,15 +85,13 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                     mesero.INSS = INSS;
                     mesero.HoraEntrada = HoraEntrada;
                     mesero.HoraSalida = HoraSalida;
-                    mesero.InicioTurno = InicioTurno;
-                    mesero.FinTurno = FinTurno;
                     mesero.DatoId = persona.Id;
                     mesero.EstadoMesero = true;
 
                     db.Meseros.Add(mesero);
 
                     completado = db.SaveChanges() > 0 ? true : false;
-                    mensaje = completado ? "Almacenado Correctamente" : "Error al ingresar";
+                    mensaje = completado ? "Almacenado Correctamente" : "Error al almacenar";
                 }
             } else {
                 //SI NO SE ENCUENTRA REGISTRADO
@@ -113,16 +111,14 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
 
                     waiter.INSS = INSS;
                     waiter.HoraEntrada = HoraEntrada;
-                    waiter.HoraSalida = HoraSalida;
-                    waiter.InicioTurno = InicioTurno;
-                    waiter.FinTurno = FinTurno;
+                    waiter.HoraSalida = HoraSalida;                  
                     waiter.DatoId = dato.Id;
                     waiter.EstadoMesero = true;
 
                     db.Meseros.Add(waiter);
 
                     completado = db.SaveChanges() > 0 ? true : false;
-                    mensaje = completado ? "Almacenado Correctamente" : "Error al ingresar";
+                    mensaje = completado ? "Almacenado Correctamente" : "Error al almacenar";
                 }//FIN SAVECHANGES DATO               
             }//FIN ELSE
 
@@ -158,8 +154,8 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                              RUC = a.RUC,
                              EntradaH = obj.HoraEntrada,
                              SalidaH = obj.HoraSalida,
-                             TurnoI = obj.InicioTurno,
-                             TurnoF = obj.FinTurno,
+                             //TurnoI = obj.InicioTurno,
+                             //TurnoF = obj.FinTurno,
                              Estado = obj.EstadoMesero
                          };
 
@@ -179,7 +175,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// <param name="FinTurno"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Edit(string Nombres, string Apellido, string Cedula, string RUC, string HoraEntrada, string HoraSalida, string InicioTurno, string FinTurno, bool Estado) {
+        public ActionResult Edit(string Nombres, string Apellido, string Cedula, string RUC, string HoraEntrada, string HoraSalida, bool Estado) {
             var data = db.Datos.DefaultIfEmpty(null).FirstOrDefault(d => d.DNI.Trim() == Cedula.Trim());
             var waiter = db.Meseros.DefaultIfEmpty(null).FirstOrDefault(w => w.DatoId == data.Id);
 
@@ -196,14 +192,12 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                 if (db.SaveChanges() > 0) {
                     //ACTUALIZAR DATOS DE MESERO
                     waiter.HoraEntrada = HoraEntrada;
-                    waiter.HoraSalida = HoraSalida;
-                    waiter.InicioTurno = InicioTurno;
-                    waiter.FinTurno = FinTurno;
+                    waiter.HoraSalida = HoraSalida;                 
                     waiter.EstadoMesero = Estado;
 
                     db.Entry(waiter).State = EntityState.Modified;
                     completado = db.SaveChanges() > 0 ? true : false;
-                    mensaje = completado ? "Almacenado correctamente" : "Error. Hubo error al editar";
+                    mensaje = completado ? "Modificado correctamente" : "Error al modificar";
                 }             
             } else {//NO SE ENCONTRO EL REGISTRO COMO MESERO
                 mensaje = "La persona a modificar no se encuentra registrado";

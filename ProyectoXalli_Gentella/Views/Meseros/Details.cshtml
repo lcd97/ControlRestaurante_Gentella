@@ -13,10 +13,9 @@
                         <h2 id="nombres"></h2>
                         <ul class="list-unstyled" id="agregar"></ul>
                         <p id="Horario"></p>
-                        <p id="Turno"></p>
                     </div>
-                    <div class="right col-xs-5 text-center">
-                        <img src="~/images/user.png" alt="" class="img-circle img-responsive">
+                    <div class="right col-xs-5">
+                        <img src="~/images/user.png" alt="user" class="img-circle img-responsive">
                     </div>
                 </div>
             </div>
@@ -57,7 +56,6 @@
                 $("#agregar").append(agregarRuc);
 
                 $("#Horario").html("Horario Laboral: " + data.data[0].EntradaH + " - " + data.data[0].SalidaH);
-                $("#Turno").html("Horario Turno: " + data.data[0].TurnoI + " - " + data.data[0].TurnoF);
             }
         });
     });

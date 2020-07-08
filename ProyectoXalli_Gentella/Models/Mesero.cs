@@ -22,27 +22,17 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "INSS")]
         public string INSS { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(10, ErrorMessage = "La Hora de entrada no debe exceder los 5 caracteres")]
         [Display(Name = "Hora Entrada")]
         public string HoraEntrada { get; set; }
 
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(10, ErrorMessage = "La Hora de entrada no debe exceder los 5 caracteres")]
         [Display(Name = "Hora Salida")]
-        public string HoraSalida { get; set; }
+        public string HoraSalida { get; set; }        
 
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [StringLength(10, ErrorMessage = "El inicio de Turno no debe exceder los 5 caracteres")]
-        [Display(Name = "Inicio Turno")]
-        public string InicioTurno { get; set; }
-
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [StringLength(10, ErrorMessage = "El fin del turno no debe exceder los 5 caracteres")]
-        [Display(Name = "Fin Turno")]
-        public string FinTurno { get; set; }
-
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoMesero { get; set; }
 
@@ -54,5 +44,6 @@ namespace ProyectoXalli_Gentella.Models
 
         //DECLARACION DE RELACION HIJA
         public ICollection<Orden> Ordenes { get; set; }
+        public ICollection<Turno> Turnos { get; set; }
     }
 }

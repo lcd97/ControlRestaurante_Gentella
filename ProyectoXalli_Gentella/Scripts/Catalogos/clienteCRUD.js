@@ -11,8 +11,6 @@ function saveCustomer() {
     tipoCliente = $("#tipo").val();
     tipo = $("#documento").val();
 
-    //alert(nombre + " " + apellido + " " + documento + " " + ruc + " " + email + " " + telefono + " " + tipoCliente + " " + tipo);
-
     //var data = "Nombre=" + nombre + "&Apellido=" + apellido + "&Documento=" + documento + "&RUC=" + ruc + "&Email=" + email +
     //    "&Telefono=" + telefono + "&TipoCliente=" + tipoCliente + "&Tipo=" + tipo;
     
@@ -50,7 +48,7 @@ function editCustomer(Id) {
     Nombre = $("#nombre").val();
     Apellido = $("#apellido").val();
     Documento = $("#numero").val();
-    ruc = $("#ruc").val();
+    ruc = $("#ruc").val().toUpperCase();
     Email = $("#email").val();
     Telefono = $("#telefono").val();
     tipoCliente = $("#tipo").val();

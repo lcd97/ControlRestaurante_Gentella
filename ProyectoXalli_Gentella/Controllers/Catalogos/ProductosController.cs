@@ -71,12 +71,12 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             Producto bod = db.Productos.DefaultIfEmpty(null)
                 .FirstOrDefault(b => b.DescripcionProducto.ToUpper().Trim() == Producto.DescripcionProducto.ToUpper().Trim() &&
                                 b.MarcaProducto.ToUpper().Trim() == Producto.MarcaProducto.ToUpper().Trim() && 
-                                b.UnidadMedidaId == Producto.UnidadMedidaId);
+                                b.UnidadMedidaId == Producto.UnidadMedidaId && b.CategoriaId == Producto.CategoriaId);
             
             //SI EL PRODUCTO YA EXISTE
             if (bod != null) {
                 ModelState.AddModelError("DescripcionProducto", "La presentación del producto ya existe");
-                mensaje = "El producto con esas características ya existe";
+                mensaje = "La presentación del producto ya existe";
             } else {
                 //ESTADO DE LA CATEGORIA CUANDO SE CREA SIEMPRE ES TRUE
                 Producto.EstadoProducto = true;

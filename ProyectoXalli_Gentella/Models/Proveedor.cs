@@ -23,17 +23,20 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Nombre comercial")]
         public string NombreComercial { get; set; }
 
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(9, ErrorMessage = "La longitud excede los 9 dígitos")]
         [Display(Name = "Número telefónico")]
         public string Telefono { get; set; }
 
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoProveedor { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Proveedor local")]
         public bool Local { get; set; }
 
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Retiene IR")]
         public bool RetenedorIR { get; set; }
 

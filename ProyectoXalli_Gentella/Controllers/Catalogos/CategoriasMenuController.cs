@@ -107,7 +107,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                 {
                     db.Entry(CategoriaMenu).State = EntityState.Modified;
                     completado = await db.SaveChangesAsync() > 0 ? true : false;
-                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                    mensaje = completado ? "Modificado correctamente" : "Error al modificar";
                 }
             }
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);

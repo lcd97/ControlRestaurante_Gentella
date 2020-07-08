@@ -19,17 +19,17 @@ namespace ProyectoXalli_Gentella.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "La longitud debe ser de 3 dígitos")]
         [Display(Name = "Código")]
         public string CodigoTipoSalida { get; set; }
 
-        [Required(ErrorMessage = "La {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(50, ErrorMessage = "La longitud excede los 50 dígitos")]
         [Display(Name = "Tipo de salida")]
         public string DescripcionTipoSalida { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoTipoSalida { get; set; }
 

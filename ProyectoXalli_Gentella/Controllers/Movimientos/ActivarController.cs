@@ -196,17 +196,17 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
             return Json(new { data = meseros }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult getTiposDeCliente() {
-            var tiposC = (from obj in db.TiposDeCliente.ToList()
-                           where obj.EstadoTipoCliente == false
-                           select new {
-                               Id = obj.Id,
-                               Descripcion = obj.DescripcionTipoCliente,
-                               Codigo = obj.CodigoTipoCliente
-                           });
+        //public JsonResult getTiposDeCliente() {
+        //    var tiposC = (from obj in db.TiposDeCliente.ToList()
+        //                   where obj.EstadoTipoCliente == false
+        //                   select new {
+        //                       Id = obj.Id,
+        //                       Descripcion = obj.DescripcionTipoCliente,
+        //                       Codigo = obj.CodigoTipoCliente
+        //                   });
 
-            return Json(new { data = tiposC }, JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(new { data = tiposC }, JsonRequestBehavior.AllowGet);
+        //}
 
         public JsonResult getClientes() {
             var meseros = (from obj in db.Clientes.ToList()

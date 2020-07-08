@@ -13,8 +13,7 @@ namespace ProyectoXalli_Gentella.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "La {0} es obligatorio")]
-        [Range(5, int.MaxValue)]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Cantidad de salida")]
         public int CantidadSalida { get; set; }
 

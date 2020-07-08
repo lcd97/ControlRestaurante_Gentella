@@ -23,9 +23,9 @@
                 <table id="Table" class="table table-hover table-bordered" style="width:100% !important">
                     <thead>
                         <tr>
+                            <th>Cédula</th>
                             <th>Colaborador</th>
                             <th>Horario</th>
-                            <th>Horario Turno</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -44,6 +44,7 @@
     <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
     <script src="~/Scripts/Catalogos/CRUD.js"></script>
     <script src="~/Scripts/Catalogos/meseroCRUD.js"></script>
+    <script src="~/Scripts/jquery.mask.js"></script>
 
     <!--DATATABLE CATEGORIA-->
     <script>
@@ -58,9 +59,9 @@
                 },
                 //DEFINIENDO LAS COLUMNAS A LLENAR
                 columns: [
+                    { data: "Documento" },
                     { data: "NombreMesero" },
                     { data: "Horario" },
-                    { data: "HorarioTurno" },
                     {   //DEFINIENDO LOS BOTONES PARA EDITAR Y ELIMINAR POR MEDIO DE JS
                         data: "Id", "render": function (data) {
                             return "<a class='btn btn-success' onclick=CargarParcial('/Meseros/Edit/" + data + "')><i class='fa fa-pencil'></i></a>" +

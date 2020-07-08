@@ -1,23 +1,25 @@
-namespace ProyectoXalli_Gentella.Migrations {
+namespace ProyectoXalli_Gentella.Migrations
+{
     using ProyectoXalli_Gentella.Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ProyectoXalli_Gentella.Models.DBControl> {
+    internal sealed class Configuration : DbMigrationsConfiguration<ProyectoXalli_Gentella.Models.DBControl>
+    {
         public Configuration() {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
             ContextKey = "ProyectoXalli_Gentella.Models.DBControl";
         }
 
-        protected override void Seed(ProyectoXalli_Gentella.Models.DBControl context) {
+        protected override void Seed(ProyectoXalli_Gentella.Models.DBControl context)
+        {
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
-
             context.Bodegas.AddOrUpdate(u => u.CodigoBodega,
                 new Bodega { CodigoBodega = "001", DescripcionBodega = "Bar", EstadoBodega = true },
                 new Bodega { CodigoBodega = "002", DescripcionBodega = "Cocina", EstadoBodega = true });
@@ -62,7 +64,7 @@ namespace ProyectoXalli_Gentella.Migrations {
             context.SaveChanges();
 
             context.Datos.AddOrUpdate(d => d.DNI,
-                new Dato { DNI = "xxx-xxxxxx-xxxxx", PNombre = "default", PApellido = "default"/*, SApellido = "default"*/, RUC = "xxx-xxx-xx" });
+                new Dato { DNI = "xxx-xxxxxx-xxxxx", PNombre = "default", PApellido = "default", RUC = "xxx-xxx-xx" });
             context.SaveChanges();
 
             context.CategoriasMenu.AddOrUpdate(d => d.CodigoCategoriaMenu,
@@ -71,11 +73,6 @@ namespace ProyectoXalli_Gentella.Migrations {
                 new CategoriaMenu { CodigoCategoriaMenu = "003", DescripcionCategoriaMenu = "Cena", EstadoCategoriaMenu = true },
                 new CategoriaMenu { CodigoCategoriaMenu = "004", DescripcionCategoriaMenu = "Bebidas Alcholicas", EstadoCategoriaMenu = true },
                 new CategoriaMenu { CodigoCategoriaMenu = "005", DescripcionCategoriaMenu = "Vinos", EstadoCategoriaMenu = true });
-            context.SaveChanges();
-
-            context.TiposDeCliente.AddOrUpdate(d => d.CodigoTipoCliente,
-                new TipoDeCliente { CodigoTipoCliente = "001", DescripcionTipoCliente = "Cliente Ocacional", EstadoTipoCliente = true },
-                new TipoDeCliente { CodigoTipoCliente = "002", DescripcionTipoCliente = "Huésped", EstadoTipoCliente = true });
             context.SaveChanges();
         }
     }

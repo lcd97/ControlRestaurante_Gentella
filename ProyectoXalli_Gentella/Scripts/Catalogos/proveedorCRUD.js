@@ -4,7 +4,7 @@ function saveSeller() {
     var NombreComercial, Telefono, RUC, Local, RetenedorIR, NombreProveedor, ApellidoProveedor, CedulaProveedor;
     //ASIGNANDO VALORES GENERALES
     Telefono = $("#telefono").val();
-    RUC = $("#ruc").val();
+    RUC = $("#ruc").val().toUpperCase();
     //EstadoProveedor = true;
     RetenedorIR = $(".ir").is(":checked");
 
@@ -54,7 +54,7 @@ function UpdateProvider(Id) {
     var NombreComercial, Telefono, RUC, EstadoProveedor, Local, RetenedorIR, NombreProveedor, ApellidoProveedor, CedulaProveedor;
     //ASIGNANDO VALORES GENERALES
     Telefono = $("#telefono").val();
-    RUC = $("#ruc").val();
+    RUC = $("#ruc").val().toUpperCase();
     EstadoProveedor = $(".activo").is(":checked");
     RetenedorIR = $(".ir").is(":checked");
     Local = $('.btn-group > .btn.active').attr("value");

@@ -13,10 +13,6 @@ namespace ProyectoXalli_Gentella.Models
         [Key]
         public int Id { get; set; }
 
-        //[StringLength(50, ErrorMessage = "La habitación no debe exceder los 50 dígitos")]
-        //[Display(Name = "Habitación")]
-        //public string Habitacion { get; set; }
-
         [StringLength(150, ErrorMessage = "El correo no debe exceder los 50 dígitos")]
         [Display(Name = "Correo Electrónico")]
         public string EmailCliente { get; set; }
@@ -25,7 +21,6 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Teléfono")]
         public string TelefonoCliente { get; set; }
         
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoCliente { get; set; }
 
@@ -35,10 +30,8 @@ namespace ProyectoXalli_Gentella.Models
 
         //FOREIGN KEY
         public int DatoId { get; set; }
-        public int TipoClienteId { get; set; }
 
         //DECLARACION DE RELACION PADRE
         public virtual Dato Dato { get; set; }
-        public virtual TipoDeCliente TipoDeCliente { get; set; }
     }
 }

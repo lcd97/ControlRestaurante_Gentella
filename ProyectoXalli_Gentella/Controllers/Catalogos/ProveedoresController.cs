@@ -59,11 +59,13 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         {
             //SE CREAR UNA INSTANCIA PARA ALMACENAR AL PROVEEDOR
             Proveedor proveedor = new Proveedor();
-            int proveedorId = 0;//SE CREA UNA VARIABLE ENTERA PARA ALMACENAR EL ID DE DATO Y SE INICIALIZA EN 1 (EL ID 1 CORRESPONDE A LA PLANTILLA)
+            //INICIO CAMPOS A USAR EN VISTA ENTRADA
+            int proveedorId = 0;
             string providerName = "";
+            //FIN CAMPOS A USAR EN VISTA ENTRADA
 
             //BUSCAR QUE EL NUMERO RUC NO SE REPITA
-            var buscarRUC = db.Datos.DefaultIfEmpty(null).FirstOrDefault(r => r.RUC == RUC && r.RUC != "");
+            var buscarRUC = db.Datos.DefaultIfEmpty(null).FirstOrDefault(r => r.RUC == RUC && r.RUC != null);
 
             //SI EXISTE UN REGISTRO CON EL NUMERO RUC
             if (buscarRUC != null)
@@ -95,7 +97,11 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                     dato.DNI = CedulaProveedor.ToUpper();
                     dato.PNombre = NombreProveedor;
                     dato.PApellido = ApellidoProveedor;
-                    dato.RUC = RUC;
+
+                    //SI SE INGRESO UN NUMERO RUC-ALMACENAR
+                    if (RUC != "") {
+                        dato.RUC = RUC;
+                    }                    
 
                     db.Datos.Add(dato);
 
@@ -158,10 +164,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                 {
                     Dato data = new Dato();
 
-                    data.PNombre = "default";
-                    data.PApellido = "default";
-                    data.DNI = "xxx-xxxxxx-xxxxx";
-                    data.RUC = RUC;
+                    data.RUC = RUC;//ALMACENAR UNICO CAMPO OBLIGATORIO DE UN PROVEEDOR COMERCIAL
 
                     db.Datos.Add(data);
                     if (db.SaveChanges() > 0)

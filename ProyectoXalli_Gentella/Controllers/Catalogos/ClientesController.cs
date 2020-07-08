@@ -45,8 +45,6 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// </summary>
         /// <returns></returns>
         public ActionResult Create() {
-            ViewBag.TipoClienteId = new SelectList(db.TiposDeCliente, "Id", "DescripcionTipoCliente");
-
             return View();
         }
 
@@ -112,7 +110,6 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                         client.EmailCliente = Email != "" ? Email : null;
                         client.TelefonoCliente = Telefono != "" ? Telefono : null;
                         client.EstadoCliente = true;
-                        client.TipoClienteId = TipoCliente;
                         client.DatoId = dato.Id;
 
                         db.Clientes.Add(client);
@@ -143,7 +140,6 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                         customer.EmailCliente = Email != "" ? Email : null;
                         customer.TelefonoCliente = Telefono != "" ? Telefono : null;
                         customer.EstadoCliente = true;
-                        customer.TipoClienteId = TipoCliente;
                         customer.DatoId = data.Id;
 
                         db.Clientes.Add(customer);
@@ -170,9 +166,6 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             if (Cliente == null) {
                 return HttpNotFound();
             }
-
-            ViewBag.TipoClienteId = new SelectList(db.TiposDeCliente, "Id", "DescripcionTipoCliente", Cliente.TipoClienteId);
-
             return View(Cliente);
         }
 
@@ -212,7 +205,6 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                 if (db.SaveChanges() > 0) {
                     cliente.EmailCliente = Email != "" ? Email : null;
 
-                    cliente.TipoClienteId = TipoCliente;
                     cliente.TelefonoCliente = Telefono != "" ? Telefono : null;
 
                     cliente.EstadoCliente = Estado;

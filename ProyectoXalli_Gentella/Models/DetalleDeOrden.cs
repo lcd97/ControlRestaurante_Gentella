@@ -13,16 +13,16 @@ namespace ProyectoXalli_Gentella.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "El campo {0} es obligatoria")]      
+        [Required(ErrorMessage = "El campo es obligatorio")]      
         [Display(Name = "Cantidad")]
         public int CantidadOrden { get; set; }
 
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(150, ErrorMessage = "El campo {0} no puede exceder los 150 caracteres")]
         [Display(Name = "Notas")]
         public string NotaDetalleOrden { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoDetalleOrden { get; set; }
 

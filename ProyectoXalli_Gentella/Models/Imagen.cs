@@ -13,7 +13,7 @@ namespace ProyectoXalli_Gentella.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(100,ErrorMessage = "La longitud no debe exceder de 100 dígitos")]
         [Display(Name = "Ruta")]
         public string Ruta { get; set; }

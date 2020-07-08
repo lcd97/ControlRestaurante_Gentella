@@ -19,18 +19,18 @@ namespace ProyectoXalli_Gentella.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "La longitud debe ser de 3 dígitos")]
         [Display(Name = "Código")]
         public string CodigoEntrada { get; set; }
 
-        [Required(ErrorMessage = "La {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [DataType(DataType.Date)]
         [Display(Name = "Fecha de entrada")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:DD-MM-YYYY}")]
         public DateTime FechaEntrada { get; set; }
 
-        [Required(ErrorMessage = "El {0} es obligatorio")]
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoEntrada { get; set; }
 
