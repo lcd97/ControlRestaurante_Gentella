@@ -8,17 +8,14 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ProyectoXalli_Gentella.Controllers
-{
-    public class BodegasController : Controller
-    {
+namespace ProyectoXalli_Gentella.Controllers {
+    public class BodegasController : Controller {
         private DBControl db = new DBControl();
         private bool completado = false;
         private string mensaje = "";
 
         // GET: Bodegas
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
             return View();
         }
 
@@ -26,31 +23,26 @@ namespace ProyectoXalli_Gentella.Controllers
         /// RECUPERA DATOS PARA LLENAR LA TABLA BODEGA A TRAVES DE JSON
         /// </summary>
         /// <returns></returns>
-        public async Task<JsonResult> GetData()
-        {
+        public async Task<JsonResult> GetData() {
             var bodegas = await db.Bodegas.Where(b => b.EstadoBodega == true).ToListAsync();
 
             return Json(new { data = bodegas }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Bodegas/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
+        public async Task<ActionResult> Details(int? id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Bodega bodega = await db.Bodegas.FindAsync(id);
-            if (bodega == null)
-            {
+            if (bodega == null) {
                 return HttpNotFound();
             }
             return View(bodega);
         }
 
         // GET: Bodegas/Create
-        public ActionResult Create()
-        {
+        public ActionResult Create() {
             return View();
         }
 
@@ -59,8 +51,7 @@ namespace ProyectoXalli_Gentella.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoBodega,DescripcionBodega,EstadoBodega")] Bodega bodega)
-        {
+        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoBodega,DescripcionBodega,EstadoBodega")] Bodega bodega) {
             //BUSCAR SI YA SE ENCUENTRA REGISTRADO UNA BODEGA CON LA DESCRIPCION INGRESADA
             Bodega bod = db.Bodegas.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionBodega.ToUpper().Trim() == bodega.DescripcionBodega.ToUpper());
 
@@ -68,36 +59,44 @@ namespace ProyectoXalli_Gentella.Controllers
             if (bod != null) {
                 ModelState.AddModelError("DescripcionBodega", "Utilice otro nombre");
                 mensaje = "La descripción ya se encuentra registrada";
-            } else {
-                bodega.EstadoBodega = true;
-                if (ModelState.IsValid) {
-                    db.Bodegas.Add(bodega);
-                    completado = await db.SaveChangesAsync() > 0 ? true : false;
-                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
-                } else {
-                    //ESTO ES PARA VER EL ERROR QUE DEVUELVE EL MODELO
-                    string cad = "";
-                    foreach (ModelState modelState in ViewData.ModelState.Values) {
-                        foreach (ModelError error in modelState.Errors) {
-                            cad += (error);
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+            }
+
+            using (var transact = db.Database.BeginTransaction()) {
+
+                try {
+                    bodega.EstadoBodega = true;
+                    if (ModelState.IsValid) {
+                        db.Bodegas.Add(bodega);
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                    } else {
+                        //ESTO ES PARA VER EL ERROR QUE DEVUELVE EL MODELO
+                        string cad = "";
+                        foreach (ModelState modelState in ViewData.ModelState.Values) {
+                            foreach (ModelError error in modelState.Errors) {
+                                cad += (error);
+                            }
                         }
                     }
-                }
-            }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al almacenar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Bodegas/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
+        public async Task<ActionResult> Edit(int? id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Bodega bodega = await db.Bodegas.FindAsync(id);
-            if (bodega == null)
-            {
+            if (bodega == null) {
                 return HttpNotFound();
             }
             return View(bodega);
@@ -108,36 +107,41 @@ namespace ProyectoXalli_Gentella.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoBodega,DescripcionBodega,EstadoBodega")] Bodega bodega)
-        {
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoBodega,DescripcionBodega,EstadoBodega")] Bodega bodega) {
             //COMPROBAR QUE NO EXISTA LA MISMA DESCRIPCION DE BODEGAS
-            var comprobar = db.Bodegas.DefaultIfEmpty(null).FirstOrDefault(c=> c.DescripcionBodega.ToUpper().Trim() == bodega.DescripcionBodega.ToUpper().Trim() && c.Id != bodega.Id);
+            var comprobar = db.Bodegas.DefaultIfEmpty(null).FirstOrDefault(c => c.DescripcionBodega.ToUpper().Trim() == bodega.DescripcionBodega.ToUpper().Trim() && c.Id != bodega.Id);
 
             //SI YA EXISTE LA BODEGA MANDAR ERROR
             if (comprobar != null) {
                 ModelState.AddModelError("DescripcionBodega", "Utilice otro nombre");
                 mensaje = "La descripción ya se encuentra registrada";
-            } else
-            if (ModelState.IsValid)
-            {
-                db.Entry(bodega).State = EntityState.Modified;
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+            }
+
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    if (ModelState.IsValid) {
+                        db.Entry(bodega).State = EntityState.Modified;
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                    }
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al modificar";
+                    transact.Rollback();
+                }
             }
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Bodegas/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
+        public async Task<ActionResult> Delete(int? id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Bodega bodega = await db.Bodegas.FindAsync(id);
-            if (bodega == null)
-            {
+            if (bodega == null) {
                 return HttpNotFound();
             }
             return View(bodega);
@@ -175,28 +179,34 @@ namespace ProyectoXalli_Gentella.Controllers
         // POST: Bodegas/Delete/5
         [HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
+        public async Task<ActionResult> DeleteConfirmed(int id) {
             var bodega = db.Bodegas.Find(id);
             //BUSCANDO QUE BODEGA NO TENGA SALIDAS NI ENTRADAS REGISTRADAS CON SU ID
             var oEnt = db.Entradas.DefaultIfEmpty(null).FirstOrDefault(e => e.BodegaId == bodega.Id);
             var oSal = db.Salidas.DefaultIfEmpty(null).FirstOrDefault(s => s.BodegaId == bodega.Id);
 
-            //SI NO SE ENCONTRARON SALIDAS O ENTRADAS AL ALMACEN
-            if (oEnt == null || oSal == null) {
-                db.Bodegas.Remove(bodega);
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
-            } else
-                mensaje = "Se encontraron productos registrados a este almacen";
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //SI NO SE ENCONTRARON SALIDAS O ENTRADAS AL ALMACEN
+                    if (oEnt == null || oSal == null) {
+                        db.Bodegas.Remove(bodega);
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+                    } else {
+                        mensaje = "Se encontraron productos registrados a este almacen";
+                    }
 
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al eliminar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
                 db.Dispose();
             }
             base.Dispose(disposing);

@@ -90,93 +90,98 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
 
                 mensaje = "Ya se encuentra registrado un platillo con ese nombre. Intentelo de nuevo";
                 completado = false;
+                return Json(new { data = completado, message = mensaje, Id = EnviarId }, JsonRequestBehavior.AllowGet);
+            }
 
-            } else {
 
-                //SI LLEGA AL MENOS UN ARCHIVO
-                if (urlImage != null || Request.Files[0].ContentLength > 0) {
-                    var file = Request.Files[0];//OBTENEMOS EL ARCHIVO DE LA VISTA
-                    var extension = "." + Path.GetFileName(file.FileName).Split('.').Last();//SE OBTIENE LA EXTENSION DE LA IMAGEN
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //SI LLEGA AL MENOS UN ARCHIVO
+                    if (urlImage != null || Request.Files[0].ContentLength > 0) {
+                        var file = Request.Files[0];//OBTENEMOS EL ARCHIVO DE LA VISTA
+                        var extension = "." + Path.GetFileName(file.FileName).Split('.').Last();//SE OBTIENE LA EXTENSION DE LA IMAGEN
 
-                    //ASIGNAR NOMBRE DEL PLATILLO A LA IMAGEN PARA GUARDAR - QUITANDO ESPACIOS ENTRE PALABRAS Y AGREGANDO SU EXTENSION
-                    string filename = string.Concat(descripcionMenu.Where(c => !char.IsWhiteSpace(c))).ToLower() + extension;
+                        //ASIGNAR NOMBRE DEL PLATILLO A LA IMAGEN PARA GUARDAR - QUITANDO ESPACIOS ENTRE PALABRAS Y AGREGANDO SU EXTENSION
+                        string filename = string.Concat(descripcionMenu.Where(c => !char.IsWhiteSpace(c))).ToLower() + extension;
 
-                    //BUSCAR EL NOMBRE DEL ARCHIVO EN LA BASE DE DATOS CON EL MISMO NOMBRE
-                    var img = db.Imagenes.DefaultIfEmpty(null).FirstOrDefault(c => c.Ruta.Trim() == ("/images/Menu" + @"\" + filename).Trim());
+                        //BUSCAR EL NOMBRE DEL ARCHIVO EN LA BASE DE DATOS CON EL MISMO NOMBRE
+                        var img = db.Imagenes.DefaultIfEmpty(null).FirstOrDefault(c => c.Ruta.Trim() == ("/images/Menu" + @"\" + filename).Trim());
 
-                    //SI LA IMAGEN NO EXISTE SE PROCEDE A GUARDAR
-                    if (img == null) {
-                        path = Path.Combine(Server.MapPath("~/images/Menu"), filename);//SE CREA LA DIRECCION DONDE SE ALMACENARA LA IMAGEN--OJO
-                        file.SaveAs(path);//SE MANDA A GUARDAR EL ARCHIVO
+                        //SI LA IMAGEN NO EXISTE SE PROCEDE A GUARDAR
+                        if (img == null) {
+                            path = Path.Combine(Server.MapPath("~/images/Menu"), filename);//SE CREA LA DIRECCION DONDE SE ALMACENARA LA IMAGEN--OJO
+                            file.SaveAs(path);//SE MANDA A GUARDAR EL ARCHIVO
 
-                        string url = Path.Combine("/images/Menu", filename);//SE CREA LA DIRECCION PARA ALMACENAR LA IMAGEN
-                        Imagen obj = new Imagen();//SE CREA EL OBJETO IMAGEN
+                            string url = Path.Combine("/images/Menu", filename);//SE CREA LA DIRECCION PARA ALMACENAR LA IMAGEN
+                            Imagen obj = new Imagen();//SE CREA EL OBJETO IMAGEN
 
-                        //OJO AQUI, SOLO SE ESTA TRABAJANDO LOCAL. CUANDO YA SE SUBA A ALGUN SERVIDOR SE DEBE MODIFICAR//
-                        obj.Ruta = url;//SE ASIGNA LA RUTA
+                            //OJO AQUI, SOLO SE ESTA TRABAJANDO LOCAL. CUANDO YA SE SUBA A ALGUN SERVIDOR SE DEBE MODIFICAR//
+                            obj.Ruta = url;//SE ASIGNA LA RUTA
 
-                        db.Imagenes.Add(obj);//SE AGREGA EL OBJETO
+                            db.Imagenes.Add(obj);//SE AGREGA EL OBJETO
 
-                        //SI SE GUARDO CORRECTAMENTE SE ALMACENA LOS DEMAS CAMPOS
-                        if (db.SaveChanges() > 0) {
-                            //SE CREA UNA INSTANCIA PARA ALMACENAR EL PLATILLO
-                            Menu item = new Menu();
-
-                            item.CodigoMenu = codigoMenu;
-                            item.DescripcionMenu = descripcionMenu;
-                            item.PrecioMenu = precio;
-                            item.CategoriaMenuId = categoriaId;
-                            item.ImagenId = obj.Id;//SE ASIGNA EL ID RECIEN ALMACENADO
-                            item.EstadoMenu = true;
-
-                            db.Menus.Add(item);
-                            //SI SE ALMACENO CORRECTAMENTE EL PLATILLO
+                            //SI SE GUARDO CORRECTAMENTE SE ALMACENA LOS DEMAS CAMPOS
                             if (db.SaveChanges() > 0) {
-                                //GUARDAR RECETA
-                                Receta receta = new Receta();
+                                //SE CREA UNA INSTANCIA PARA ALMACENAR EL PLATILLO
+                                Menu item = new Menu();
 
-                                receta.TiempoEstimado = tiempo;
-                                receta.Ingredientes = ingredientes;
-                                receta.MenuId = item.Id;
+                                item.CodigoMenu = codigoMenu;
+                                item.DescripcionMenu = descripcionMenu;
+                                item.PrecioMenu = precio;
+                                item.CategoriaMenuId = categoriaId;
+                                item.ImagenId = obj.Id;//SE ASIGNA EL ID RECIEN ALMACENADO
+                                item.EstadoMenu = true;
 
-                                //PARA BUSCAR Y AGREGAR EL ITEM EN EL INDEX
-                                EnviarId = item.Id;
+                                db.Menus.Add(item);
+                                //SI SE ALMACENO CORRECTAMENTE EL PLATILLO
+                                if (db.SaveChanges() > 0) {
+                                    //GUARDAR RECETA
+                                    Receta receta = new Receta();
 
-                                //
+                                    receta.TiempoEstimado = tiempo;
+                                    receta.Ingredientes = ingredientes;
+                                    receta.MenuId = item.Id;
 
-                                try {
-                                    db.Recetas.Add(receta);
-                                    completado = db.SaveChanges() > 0 ? true : false;
-                                    mensaje = completado ? "Almacenado correctamente" : "Vuelva a intentarlo";
-                                } catch (DbEntityValidationException dbEx) {
-                                    foreach (var validationErrors in dbEx.EntityValidationErrors) {
-                                        foreach (var validationError in validationErrors.ValidationErrors) {
-                                            System.Console.WriteLine("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                                    //PARA BUSCAR Y AGREGAR EL ITEM EN EL INDEX
+                                    EnviarId = item.Id;
+
+                                    //
+
+                                    try {
+                                        db.Recetas.Add(receta);
+                                        completado = db.SaveChanges() > 0 ? true : false;
+                                        mensaje = completado ? "Almacenado correctamente" : "Vuelva a intentarlo";
+                                    } catch (DbEntityValidationException dbEx) {
+                                        foreach (var validationErrors in dbEx.EntityValidationErrors) {
+                                            foreach (var validationError in validationErrors.ValidationErrors) {
+                                                System.Console.WriteLine("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                                            }
                                         }
                                     }
+
+                                    //
+
+                                } else {
+                                    completado = false;
+                                    mensaje = "No se guardó el platillo";
                                 }
-
-                                //
-
                             } else {
                                 completado = false;
-                                mensaje = "No se guardó el platillo";
+                                mensaje = "No se guardó bien la imagen";
                             }
                         } else {
+                            //DECIRLE QUE NO LLEGO NINGUNA IMAGEN
                             completado = false;
-                            mensaje = "No se guardó bien la imagen";
+                            mensaje = "Imagen ya existe. Revise el tipo de platillo";
                         }
-                    } else {
-                        //DECIRLE QUE NO LLEGO NINGUNA IMAGEN
-                        completado = false;
-                        mensaje = "Imagen ya existe. Revise el tipo de platillo";
                     }
-                } else {
-                    //DECIRLE QUE NO LLEGO NINGUNA IMAGEN
-                    completado = false;
-                    mensaje = "No se adjunto ninguna imagen. Revise";
-                }
-            }//FIN VALIDACION PLATILLO EXISTE
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al almacenar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
 
             return Json(new { data = completado, message = mensaje, Id = EnviarId }, JsonRequestBehavior.AllowGet);
         }//FIN POST CREATE
@@ -286,112 +291,52 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
 
             //ALMACENAR EL ID DEL PLATILLO (PARA ACTUALIZAR EN INDEX)
             int Id = menu.Id;
-            //BUSCAR EL PLATILLO
-            if (menu != null) {
 
-                //SI NO LLEGA CAMBIO DE IMAGEN
-                if (urlImage == null || !(Request.Files[0].ContentLength > 0)) {
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //BUSCAR EL PLATILLO
+                    if (menu != null) {
 
-                    //SI EL NOMBRE DEL PLATILLO CAMBIA
-                    if (menu.DescripcionMenu.Trim() != descripcionMenu.Trim()) {
-                        //BUSCO LA IMAGEN
-                        var img = db.Imagenes.Find(menu.ImagenId);
-                        //BUSCAR LA EXTENSION DE LA IMAGEN
-                        var extension = "." + (img.Ruta).Split('.').Last();
+                        //SI NO LLEGA CAMBIO DE IMAGEN
+                        if (urlImage == null || !(Request.Files[0].ContentLength > 0)) {
 
-                        var newNameFullPath = "/" + string.Concat(descripcionMenu.Where(c => !char.IsWhiteSpace(c))).ToLower() + extension;
+                            //SI EL NOMBRE DEL PLATILLO CAMBIA
+                            if (menu.DescripcionMenu.Trim() != descripcionMenu.Trim()) {
+                                //BUSCO LA IMAGEN
+                                var img = db.Imagenes.Find(menu.ImagenId);
+                                //BUSCAR LA EXTENSION DE LA IMAGEN
+                                var extension = "." + (img.Ruta).Split('.').Last();
 
-                        //SI EXISTE UN PLATILLO CON ESE NOMBRE
-                        if (System.IO.File.Exists(Server.MapPath("~/images/Menu") + newNameFullPath)) {
-                            completado = false;
-                            mensaje = "Error. Ese platillo ya existe";
+                                var newNameFullPath = "/" + string.Concat(descripcionMenu.Where(c => !char.IsWhiteSpace(c))).ToLower() + extension;
 
-                            return Json(new { data = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
-                        } else {
+                                //SI EXISTE UN PLATILLO CON ESE NOMBRE
+                                if (System.IO.File.Exists(Server.MapPath("~/images/Menu") + newNameFullPath)) {
+                                    completado = false;
+                                    mensaje = "Error. Ese platillo ya existe";
 
-                            //SE CAMBIA EL NOMBRE DE LA IMAGEN ALMACENADA - SE PASA EN NOMBRE ACTUAL Y EL NUEVO NOMBRE
-                            System.IO.File.Move(Server.MapPath(img.Ruta), (Server.MapPath("~/images/Menu") + newNameFullPath));
+                                    return Json(new { data = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+                                } else {
 
-                            //SE CAMBIA EL NOMBRE EN LA BASE DE DATO
-                            img.Ruta = "/images/Menu" + newNameFullPath;
+                                    //SE CAMBIA EL NOMBRE DE LA IMAGEN ALMACENADA - SE PASA EN NOMBRE ACTUAL Y EL NUEVO NOMBRE
+                                    System.IO.File.Move(Server.MapPath(img.Ruta), (Server.MapPath("~/images/Menu") + newNameFullPath));
 
-                            db.Entry(img).State = EntityState.Modified;
-                            completado = db.SaveChanges() > 0 ? true : false;
-                        }
-                    }//FIN CAMBIO DE NOMBRE
+                                    //SE CAMBIA EL NOMBRE EN LA BASE DE DATO
+                                    img.Ruta = "/images/Menu" + newNameFullPath;
 
-                    //SE MODIFICA DE UN SOLO EL OBJETO MENU
-                    menu.DescripcionMenu = descripcionMenu;
-                    menu.PrecioMenu = precio;
-                    menu.CategoriaMenuId = categoriaId;
-                    menu.EstadoMenu = estado;
-
-                    db.Entry(menu).State = EntityState.Modified;//SE MODIFICA EL OBJETO
-
-                    //SI SE ALMACENO CORRECTAMENTE EL PLATILLO
-                    if (db.SaveChanges() > 0) {
-                        //GUARDAR RECETA
-                        var receta = db.Recetas.FirstOrDefault(r => r.MenuId == menu.Id);
-
-                        receta.TiempoEstimado = tiempo;
-                        receta.Ingredientes = ingredientes;
-
-                        db.Entry(receta).State = EntityState.Modified;//SE MODIFICA EL OBJETO
-
-                        try {
-                            db.Entry(receta).State = EntityState.Modified;
-                            completado = db.SaveChanges() > 0 ? true : false;
-                            mensaje = completado ? "Almacenado correctamente" : "Vuelva a intentarlo";
-                        } catch (DbEntityValidationException dbEx) {
-                            foreach (var validationErrors in dbEx.EntityValidationErrors) {
-                                foreach (var validationError in validationErrors.ValidationErrors) {
-                                    System.Console.WriteLine("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                                    db.Entry(img).State = EntityState.Modified;
+                                    completado = db.SaveChanges() > 0 ? true : false;
                                 }
-                            }
-                        }
-                    }
+                            }//FIN CAMBIO DE NOMBRE
 
-                } //LLEGA UNA IMAGEN PARA CAMBIAR
-                else {
-                    //ELIMINAR EL ARCHIVO DE LA CARPETA - SE BUSCA OBJETO IMAGEN
-                    var imagen = db.Imagenes.Find(menu.ImagenId);
-
-                    //SE BUSCA LA DIRECCION DONDE SE ENCUENTRA LA IMAGEN
-                    var path = Server.MapPath(imagen.Ruta);
-
-                    //SE ELIMINA EL ARCHIVO DE LA CARPETA
-                    System.IO.File.Delete(path);
-
-                    //CONFIRMACION DE IMAGEN ELIMINADA
-                    if (!System.IO.File.Exists(path)) {
-
-                        var file = Request.Files[0];//OBTENEMOS EL ARCHIVO DE LA VISTA
-                        var extension = "." + Path.GetFileName(file.FileName).Split('.').Last();//SE OBTIENE LA EXTENSION DE LA IMAGEN
-
-                        //ASIGNAR NOMBRE DEL PLATILLO A LA IMAGEN PARA GUARDAR - QUITANDO ESPACIOS ENTRE PALABRAS Y AGREGANDO SU EXTENSION
-                        string filename = string.Concat(descripcionMenu.Where(c => !char.IsWhiteSpace(c))).ToLower() + extension;
-
-
-                        path = Path.Combine(Server.MapPath("~/images/Menu"), filename);//SE CREA LA DIRECCION DONDE SE ALMACENARA LA IMAGEN--OJO
-                        file.SaveAs(path);//SE MANDA A GUARDAR EL ARCHIVO
-
-                        string url = Path.Combine("/images/Menu", filename);//SE CREA LA DIRECCION PARA ALMACENAR LA IMAGEN
-
-                        //OJO AQUI, SOLO SE ESTA TRABAJANDO LOCAL. CUANDO YA SE SUBA A ALGUN SERVIDOR SE DEBE MODIFICAR//
-                        imagen.Ruta = url;//SE ASIGNA LA RUTA
-
-                        db.Entry(imagen).State = EntityState.Modified;//SE MODIFICA EL OBJETO
-
-                        //SI SE MODIFICO CORRECTAMENTE SE ALMACENA LOS DEMAS CAMPOS
-                        if (db.SaveChanges() > 0) {
-
+                            //SE MODIFICA DE UN SOLO EL OBJETO MENU
                             menu.DescripcionMenu = descripcionMenu;
                             menu.PrecioMenu = precio;
                             menu.CategoriaMenuId = categoriaId;
                             menu.EstadoMenu = estado;
 
                             db.Entry(menu).State = EntityState.Modified;//SE MODIFICA EL OBJETO
-                                                                        //SI SE ALMACENO CORRECTAMENTE EL PLATILLO
+
+                            //SI SE ALMACENO CORRECTAMENTE EL PLATILLO
                             if (db.SaveChanges() > 0) {
                                 //GUARDAR RECETA
                                 var receta = db.Recetas.FirstOrDefault(r => r.MenuId == menu.Id);
@@ -401,32 +346,101 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
 
                                 db.Entry(receta).State = EntityState.Modified;//SE MODIFICA EL OBJETO
 
+                                try {
+                                    db.Entry(receta).State = EntityState.Modified;
+                                    completado = db.SaveChanges() > 0 ? true : false;
+                                    mensaje = completado ? "Almacenado correctamente" : "Vuelva a intentarlo";
+                                } catch (DbEntityValidationException dbEx) {
+                                    foreach (var validationErrors in dbEx.EntityValidationErrors) {
+                                        foreach (var validationError in validationErrors.ValidationErrors) {
+                                            System.Console.WriteLine("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                                        }
+                                    }
+                                }
+                            }
+
+                        } //LLEGA UNA IMAGEN PARA CAMBIAR
+                        else {
+                            //ELIMINAR EL ARCHIVO DE LA CARPETA - SE BUSCA OBJETO IMAGEN
+                            var imagen = db.Imagenes.Find(menu.ImagenId);
+
+                            //SE BUSCA LA DIRECCION DONDE SE ENCUENTRA LA IMAGEN
+                            var path = Server.MapPath(imagen.Ruta);
+
+                            //SE ELIMINA EL ARCHIVO DE LA CARPETA
+                            System.IO.File.Delete(path);
+
+                            //CONFIRMACION DE IMAGEN ELIMINADA
+                            if (!System.IO.File.Exists(path)) {
+
+                                var file = Request.Files[0];//OBTENEMOS EL ARCHIVO DE LA VISTA
+                                var extension = "." + Path.GetFileName(file.FileName).Split('.').Last();//SE OBTIENE LA EXTENSION DE LA IMAGEN
+
+                                //ASIGNAR NOMBRE DEL PLATILLO A LA IMAGEN PARA GUARDAR - QUITANDO ESPACIOS ENTRE PALABRAS Y AGREGANDO SU EXTENSION
+                                string filename = string.Concat(descripcionMenu.Where(c => !char.IsWhiteSpace(c))).ToLower() + extension;
+
+
+                                path = Path.Combine(Server.MapPath("~/images/Menu"), filename);//SE CREA LA DIRECCION DONDE SE ALMACENARA LA IMAGEN--OJO
+                                file.SaveAs(path);//SE MANDA A GUARDAR EL ARCHIVO
+
+                                string url = Path.Combine("/images/Menu", filename);//SE CREA LA DIRECCION PARA ALMACENAR LA IMAGEN
+
+                                //OJO AQUI, SOLO SE ESTA TRABAJANDO LOCAL. CUANDO YA SE SUBA A ALGUN SERVIDOR SE DEBE MODIFICAR//
+                                imagen.Ruta = url;//SE ASIGNA LA RUTA
+
+                                db.Entry(imagen).State = EntityState.Modified;//SE MODIFICA EL OBJETO
+
+                                //SI SE MODIFICO CORRECTAMENTE SE ALMACENA LOS DEMAS CAMPOS
                                 if (db.SaveChanges() > 0) {
-                                    completado = true;
-                                    mensaje = "Modificado con éxito";
-                                }//FIN SAVE_CHANGES RECETA
+
+                                    menu.DescripcionMenu = descripcionMenu;
+                                    menu.PrecioMenu = precio;
+                                    menu.CategoriaMenuId = categoriaId;
+                                    menu.EstadoMenu = estado;
+
+                                    db.Entry(menu).State = EntityState.Modified;//SE MODIFICA EL OBJETO
+                                                                                //SI SE ALMACENO CORRECTAMENTE EL PLATILLO
+                                    if (db.SaveChanges() > 0) {
+                                        //GUARDAR RECETA
+                                        var receta = db.Recetas.FirstOrDefault(r => r.MenuId == menu.Id);
+
+                                        receta.TiempoEstimado = tiempo;
+                                        receta.Ingredientes = ingredientes;
+
+                                        db.Entry(receta).State = EntityState.Modified;//SE MODIFICA EL OBJETO
+
+                                        if (db.SaveChanges() > 0) {
+                                            completado = true;
+                                            mensaje = "Modificado con éxito";
+                                        }//FIN SAVE_CHANGES RECETA
+                                        else {
+                                            completado = false;
+                                            mensaje = "No se modificó la receta ";
+                                        }
+                                    }//FIN DE SAVE_CHANGES MENU
+                                    else {
+                                        completado = false;
+                                        mensaje = "No se modificó el platillo";
+                                    }
+                                }//FIN DE SAVE_CHANGES IMAGEN
                                 else {
                                     completado = false;
-                                    mensaje = "No se modificó la receta ";
+                                    mensaje = "No se modificó bien la imagen";
                                 }
-                            }//FIN DE SAVE_CHANGES MENU
-                            else {
+                            } else {
+                                //DECIRLE QUE NO LLEGO NINGUNA IMAGEN
                                 completado = false;
-                                mensaje = "No se modificó el platillo";
+                                mensaje = "Ya existe una imagen asociada a este platillo. Revise";
                             }
-                        }//FIN DE SAVE_CHANGES IMAGEN
-                        else {
-                            completado = false;
-                            mensaje = "No se modificó bien la imagen";
                         }
-                    } else {
-                        //DECIRLE QUE NO LLEGO NINGUNA IMAGEN
-                        completado = false;
-                        mensaje = "Ya existe una imagen asociada a este platillo. Revise";
-                    }
-                }
-            }//FIN MENU VACIO
+                    }//FIN MENU VACIO
 
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al modificar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
             return Json(new { data = completado, message = mensaje, Id }, JsonRequestBehavior.AllowGet);
         }
 
@@ -501,7 +515,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
                 mensaje = "Archivo Inexistente";
             }
 
-            return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = completado, message = mensaje}, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing) {

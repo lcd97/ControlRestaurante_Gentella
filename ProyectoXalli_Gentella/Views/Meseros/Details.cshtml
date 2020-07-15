@@ -46,7 +46,7 @@
                 var agregarInss = '<li><i class="fa fa-plus-square"></i> INSS: ' + data.data[0].Inss + '</li>';
                 $("#agregar").append(agregarInss);
 
-                if (data.data[0].RUC != "") {
+                if (data.data[0].RUC != null) {
                     r = data.data[0].RUC;
                 } else {
                     r = "N/A";

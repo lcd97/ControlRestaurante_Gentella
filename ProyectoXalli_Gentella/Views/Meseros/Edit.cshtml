@@ -41,7 +41,7 @@
 
                 <div class="col-md-4 col-sm-4 col-xs-4">
                     @Html.Label("RUC", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
-                    <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required style="text-transform:uppercase;">
+                    <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="14" autocomplete="off" required style="text-transform:uppercase;">
                 </div>
             </div>
 
@@ -85,6 +85,13 @@
 
 
 <script>
+    //MASCARA DEL NUMERO RUC
+    $("#ruc").mask("00000000000000", {
+        translation: {
+            '0': { pattern: /[0-9A-Za-z]/ }//MODIFICAR PARA QUE ACEPTE NUMEROS Y LETRAS
+        }
+    });
+
     //INICIALIZO LOS INPUT FECHAS CON FORMATO DE HORAS
     $('#hentrada').datetimepicker({
         format: 'hh:mm A'

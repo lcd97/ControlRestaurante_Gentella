@@ -68,13 +68,23 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             if (bod != null) {
                 ModelState.AddModelError("DescripcionTipoSalida", "Utilice otro nombre");
                 mensaje = "La descripción ya se encuentra registrada";
-            } else {
-                //ESTADO DE TIPO DE SALIDAS CUANDO SE CREA SIEMPRE ES TRUE
-                TipoDeSalida.EstadoTipoSalida = true;
-                if (ModelState.IsValid) {
-                    db.TiposDeSalida.Add(TipoDeSalida);
-                    completado = await db.SaveChangesAsync() > 0 ? true : false;
-                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+            }
+
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //ESTADO DE TIPO DE SALIDAS CUANDO SE CREA SIEMPRE ES TRUE
+                    TipoDeSalida.EstadoTipoSalida = true;
+                    if (ModelState.IsValid) {
+                        db.TiposDeSalida.Add(TipoDeSalida);
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al almacenar";
+                    transact.Rollback();
                 }
             }
 
@@ -110,13 +120,23 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             if (bod != null) {
                 ModelState.AddModelError("DescripcionTipoSalida", "Utilice otro nombre");
                 mensaje = "La descripción ya se encuentra registrada";
-            } else {
-                if (ModelState.IsValid) {
-                    db.Entry(TipoDeSalida).State = EntityState.Modified;
-                    completado = await db.SaveChangesAsync() > 0 ? true : false;
-                    mensaje = completado ? "Modificado correctamente" : "Error al modificar";
-                }
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
             }
+
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    if (ModelState.IsValid) {
+                        db.Entry(TipoDeSalida).State = EntityState.Modified;
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al modificar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
@@ -159,13 +179,22 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             //BUSCANDO QUE TIPO DE SALIDA NO TENGA SALIDAS NI SALIDAS REGISTRADAS CON SU ID
             Salida oSalida = db.Salidas.DefaultIfEmpty(null).FirstOrDefault(p => p.TipoSalidaId == TipoDeSalida.Id);
 
-            if (oSalida == null) {
-                db.TiposDeSalida.Remove(TipoDeSalida);
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
-            } else {
-                mensaje = "Se encontraron salidas registrados a esta tipo de salidas";
-            }
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    if (oSalida == null) {
+                        db.TiposDeSalida.Remove(TipoDeSalida);
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+                    } else {
+                        mensaje = "Se encontraron salidas registrados a esta tipo de salidas";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al eliminar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }

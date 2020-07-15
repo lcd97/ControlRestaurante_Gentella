@@ -22,7 +22,7 @@
 </head>
 <!--INICIO DEL BODY-->
 
-<body class="nav-md">
+<body class="nav-md" onload="startTime()">
     <div class="container body">
         <div class="main_container">
             <div class="col-md-3 left_col">
@@ -118,7 +118,6 @@
                                     <a><i class="fa fa-list-alt"></i>Orden<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="@Url.Action("Index", "Meseros")">Mesero</a></li>
-                                        <li><a href="@Url.Action("Index", "TiposDeCliente")">Tipos de Cliente</a></li>
                                         <li><a href="@Url.Action("Index", "Clientes")">Clientes</a></li>
                                     </ul>
                                 </li>
@@ -321,6 +320,29 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="~/Scripts/custom.js"></script>
+    
+    <script>
+        //ESTABLECE LA HORA EN LA VISTA INDEX ORDENES
+        function startTime() {
+
+            clock = new Date();
+            hours = ((clock.getHours() + 11) % 12 + 1);
+
+            hour = fixTime(hours);// < 10 ? "0" + hours : hours;
+            minutes = fixTime(clock.getMinutes());// < 10 ? "0" + clock.getMinutes() : clock.getMinutes();
+            seconds = fixTime(clock.getSeconds());// < 10 ? "0" + clock.getSeconds() : clock.getSeconds();
+            suffix = clock.getHours() >= 12 ? 'PM' : 'AM';
+
+            $("#Hora").val(hour + ":" + minutes + ":" + seconds + " " + suffix);
+
+            var time = setTimeout(function () { startTime(); }, 500);
+        }
+
+        //AGREGA EL 0 DE LA HORA, MINUTO O SEGUNDO SI ES MENOR A 10
+        function fixTime(time) {
+            return time < 10 ? "0" + time : time;
+        }
+    </script>
 
     @*@Scripts.Render("~/bundles/bootstrap")
         @Scripts.Render("~/bundles/jquery")*@

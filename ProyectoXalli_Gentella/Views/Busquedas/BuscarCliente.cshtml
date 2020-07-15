@@ -1,0 +1,60 @@
+﻿@{
+    Layout = null;
+}
+
+
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+
+        <div class="form-horizontal form-label-left">
+            <div class="form-group">
+                <div class="col-md-5 col-sm-5 col-xs-12">
+                    <label>Nombre</label>
+                    <input id="nombre" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" autocomplete="off">
+                </div>
+
+                <div class="col-md-5 col-sm-5 col-xs-12">
+                    <label>Apellido</label>
+                    <input id="apellido" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" autocomplete="off">
+                </div>
+
+                <div class="col-md-1 col-sm-1 col-xs-1" style="margin-top: 25px !important;">
+                    <button type="button" class="btn btn-primary">Buscar</button>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="table-responsive">
+                    <table class="table table-striped jambo_table bulk_action" id="productTable">
+                        <thead>
+                            <tr class="headings">
+                                <th class="column-title">Identificación</th>
+                                <th class="column-title">RUC</th>
+                                <th class="column-title">Cliente</th>
+                                <th class="column-title no-link last">
+                                    <span class="nobr">Seleccionar</span>
+                                </th>
+                                <th class="bulk-actions" colspan="7">
+                                    <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientBody">
+                            <!--AQUI VA LA LISTA DE LOS PRODUCTOS-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        var agregar = '<tr class="headings">' +
+            '<td colspan=4 style="text-align:center!important;">Sin datos que mostrar</td>' +
+            '</tr>';
+        $("#clientBody").append(agregar);
+    });
+</script>

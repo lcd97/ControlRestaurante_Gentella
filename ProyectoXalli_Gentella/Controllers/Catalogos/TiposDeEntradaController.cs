@@ -68,15 +68,25 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             if (bod != null) {
                 ModelState.AddModelError("DescripcionTipoEntrada", "Utilice otro nombre");
                 mensaje = "La descripción ya se encuentra registrada";
-            } else {
-                //ESTADO DE TIPO DE ENTRADA CUANDO SE CREA SIEMPRE ES TRUE
-                TipoDeEntrada.EstadoTipoEntrada = true;
-                if (ModelState.IsValid) {
-                    db.TiposDeEntrada.Add(TipoDeEntrada);
-                    completado = await db.SaveChangesAsync() > 0 ? true : false;
-                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
-                }
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
             }
+
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //ESTADO DE TIPO DE ENTRADA CUANDO SE CREA SIEMPRE ES TRUE
+                    TipoDeEntrada.EstadoTipoEntrada = true;
+                    if (ModelState.IsValid) {
+                        db.TiposDeEntrada.Add(TipoDeEntrada);
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Almacenado correctamente" : "Error al almacenar";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al almacenar";
+                    transact.Rollback();
+                }
+            }//FIN USING
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
@@ -110,11 +120,21 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             if (bod != null) {
                 ModelState.AddModelError("DescripcionTipoEntrada", "Utilice otro nombre");
                 mensaje = "La descripción ya se encuentra registrada";
-            } else {
-                if (ModelState.IsValid) {
-                    db.Entry(TipoDeEntrada).State = EntityState.Modified;
-                    completado = await db.SaveChangesAsync() > 0 ? true : false;
-                    mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+            }
+
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    if (ModelState.IsValid) {
+                        db.Entry(TipoDeEntrada).State = EntityState.Modified;
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al modificar";
+                    transact.Rollback();
                 }
             }
 
@@ -160,14 +180,23 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             //BUSCANDO QUE TIPO DE ENTRADA NO TENGA SALIDAS NI ENTRADAS REGISTRADAS CON SU ID
             Entrada oEntrada = db.Entradas.DefaultIfEmpty(null).FirstOrDefault(p => p.TipoEntradaId == TipoDeEntrada.Id);
 
-            //SI EL TIPO DE ENTRADA NO TIENE ENTRADAS ASOCIADAS AL ID
-            if (oEntrada == null) {
-                db.TiposDeEntrada.Remove(TipoDeEntrada);
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
-            } else {
-                mensaje = "Se encontraron entradas registrados a esta tipo de entradas";
-            }
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //SI EL TIPO DE ENTRADA NO TIENE ENTRADAS ASOCIADAS AL ID
+                    if (oEntrada == null) {
+                        db.TiposDeEntrada.Remove(TipoDeEntrada);
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+                    } else {
+                        mensaje = "Se encontraron entradas registrados a esta tipo de entradas";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al eliminar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }

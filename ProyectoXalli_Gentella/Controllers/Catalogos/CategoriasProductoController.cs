@@ -8,17 +8,14 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ProyectoXalli_Gentella.Controllers
-{
-    public class CategoriasProductoController : Controller
-    {
+namespace ProyectoXalli_Gentella.Controllers {
+    public class CategoriasProductoController : Controller {
         private DBControl db = new DBControl();
         private bool completado = false;
         private string mensaje = "";
 
         // GET: CategoriasProducto
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
             return View();
         }
 
@@ -26,8 +23,7 @@ namespace ProyectoXalli_Gentella.Controllers
         /// RECUPERA DATOS PARA LLENAR LA TABLA CATEGORIAS A TRAVES DE JSON
         /// </summary>
         /// <returns></returns>
-        public async Task<JsonResult> GetData()
-        {
+        public async Task<JsonResult> GetData() {
             db.Configuration.ProxyCreationEnabled = false;
             var categorias = await db.CategoriasProducto.Where(c => c.EstadoCategoria == true).ToListAsync();
 
@@ -35,23 +31,19 @@ namespace ProyectoXalli_Gentella.Controllers
         }
 
         // GET: CategoriasProducto/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
+        public async Task<ActionResult> Details(int? id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CategoriaProducto categorias = await db.CategoriasProducto.FindAsync(id);
-            if (categorias == null)
-            {
+            if (categorias == null) {
                 return HttpNotFound();
             }
             return View(categorias);
         }
 
         // GET: CategoriasProducto/Create
-        public ActionResult Create()
-        {
+        public ActionResult Create() {
             return View();
         }
 
@@ -60,8 +52,7 @@ namespace ProyectoXalli_Gentella.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoCategoria,DescripcionCategoria,EstadoCategoria")] CategoriaProducto CategoriaProducto)
-        {
+        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoCategoria,DescripcionCategoria,EstadoCategoria")] CategoriaProducto CategoriaProducto) {
             //BUSCAR QUE EXISTA UNA CATEGORIA CON ESA DESCRIPCION
             CategoriaProducto bod = db.CategoriasProducto.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionCategoria.ToUpper().Trim() == CategoriaProducto.DescripcionCategoria.ToUpper().Trim());
 
@@ -69,28 +60,35 @@ namespace ProyectoXalli_Gentella.Controllers
             if (bod != null) {
                 ModelState.AddModelError("DescripcionCategoria", "Utilice otro nombre");
                 mensaje = "La descripción ya se encuentra registrada";
-            } else {
-                //ESTADO DE LA CATEGORIA CUANDO SE CREA SIEMPRE ES TRUE
-                CategoriaProducto.EstadoCategoria = true;
-                if (ModelState.IsValid) {
-                    db.CategoriasProducto.Add(CategoriaProducto);
-                    completado = await db.SaveChangesAsync() > 0 ? true : false;
-                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
-                }
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
             }
+
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //ESTADO DE LA CATEGORIA CUANDO SE CREA SIEMPRE ES TRUE
+                    CategoriaProducto.EstadoCategoria = true;
+                    if (ModelState.IsValid) {
+                        db.CategoriasProducto.Add(CategoriaProducto);
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Almacenado correctamente" : "Error al almacenar";
+                    }
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al almacenar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
+
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: CategoriasProducto/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
+        public async Task<ActionResult> Edit(int? id) {
+            if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CategoriaProducto CategoriaProducto = await db.CategoriasProducto.FindAsync(id);
-            if (CategoriaProducto == null)
-            {
+            if (CategoriaProducto == null) {
                 return HttpNotFound();
             }
             return View(CategoriaProducto);
@@ -101,8 +99,7 @@ namespace ProyectoXalli_Gentella.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoCategoria,DescripcionCategoria,EstadoCategoria")] CategoriaProducto CategoriaProducto)
-        {
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoCategoria,DescripcionCategoria,EstadoCategoria")] CategoriaProducto CategoriaProducto) {
             //BUSCAR QUE EXISTA UNA CATEGORIA CON ESA DESCRIPCION
             CategoriaProducto bod = db.CategoriasProducto.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionCategoria.ToUpper().Trim() == CategoriaProducto.DescripcionCategoria.ToUpper().Trim() && b.Id != CategoriaProducto.Id);
 
@@ -110,13 +107,24 @@ namespace ProyectoXalli_Gentella.Controllers
             if (bod != null) {
                 ModelState.AddModelError("DescripcionCategoria", "Utilice otro nombre");
                 mensaje = "La descripción ya se encuentra registrada";
-            } else {
-                if (ModelState.IsValid) {
-                    db.Entry(CategoriaProducto).State = EntityState.Modified;
-                    completado = await db.SaveChangesAsync() > 0 ? true : false;
-                    mensaje = completado ? "Modificado correctamente" : "Error al modificar";
-                }
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
             }
+
+            using (var transact = db.Database.BeginTransaction()) {
+
+                try {
+                    if (ModelState.IsValid) {
+                        db.Entry(CategoriaProducto).State = EntityState.Modified;
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al modificar";
+                    transact.Rollback();
+                }
+            }//FIN USING
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
@@ -153,28 +161,34 @@ namespace ProyectoXalli_Gentella.Controllers
         // POST: CategoriasProducto/Delete/5
         [HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
+        public async Task<ActionResult> DeleteConfirmed(int id) {
             var CategoriaProducto = db.CategoriasProducto.Find(id);
             //BUSCANDO QUE CATEGORIA PRODUCTOS REGISTRADAS CON SU ID
             Producto oProd = db.Productos.DefaultIfEmpty(null).FirstOrDefault(p => p.CategoriaId == CategoriaProducto.Id);
 
-            //SI NO SE ENCOTRARON PRODUCTOS EN LA CATEGORIA
-            if (oProd == null) {
-                db.CategoriasProducto.Remove(CategoriaProducto);
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
-            } else {
-                mensaje = "Se encontraron productos registrados a esta categoría";
-            }
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //SI NO SE ENCOTRARON PRODUCTOS EN LA CATEGORIA
+                    if (oProd == null) {
+                        db.CategoriasProducto.Remove(CategoriaProducto);
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+                    } else {
+                        mensaje = "Se encontraron productos registrados a esta categoría";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al eliminar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
                 db.Dispose();
             }
             base.Dispose(disposing);

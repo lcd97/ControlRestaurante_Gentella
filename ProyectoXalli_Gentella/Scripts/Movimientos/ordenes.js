@@ -188,8 +188,3 @@ function agregarPagination() {
     //INICIALIZAR PAGINACION
     cargarPaginacion();
 }//FIN FUNCTION
-
-//FUNCION PARA LIMPIAR PAGINACION
-function deletePagination() {
-    $("#paginar").remove();
-}//FIN FUNCTION

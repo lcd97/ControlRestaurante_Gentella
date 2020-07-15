@@ -6,8 +6,8 @@
         success: function (data) {
             //SI NO SE ENCUENTRA NINGUN ELEMENTO
             if (data.data.length <= 0) {
-                var agregar = '<h1 style="text-align:center;" col-md-12 col-sm-12 col-xs-12>Sin elementos disponibles</h1>';
-                $("#menuAdd").append(agregar);
+                var agregar = '<h1 id="txt" style="text-align:center;">Sin elementos disponibles</h1>';
+                $("#menuAdd").html(agregar);
             } else if (data.data.length > 0) {
                 var agregarMenu = "";
                 $("#filtro").removeAttr("disabled");
@@ -36,7 +36,7 @@
                         '</div >';
                 }
                 //AGREGAR LOS ELEMENTOS ASCENDENTE
-                $("#menuAdd").append(agregarMenu);
+                $("#menuAdd").html(agregarMenu);
                 //LLAMAR LA FUNCION PARA AGREGAR LA PAGINACION
                 agregarPagination();
             }//FIN IF-ELSE
@@ -71,6 +71,8 @@ function saveMenuItem() {
                 $("#small-modal").modal("hide"); //CERRAR MODAL
                 deletePagination();//LIMPIAR PAGINACION
                 agregarItem(data.Id);//AGREGAR EL ELEMENTO CREADO
+                $("#txt").remove();
+                $("#filtrar").removeAttr("disabled");
                 Alert("Almacenado correctamente", data.message, "success");//ALMACENADO CORRECTAMENTE                
             } else
                 Alert("Error al almacenar", data.message, "error");//MENSAJE DE ERROR
@@ -100,13 +102,6 @@ function editMenuItem() {
     //TOMAR EL VALOR DEL SWITCHERY
     formData.append("estado", $("#activo").is(":checked"));
 
-    //VALIDACION
-    var code = $("#codigo").val();
-    var precio = $("#precio").val();
-    var time = $("#tiempo").val();
-    var ingredients = $("#ingredientes").val();
-
-
     //FUNCION AJAX
     $.ajax({
         type: "POST",
@@ -116,7 +111,6 @@ function editMenuItem() {
         contentType: false,
         success: function (data) {
             if (data.data) {
-                //$("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
                 $("#small-modal").modal("hide"); //CERRAR MODAL
                 modificarItem(data.Id);//MODIFICAR EL REGISTRO EN LA VISTA INDEX
                 Alert("Almacenado correctamente", data.message, "success");//ALMACENADO CORRECTAMENTE
@@ -146,6 +140,7 @@ function comprobar() {
 
 //AGREGAR UN CAMPO MAS AL INDEX
 function agregarItem(id) {
+    
     $.ajax({
         type: "POST",
         url: "/Menus/getDetail/" + id,
@@ -208,9 +203,10 @@ function DeleteItem(uri, id) {
         data: { "id": id }, //SERIALIZACION DE LOS DATOS A ENVIAR
         success: function (data) {
             if (data.success) {//SI SE ELIMINO CORRECTAMENTE
-                //$("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
                 //ELIMINAR EL DIV DEL OBJETO ELIMINADO
                 $("div").remove("#" + id);
+                deletePagination();
+                agregarPagination();
                 swal(data.message, { icon: "success" });
             }//FIN IF
             else

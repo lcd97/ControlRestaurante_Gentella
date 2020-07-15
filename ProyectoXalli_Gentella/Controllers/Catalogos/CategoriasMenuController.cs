@@ -48,24 +48,31 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         public async Task<ActionResult> Create([Bind(Include = "Id,CodigoCategoriaMenu,DescripcionCategoriaMenu,EstadoCategoriaMenu")] CategoriaMenu CategoriaMenu)
         {
             //BUSCAR QUE EXISTA UNA CATEGORIA CON ESA DESCRIPCION
-            CategoriaProducto bod = db.CategoriasProducto.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionCategoria.ToUpper().Trim() == CategoriaMenu.DescripcionCategoriaMenu.ToUpper().Trim());
+            CategoriaMenu bod = db.CategoriasMenu.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionCategoriaMenu.ToUpper().Trim() == CategoriaMenu.DescripcionCategoriaMenu.ToUpper().Trim());
 
             //SI EXISTE INGRESADO UNA CATEGORIA CON LA DESCRIPCION
-            if (bod != null)
-            {
+            if (bod != null) {
                 ModelState.AddModelError("DescripcionCategoriaMenu", "Utilice otro nombre");
                 mensaje = "La descripción ya se encuentra registrada";
-            }else
-            {
-                //ESTADO DE LA CATEGORIA CUANDO SE CREA SIEMPRE ES TRUE
-                CategoriaMenu.EstadoCategoriaMenu = true;
-                if (ModelState.IsValid)
-                {
-                    db.CategoriasMenu.Add(CategoriaMenu);
-                    completado = await db.SaveChangesAsync() > 0 ? true : false;
-                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
-                }
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
             }
+
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //ESTADO DE LA CATEGORIA CUANDO SE CREA SIEMPRE ES TRUE
+                    CategoriaMenu.EstadoCategoriaMenu = true;
+                    if (ModelState.IsValid) {
+                        db.CategoriasMenu.Add(CategoriaMenu);
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Almacenado correctamente" : "Error al almacenar";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al almacenar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
@@ -92,7 +99,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoCategoriaMenu,DescripcionCategoriaMenu,EstadoCategoriaMenu")] CategoriaMenu CategoriaMenu)
         {
             //BUSCAR QUE EXISTA UNA CATEGORIA CON ESA DESCRIPCION
-            CategoriaProducto bod = db.CategoriasProducto.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionCategoria.ToUpper().Trim() == CategoriaMenu.DescripcionCategoriaMenu.ToUpper().Trim()
+            CategoriaMenu bod = db.CategoriasMenu.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionCategoriaMenu.ToUpper().Trim() == CategoriaMenu.DescripcionCategoriaMenu.ToUpper().Trim()
             && b.Id != CategoriaMenu.Id);
 
             //SI EXISTE INGRESADO UNA CATEGORIA CON LA DESCRIPCION
@@ -100,16 +107,24 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             {
                 ModelState.AddModelError("DescripcionCategoriaMenu", "Utilice otro nombre");
                 mensaje = "La descripción ya se encuentra registrada";
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
             }
-            else
-            {
-                if (ModelState.IsValid)
-                {
-                    db.Entry(CategoriaMenu).State = EntityState.Modified;
-                    completado = await db.SaveChangesAsync() > 0 ? true : false;
-                    mensaje = completado ? "Modificado correctamente" : "Error al modificar";
-                }
-            }
+
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    if (ModelState.IsValid) {
+                        db.Entry(CategoriaMenu).State = EntityState.Modified;
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al modificar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
+
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
 
@@ -154,16 +169,23 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             //BUSCANDO QUE Categoria NO TENGA SALIDAS NI ENTRADAS REGISTRADAS CON SU ID
             Menu oMenu = db.Menus.DefaultIfEmpty(null).FirstOrDefault(p => p.CategoriaMenuId == categoriaMenu.Id);
 
-            //SI NO SE ENCUENTRA ASOCIADO NINGUN PLATILLO AL ID
-            if (oMenu == null)
-            {
-                db.CategoriasMenu.Remove(categoriaMenu);
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
-            }
-            else {
-                mensaje = "Se encontraron platillos asociados a esta cartegoría";
-            }
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //SI NO SE ENCUENTRA ASOCIADO NINGUN PLATILLO AL ID
+                    if (oMenu == null) {
+                        db.CategoriasMenu.Remove(categoriaMenu);
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+                    } else {
+                        mensaje = "Se encontraron platillos asociados a esta cartegoría";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al eliminar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }

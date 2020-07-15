@@ -206,6 +206,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Busquedas\BusquedasController.cs" />
     <Compile Include="Controllers\Catalogos\BodegasController.cs" />
     <Compile Include="Controllers\Catalogos\CategoriasProductoController.cs" />
     <Compile Include="Controllers\Catalogos\CategoriasMenuController.cs" />
@@ -318,6 +319,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Busquedas\clientesB.js" />
     <Content Include="Scripts\Catalogos\clienteCRUD.js" />
     <Content Include="Scripts\Catalogos\CRUD.js" />
     <Content Include="Scripts\Catalogos\menuItem.js" />
@@ -417,6 +419,7 @@
     <Content Include="Views\Clientes\Edit.cshtml" />
     <Content Include="Views\Shared\_loading.cshtml" />
     <Content Include="Views\Ordenes\Index.cshtml" />
+    <Content Include="Views\Busquedas\BuscarCliente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

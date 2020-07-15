@@ -77,23 +77,33 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             if (bod != null) {
                 ModelState.AddModelError("DescripcionProducto", "La presentación del producto ya existe");
                 mensaje = "La presentación del producto ya existe";
-            } else {
-                //ESTADO DE LA CATEGORIA CUANDO SE CREA SIEMPRE ES TRUE
-                Producto.EstadoProducto = true;
-                if (ModelState.IsValid) {
-                    db.Productos.Add(Producto);
-                    completado = await db.SaveChangesAsync() > 0 ? true : false;
-                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
-                } else {
-                    //ESTO ES PARA VER EL ERROR QUE DEVUELVE EL MODELO
-                    string cad = "";
-                    foreach (ModelState modelState in ViewData.ModelState.Values) {
-                        foreach (ModelError error in modelState.Errors) {
-                            cad += (error);
+                return Json(new { success = completado, message = mensaje, Id = Producto.Id, Producto = 0 }, JsonRequestBehavior.AllowGet);
+            }
+
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //ESTADO DE LA CATEGORIA CUANDO SE CREA SIEMPRE ES TRUE
+                    Producto.EstadoProducto = true;
+                    if (ModelState.IsValid) {
+                        db.Productos.Add(Producto);
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Almacenado correctamente" : "Error al almacenar";
+                    } else {
+                        //ESTO ES PARA VER EL ERROR QUE DEVUELVE EL MODELO
+                        string cad = "";
+                        foreach (ModelState modelState in ViewData.ModelState.Values) {
+                            foreach (ModelError error in modelState.Errors) {
+                                cad += (error);
+                            }
                         }
                     }
-                }
-            }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al almacenar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
 
             //ESTO ES PARA AGREGARLO EN EL FORMULARIO DE ENTRADAS
             var um = db.UnidadesDeMedida.Find(Producto.UnidadMedidaId);
@@ -138,21 +148,31 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             if (bod != null) {
                 ModelState.AddModelError("DescripcionProducto", "La presentación del producto ya existe");
                 mensaje = "El producto con esas características ya existe";
-            } else {
-                if (ModelState.IsValid) {
-                    db.Entry(Producto).State = EntityState.Modified;
-                    completado = await db.SaveChangesAsync() > 0 ? true : false;
-                    mensaje = completado ? "Modificado correctamente" : "Error al modificar";
-                } else {
-                    //ESTO ES PARA VER EL ERROR QUE DEVUELVE EL MODELO
-                    string cad = "";
-                    foreach (ModelState modelState in ViewData.ModelState.Values) {
-                        foreach (ModelError error in modelState.Errors) {
-                            cad += (error);
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+            }
+
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    if (ModelState.IsValid) {
+                        db.Entry(Producto).State = EntityState.Modified;
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                    } else {
+                        //ESTO ES PARA VER EL ERROR QUE DEVUELVE EL MODELO
+                        string cad = "";
+                        foreach (ModelState modelState in ViewData.ModelState.Values) {
+                            foreach (ModelError error in modelState.Errors) {
+                                cad += (error);
+                            }
                         }
                     }
-                }
-            }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al modificar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
@@ -265,14 +285,23 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             DetalleDeEntrada oEnt = db.DetallesDeEntrada.DefaultIfEmpty(null).FirstOrDefault(e => e.ProductoId == Producto.Id);
             DetalleDeSalida oSal = db.DetallesDeSalida.DefaultIfEmpty(null).FirstOrDefault(s => s.ProductoId == Producto.Id);
 
-            //SI NO SE ENCUENTRAN SALIDAS O ENTRADAS
-            if (oEnt == null || oSal == null) {
-                db.Productos.Remove(Producto);
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
-            } else {
-                mensaje = "Se encontraron movimientos asociados a este producto";
-            }
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //SI NO SE ENCUENTRAN SALIDAS O ENTRADAS
+                    if (oEnt == null || oSal == null) {
+                        db.Productos.Remove(Producto);
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+                    } else {
+                        mensaje = "Se encontraron movimientos asociados a este producto";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al eliminar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }

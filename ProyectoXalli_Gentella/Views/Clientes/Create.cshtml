@@ -35,25 +35,18 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="col-md-6 col-sm-6 col-xs-6">
-                    @Html.Label("Tipo de cliente", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
-                    @Html.DropDownList("TipoClienteId", null, htmlAttributes: new { @class = "js-example-basic-single select2_group form-control", @style = "width: 100%", @id = "tipo" })
-                </div>
-
-                <div class="col-md-6 col-sm-6 col-xs-6">
+            <div class="form-group">               
+                <div class="col-md-4 col-sm-4 col-xs-12">
                     @Html.Label("RUC", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
                     <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="14" autocomplete="off" required style="text-transform:uppercase">
                 </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-6 col-sm-6 col-xs-6">
+           
+                <div class="col-md-5 col-sm-5 col-xs-12">
                     @Html.Label("Correo Electrónico", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
                     <input id="email" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
                 </div>
 
-                <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="col-md-3 col-sm-3 col-xs-12">
                     @Html.Label("Teléfono", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
                     <input id="telefono" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="9" autocomplete="off" required>
                 </div>

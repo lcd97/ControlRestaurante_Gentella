@@ -33,25 +33,45 @@
                             <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                         </div>
 
-                        <div class="col-md-2 col-sm-2 col-xs-4">
-                            <label class="col-md-4 col-sm-4 col-xs-4">Hora</label>
-                            <input id="hora" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+
+                        <div class="col-md-3 col-sm-3 col-xs-4 xdisplay_inputx form-group has-feedback">
+                            <label>Hora</label>
+                            <input type="text" class="form-control has-feedback-left" id='Hora' disabled>
+                            <span class="fa fa-clock-o form-control-feedback left" aria-hidden="true"></span>
                         </div>
 
-                        <div class="col-md-5 col-sm-5 col-xs-6">
+
+                        <div class="col-md-4 col-sm-4 col-xs-6">
                             <label class="col-md-4 col-sm-4 col-xs-4">Mesero</label>
                             <input id="mesero" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <label class="col-md-4 col-sm-4 col-xs-4">Datos del cliente</label>
+                        <div class="col-md-3 col-sm-3 col-xs-4">
+                            <label>Identificación</label>
                             <input id="mesero" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+                        </div>
+
+                        <div class="col-md-1 col-sm-1 col-xs-1" style="margin-top: 25px !important;">
+                            <button type="button" onclick="CargarParcial('/Busquedas/BuscarCliente/')" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Buscar el cliente"><i class="fa fa-search"></i></button>
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-4">
+                            <label>Cliente</label>
+                            <input id="nombreCliente" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-4">
+                            <label>Número RUC</label>
+                            <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+                        </div>
+
+                        <div class="col-md-1 col-sm-1 col-xs-6" style="margin-top: 25px !important;">
+                            <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Guarda la entrada">Terminar</button>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -151,4 +171,5 @@
     <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
     <script src="~/Scripts/Movimientos/ordenes.js"></script>
     <script src="~/Scripts/pagination.js"></script>
+    <script src="~/Scripts/Busquedas/clientesB.js"></script>
 }

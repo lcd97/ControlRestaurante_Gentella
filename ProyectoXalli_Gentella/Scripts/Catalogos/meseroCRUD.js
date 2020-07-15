@@ -1,6 +1,6 @@
 ﻿//ALMACENA LOS MESEROS
 function saveWaiter() {
-    var nombres = $("#nombre").val(), apellidos = $("#apellido").val(), cedula = $("#cedula").val(), inss = $("#inss").val(),
+    var nombres = $("#nombre").val(), apellidos = $("#apellido").val(), cedula = $("#cedula").val().toUpperCase(), inss = $("#inss").val(),
         ruc = $("#ruc").val().toUpperCase(), hentrada = $("#entrada").val(), hsalida = $("#salida").val();
 
     if (validado() == true) {
@@ -9,7 +9,7 @@ function saveWaiter() {
             url: "/Meseros/Create",
             data:
                 "Nombres=" + nombres + "&Apellido=" + apellidos + "&Cedula=" + cedula + "&INSS=" + inss + "&RUC=" + ruc +
-                "&HoraEntrada=" + hentrada + "&HoraSalida="
+                "&HoraEntrada=" + hentrada + "&HoraSalida=" + hsalida
             ,
             dataType: "JSON",
             success: function (data) {
@@ -32,7 +32,7 @@ function saveWaiter() {
 //FUNCION PARA EDITAR EL MESERO SELECCIONADO
 function editWaiter() {
     var name = $("#nombre").val(), lastName = $("#apellido").val(), RUC = $("#ruc").val().toUpperCase(), entrada = $("#entrada").val(), salida = $("#salida").val(),
-        cedula = $("#cedula").val(), estado = $("#activo").is(":checked");
+        cedula = $("#cedula").val().toUpperCase(), estado = $("#activo").is(":checked");
 
     if (validado() == true) {
         $.ajax({
@@ -59,7 +59,7 @@ function editWaiter() {
 }//FIN FUNCTION
 
 function validado() {
-    if ($("#nombre").val() != "" && $("#apellido").val() != "" && $("#entrada").val() != "" && $("#salida").val() != "" && $("#cedula").val() != "") {
+    if ($("#nombre").val() != "" && $("#apellido").val() != "" && $("#entrada").val() != "" && $("#salida").val() != "" && $("#cedula").val() != "" && $("#inss").val()) {
         return true;
     } else
         return false;

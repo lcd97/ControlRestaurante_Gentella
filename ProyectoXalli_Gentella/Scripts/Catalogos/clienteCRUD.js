@@ -1,6 +1,6 @@
 ﻿//FUNCION PARA ALMACENAR UN OBJETO CLIENTE
 function saveCustomer() {
-    var nombre, apellido, documento, ruc, email, telefono, tipoCliente, tipo;
+    var nombre, apellido, documento, ruc, email, telefono, tipo;
 
     nombre = $("#nombre").val();
     apellido = $("#apellido").val();
@@ -8,11 +8,7 @@ function saveCustomer() {
     ruc = $("#ruc").val().toUpperCase();
     email = $("#email").val();
     telefono = $("#telefono").val();
-    tipoCliente = $("#tipo").val();
     tipo = $("#documento").val();
-
-    //var data = "Nombre=" + nombre + "&Apellido=" + apellido + "&Documento=" + documento + "&RUC=" + ruc + "&Email=" + email +
-    //    "&Telefono=" + telefono + "&TipoCliente=" + tipoCliente + "&Tipo=" + tipo;
     
     if (validado() == true) {
         //FUNCION AJAX
@@ -22,7 +18,7 @@ function saveCustomer() {
             dataType: "JSON",
             data: {
                 Nombre: nombre, Apellido: apellido, Documento: documento, RUC: ruc,
-                Email: email, Telefono: telefono, TipoCliente: tipoCliente, Tipo: tipo
+                Email: email, Telefono: telefono, Tipo: tipo
             },//OTRA MANERA DE ENVIAR PARAMETROS AL CONTROLADOR
             success: function (data) {
                 if (data.success) {
@@ -43,15 +39,14 @@ function saveCustomer() {
 
 //FUNCTION PARA EDITAR CLIENTE
 function editCustomer(Id) {
-    var Nombre, Apellido, tipoDocumento = 1, Documento, tipoCliente, ruc, Email, Telefono, Estado;
+    var Nombre, Apellido, tipoDocumento = 1, Documento, ruc, Email, Telefono, Estado;
 
     Nombre = $("#nombre").val();
     Apellido = $("#apellido").val();
-    Documento = $("#numero").val();
+    Documento = $("#numero").val().toUpperCase();
     ruc = $("#ruc").val().toUpperCase();
     Email = $("#email").val();
     Telefono = $("#telefono").val();
-    tipoCliente = $("#tipo").val();
     Estado = $("#estado").is(":checked");
 
     if ($("#documento").val() == "Pasaporte") {
@@ -64,15 +59,15 @@ function editCustomer(Id) {
             url: "/Clientes/Edit",
             data: {
                 Id : Id, Nombre: Nombre, Apellido: Apellido, Documento: Documento, RUC: ruc, Email: Email,
-                Telefono: Telefono, TipoCliente: tipoCliente, TipoDocumento: tipoDocumento, Estado: Estado
+                Telefono: Telefono, TipoDocumento: tipoDocumento, Estado: Estado
             },
             success: function (data) {
                 if (data.success) {
                     $("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
                     $("#small-modal").modal("hide"); //CERRAR MODAL
-                    Alert("Almacenado Correctamente", "", "success");
+                    Alert(data.message, "", "success");
                 } else {
-                    Alert("Error", data.data[0].message, "error");
+                    Alert("Error", data.message, "error");
                 }
             },
             error: function () {

@@ -74,127 +74,122 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                 return Json(new { success = completado, message = mensaje, Id = proveedorId, Proveedor = providerName }, JsonRequestBehavior.AllowGet);
             }
 
-            //DEPENDE DEL TIPO DE PROVEEDOR SE ALMACENA LOS DATOS
-            if (Local)
-            {
-                //INSTANCIA DE LA TABLA DATO PARA GUARDAR DATOS DEL PROVEEDOR LOCAL
-                Dato dato = new Dato();
-                Proveedor validando = new Proveedor();
 
-                //VALIDACION DEL CAMPO CEDULA PROVEEDOR EN LA TABLA DATOS
-                Dato Validacion = db.Datos.DefaultIfEmpty(null).FirstOrDefault(d => d.DNI.Trim() == CedulaProveedor.Trim());
-                //SI EXISTE UN REGISTRO DE DATOS, BUSCAR PROVEEDOR
-                if (Validacion != null)
-                {
-                    //VALIDANDO QUE EL PROVEEDOR NO ESTE REGISTRADO EN LA TABLA Y QUE SEA DIFERENTE DEL ID 2 QUE ES MI PLANTILLA
-                    validando = db.Proveedores.DefaultIfEmpty(null).FirstOrDefault(d => d.DatoId == Validacion.Id);
-                }
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //DEPENDE DEL TIPO DE PROVEEDOR SE ALMACENA LOS DATOS
+                    if (Local) {
+                        //INSTANCIA DE LA TABLA DATO PARA GUARDAR DATOS DEL PROVEEDOR LOCAL
+                        Dato dato = new Dato();
+                        Proveedor validando = new Proveedor();
 
-                //SI NO EXISTE EL OBJETO DATO
-                if (Validacion == null)
-                {
-                    //SE GUARDAN DATOS DEL PROVEEDOR LOCAL
-                    dato.DNI = CedulaProveedor.ToUpper();
-                    dato.PNombre = NombreProveedor;
-                    dato.PApellido = ApellidoProveedor;
+                        //VALIDACION DEL CAMPO CEDULA PROVEEDOR EN LA TABLA DATOS
+                        Dato Validacion = db.Datos.DefaultIfEmpty(null).FirstOrDefault(d => d.DNI.Trim() == CedulaProveedor.Trim());
+                        //SI EXISTE UN REGISTRO DE DATOS, BUSCAR PROVEEDOR
+                        if (Validacion != null) {
+                            //VALIDANDO QUE EL PROVEEDOR NO ESTE REGISTRADO EN LA TABLA Y QUE SEA DIFERENTE DEL ID 2 QUE ES MI PLANTILLA
+                            validando = db.Proveedores.DefaultIfEmpty(null).FirstOrDefault(d => d.DatoId == Validacion.Id);
+                        }
 
-                    //SI SE INGRESO UN NUMERO RUC-ALMACENAR
-                    if (RUC != "") {
-                        dato.RUC = RUC;
-                    }                    
+                        //SI NO EXISTE EL OBJETO DATO
+                        if (Validacion == null) {
+                            //SE GUARDAN DATOS DEL PROVEEDOR LOCAL
+                            dato.DNI = CedulaProveedor.ToUpper();
+                            dato.PNombre = NombreProveedor;
+                            dato.PApellido = ApellidoProveedor;
 
-                    db.Datos.Add(dato);
+                            //SI SE INGRESO UN NUMERO RUC-ALMACENAR
+                            dato.RUC = RUC != "" ? RUC : null;                                
 
-                    //SI SE GUARDO SE ALMACENAN LOS OTROS CAMPOS
-                    if (db.SaveChanges() > 0)
-                    {
-                        //GUARDAR A PROVEEDOR
-                        proveedor.Telefono = Telefono;
-                        proveedor.EstadoProveedor = true;
-                        proveedor.Local = Local;
-                        proveedor.RetenedorIR = RetenedorIR;
-                        proveedor.DatoId = dato.Id;//GUARDAR EL ID DEL CAMPO ALMACENADO
+                            db.Datos.Add(dato);
 
-                        //GUARDA CAMBIOS EN LA DB
-                        db.Proveedores.Add(proveedor);
-                        completado = db.SaveChanges() > 0 ? true : false;
-                        mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
-                        //AGARRAR LOS DATOS A UTILIZAR PARA EL MAESTRO DETALLE DE ENTRADAS
-                        proveedorId = proveedor.Id;
-                        providerName = dato.PNombre + " " + dato.PApellido;
-                    }//FIN SAVECHANGES
-                }//FIN VALIDACION
-                else//SI EXISTE YA UN REGISTRO CON LA CEDULA O RUC
-                {
-                    //SI NO EXISTE EL PROVEEDOR
-                    if (validando == null)
-                    {
-                        //AGREGAR PROVEEDOR
-                        proveedor.Telefono = Telefono;
-                        proveedor.EstadoProveedor = true;
-                        proveedor.Local = Local;
-                        proveedor.RetenedorIR = RetenedorIR;
-                        proveedor.DatoId = Validacion.Id;//GUARDAR EL ID DEL OBJETO ENCONTRADO
+                            //SI SE GUARDO SE ALMACENAN LOS OTROS CAMPOS
+                            if (db.SaveChanges() > 0) {
+                                //GUARDAR A PROVEEDOR
+                                proveedor.Telefono = Telefono;
+                                proveedor.EstadoProveedor = true;
+                                proveedor.Local = Local;
+                                proveedor.RetenedorIR = RetenedorIR;
+                                proveedor.DatoId = dato.Id;//GUARDAR EL ID DEL CAMPO ALMACENADO
 
-                        //GUARDA CAMBIOS EN LA DB
-                        db.Proveedores.Add(proveedor);
-                        completado = db.SaveChanges() > 0 ? true : false;
-                        mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
-                    }
-                    else//EXISTE YA EL PROVEEDOR
-                    {
-                        completado = false;
-                        mensaje = "El proveedor local ya se encuentra registrado";
-                    }
+                                //GUARDA CAMBIOS EN LA DB
+                                db.Proveedores.Add(proveedor);
+                                completado = db.SaveChanges() > 0 ? true : false;
+                                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                                //AGARRAR LOS DATOS A UTILIZAR PARA EL MAESTRO DETALLE DE ENTRADAS
+                                proveedorId = proveedor.Id;
+                                providerName = dato.PNombre + " " + dato.PApellido;
+                            }//FIN SAVECHANGES
+                        }//FIN VALIDACION
+                        else//SI EXISTE YA UN REGISTRO CON LA CEDULA O RUC
+                        {
+                            //SI NO EXISTE EL PROVEEDOR
+                            if (validando == null) {
+                                //AGREGAR PROVEEDOR
+                                proveedor.Telefono = Telefono;
+                                proveedor.EstadoProveedor = true;
+                                proveedor.Local = Local;
+                                proveedor.RetenedorIR = RetenedorIR;
+                                proveedor.DatoId = Validacion.Id;//GUARDAR EL ID DEL OBJETO ENCONTRADO
 
-                    proveedorId = proveedor.Id;
+                                //GUARDA CAMBIOS EN LA DB
+                                db.Proveedores.Add(proveedor);
+                                completado = db.SaveChanges() > 0 ? true : false;
+                                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                            } else//EXISTE YA EL PROVEEDOR
+                              {
+                                completado = false;
+                                mensaje = "El proveedor local ya se encuentra registrado";
+                            }
 
-                    //dato = db.Datos.Find(datoId);
-                    providerName = dato.PNombre + " " + dato.PApellido;
-                }//FIN ELSE VALIDACION      
+                            proveedorId = proveedor.Id;
 
-            }//FIN LOCAL
-            else if (!Local)
-            {                
-                //VALIDANDO QUE EL PROVEEDOR NO EXISTA
-                Proveedor proValidacion = db.Proveedores.DefaultIfEmpty(null).FirstOrDefault(d => d.NombreComercial.ToUpper().Trim() == NombreComercial.ToUpper().Trim() || d.Dato.RUC == RUC);
+                            //dato = db.Datos.Find(datoId);
+                            providerName = dato.PNombre + " " + dato.PApellido;
+                        }//FIN ELSE VALIDACION      
 
-                //SI NO EXISTE UN PROVEEDOR REGISTRADO DE LA BUSQUEDA
-                if (proValidacion == null)
-                {
-                    Dato data = new Dato();
+                    }//FIN LOCAL
+                    else if (!Local) {
+                        //VALIDANDO QUE EL PROVEEDOR NO EXISTA
+                        Proveedor proValidacion = db.Proveedores.DefaultIfEmpty(null).FirstOrDefault(d => d.NombreComercial.ToUpper().Trim() == NombreComercial.ToUpper().Trim() || d.Dato.RUC == RUC);
 
-                    data.RUC = RUC;//ALMACENAR UNICO CAMPO OBLIGATORIO DE UN PROVEEDOR COMERCIAL
+                        //SI NO EXISTE UN PROVEEDOR REGISTRADO DE LA BUSQUEDA
+                        if (proValidacion == null) {
+                            Dato data = new Dato();
 
-                    db.Datos.Add(data);
-                    if (db.SaveChanges() > 0)
-                    {
-                        //GUARDA EL PROVEEDOR
-                        proveedor.Telefono = Telefono;
-                        proveedor.EstadoProveedor = true;
-                        proveedor.Local = Local;
-                        proveedor.RetenedorIR = RetenedorIR;
-                        proveedor.NombreComercial = NombreComercial;
-                        proveedor.DatoId = data.Id;
+                            data.RUC = RUC;//ALMACENAR UNICO CAMPO OBLIGATORIO DE UN PROVEEDOR COMERCIAL
 
-                        //GUARDA CAMBIOS EN LA DB
-                        db.Proveedores.Add(proveedor);
-                        completado = db.SaveChanges() > 0 ? true : false;
-                        mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                            db.Datos.Add(data);
+                            if (db.SaveChanges() > 0) {
+                                //GUARDA EL PROVEEDOR
+                                proveedor.Telefono = Telefono;
+                                proveedor.EstadoProveedor = true;
+                                proveedor.Local = Local;
+                                proveedor.RetenedorIR = RetenedorIR;
+                                proveedor.NombreComercial = NombreComercial;
+                                proveedor.DatoId = data.Id;
 
-                        proveedorId = proveedor.Id;
-                        providerName = proveedor.NombreComercial;
-                    }
-                    else
-                        mensaje = "Error al guardar";
-                }
-                else
-                {
-                    completado = false;
-                    mensaje = "El proveedor ingresado ya se encuentra registrado";
-                }
-            }//FIN ELSE NO LOCAL
+                                //GUARDA CAMBIOS EN LA DB
+                                db.Proveedores.Add(proveedor);
+                                completado = db.SaveChanges() > 0 ? true : false;
+                                mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
 
+                                proveedorId = proveedor.Id;
+                                providerName = proveedor.NombreComercial;
+                            } else
+                                mensaje = "Error al guardar";
+                        } else {
+                            completado = false;
+                            mensaje = "El proveedor ingresado ya se encuentra registrado";
+                        }
+                    }//FIN ELSE NO LOCAL
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al almacenar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+                }//FIN USING
             return Json(new { success = completado, message = mensaje, Id = proveedorId, Proveedor = providerName }, JsonRequestBehavior.AllowGet);
         }//FIN POST CREATE
 
@@ -259,54 +254,59 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                 return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
             }
 
-            //DEPENDE DEL TIPO DE PROVEEDOR ALMACENAMOS LOS DATOS
-            if (Local)
-            {
-                //BUSCAR LOS DATOS A MODIFICAR DEL PROVEEDOR LOCAL POR MEDIO DE LA CEDULA
-                Dato dato = db.Datos.FirstOrDefault(d => d.DNI.Trim() == CedulaProveedor.Trim());
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //DEPENDE DEL TIPO DE PROVEEDOR ALMACENAMOS LOS DATOS
+                    if (Local) {
+                        //BUSCAR LOS DATOS A MODIFICAR DEL PROVEEDOR LOCAL POR MEDIO DE LA CEDULA
+                        Dato dato = db.Datos.FirstOrDefault(d => d.DNI.Trim() == CedulaProveedor.Trim());
 
-                //ASIGNAMOS VALORES A DATOS DE PROVEEDOR LOCAL
-                dato.PNombre = NombreProveedor;
-                dato.PApellido = ApellidoProveedor;
-                //dato.RUC = RUC;
+                        //ASIGNAMOS VALORES A DATOS DE PROVEEDOR LOCAL
+                        dato.PNombre = NombreProveedor;
+                        dato.PApellido = ApellidoProveedor;
+                        dato.RUC = RUC != "" ? RUC : null;
 
-                //GUARDAR CAMBIOS
-                db.Entry(dato).State = EntityState.Modified;
-                //CONFIRMACION DE CAMBIOS GUARDADOS
-                if (db.SaveChanges() > 0)
-                {
-                    //ASIGNAMOS VALORES DE PROVEEDOR
-                    proveedor.NombreComercial = NombreComercial;
-                    proveedor.Telefono = Telefono;
-                    proveedor.RetenedorIR = RetenedorIR;
-                    proveedor.EstadoProveedor = EstadoProveedor;
-                    //GUARDAR CAMBIOS DEL PROVEEDOR
-                    db.Entry(proveedor).State = EntityState.Modified;
-                    completado = db.SaveChanges() > 0 ? true : false;
-                    mensaje = completado ? "Modificado correctamente" : "Error al modificar";
-                }
-                else {
-                    //REVERTIR CAMBIOS EN DATOS
-                }
-            }
-            else {
-                //BUSCAR EL REGISTRO DATO DEL PROVEEDOR ATRAVES DEL RUC
-                //var buscarDato = db.Datos.DefaultIfEmpty(null).FirstOrDefault(r => r.RUC.Trim() == RUC);
+                        //GUARDAR CAMBIOS
+                        db.Entry(dato).State = EntityState.Modified;
+                        //CONFIRMACION DE CAMBIOS GUARDADOS
+                        if (db.SaveChanges() > 0) {
+                            //ASIGNAMOS VALORES DE PROVEEDOR
+                            proveedor.NombreComercial = NombreComercial;
+                            proveedor.Telefono = Telefono;
+                            proveedor.RetenedorIR = RetenedorIR;
+                            proveedor.EstadoProveedor = EstadoProveedor;
+                            //GUARDAR CAMBIOS DEL PROVEEDOR
+                            db.Entry(proveedor).State = EntityState.Modified;
+                            completado = db.SaveChanges() > 0 ? true : false;
+                            mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                        } else {
+                            //REVERTIR CAMBIOS EN DATOS
+                        }
+                    } else {
+                        //BUSCAR EL REGISTRO DATO DEL PROVEEDOR ATRAVES DEL RUC
+                        //var buscarDato = db.Datos.DefaultIfEmpty(null).FirstOrDefault(r => r.RUC.Trim() == RUC);
 
-                //MODIFICAR RUC
-                //buscarDato.RUC = RUC;
-                //db.Entry(buscarDato).State = EntityState.Modified;
+                        //MODIFICAR RUC
+                        //buscarDato.RUC = RUC;
+                        //db.Entry(buscarDato).State = EntityState.Modified;
 
-                //ASIGNAMOS VALORES DE PROVEEDOR
-                //proveedor.NombreComercial = NombreComercial;NO PIENSO CAMBIAR DE NOMBRE COMERCIAL
-                proveedor.Telefono = Telefono;
-                proveedor.RetenedorIR = RetenedorIR;
-                proveedor.EstadoProveedor = EstadoProveedor;
-                //GUARDAR CAMBIOS DEL PROVEEDOR
-                db.Entry(proveedor).State = EntityState.Modified;
-                completado = db.SaveChanges() > 0 ? true : false;
-                mensaje = completado ? "Modificado correctamente" : "Error al modificar";
-            }        
+                        //ASIGNAMOS VALORES DE PROVEEDOR
+                        //proveedor.NombreComercial = NombreComercial;NO PIENSO CAMBIAR DE NOMBRE COMERCIAL
+                        proveedor.Telefono = Telefono;
+                        proveedor.RetenedorIR = RetenedorIR;
+                        proveedor.EstadoProveedor = EstadoProveedor;
+                        //GUARDAR CAMBIOS DEL PROVEEDOR
+                        db.Entry(proveedor).State = EntityState.Modified;
+                        completado = db.SaveChanges() > 0 ? true : false;
+                        mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al modificar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
@@ -359,16 +359,22 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             //BUSCANDO QUE PRODUCTO NO TENGA SALIDAS NI ENTRADAS REGISTRADAS CON SU ID
             Entrada oEnt = db.Entradas.DefaultIfEmpty(null).FirstOrDefault(e => e.ProveedorId == Proveedor.Id);
 
-            //SI NO EXISTEN ENTRADAS CON EL ID ASOCIADO
-            if (oEnt == null)
-            {
-                db.Proveedores.Remove(Proveedor);
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
-            }
-            else
-            {
-                mensaje = "Se encontraron movimientos asociados a este proveedor";
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //SI NO EXISTEN ENTRADAS CON EL ID ASOCIADO
+                    if (oEnt == null) {
+                        db.Proveedores.Remove(Proveedor);
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+                    } else {
+                        mensaje = "Se encontraron movimientos asociados a este proveedor";
+                    }
+
+                    transact.Commit();                
+                } catch (Exception) {
+                    mensaje = "Error al eliminar";
+                    transact.Rollback();
+                }
             }
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);

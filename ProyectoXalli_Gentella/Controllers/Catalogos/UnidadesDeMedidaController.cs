@@ -76,13 +76,23 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             if (bod != null) {
                 ModelState.AddModelError("DescripcionUnidadMedida", "Utilice otro nombre");
                 mensaje = "La descripción ya se encuentra registrada";
-            } else {
-                //ESTADO DE UNIDADES DE MEDIDA CUANDO SE CREA SIEMPRE ES TRUE
-                UnidadDeMedida.EstadoUnidadMedida = true;
-                if (ModelState.IsValid) {
-                    db.UnidadesDeMedida.Add(UnidadDeMedida);
-                    completado = await db.SaveChangesAsync() > 0 ? true : false;
-                    mensaje = completado ? "Almacenado correctamente" : "Error al guardar";
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+            }
+
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //ESTADO DE UNIDADES DE MEDIDA CUANDO SE CREA SIEMPRE ES TRUE
+                    UnidadDeMedida.EstadoUnidadMedida = true;
+                    if (ModelState.IsValid) {
+                        db.UnidadesDeMedida.Add(UnidadDeMedida);
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Almacenado correctamente" : "Error al almacenar";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al almacenar";
+                    transact.Rollback();
                 }
             }
 
@@ -118,13 +128,23 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             if (bod != null) {
                 ModelState.AddModelError("DescripcionUnidadMedida", "Utilice otro nombre");
                 mensaje = "La descripción ya se encuentra registrada";
-            } else {
-                if (ModelState.IsValid) {
-                    db.Entry(UnidadDeMedida).State = EntityState.Modified;
-                    completado = await db.SaveChangesAsync() > 0 ? true : false;
-                    mensaje = completado ? "Modificado correctamente" : "Error al modificar";
-                }
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
             }
+
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    if (ModelState.IsValid) {
+                        db.Entry(UnidadDeMedida).State = EntityState.Modified;
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Modificado correctamente" : "Error al modificar";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje= "Error al modificar";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
@@ -168,14 +188,23 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             //BUSCANDO QUE UNIDAD DE MEDIDA NO TENGA PRODUCTOS REGISTRADOS CON SU ID
             Producto oProd = db.Productos.DefaultIfEmpty(null).FirstOrDefault(p => p.UnidadMedidaId == unidadDeMedida.Id);
 
-            //SI NO SE ENCUENTRAN PRODUCTOS ASOCIADOS AL ID
-            if (oProd == null) {
-                db.UnidadesDeMedida.Remove(unidadDeMedida);
-                completado = await db.SaveChangesAsync() > 0 ? true : false;
-                mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
-            } else {
-                mensaje = "Se encontraron productos registrados a esta unidad de medida";
-            }
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //SI NO SE ENCUENTRAN PRODUCTOS ASOCIADOS AL ID
+                    if (oProd == null) {
+                        db.UnidadesDeMedida.Remove(unidadDeMedida);
+                        completado = await db.SaveChangesAsync() > 0 ? true : false;
+                        mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
+
+                        transact.Commit();
+                    } else {
+                        mensaje = "Se encontraron productos registrados a esta unidad de medida";
+                        transact.Rollback();
+                    }
+                } catch (Exception) {
+
+                }//FIN TRY-CATCH
+            }//FIN USING
 
             return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
