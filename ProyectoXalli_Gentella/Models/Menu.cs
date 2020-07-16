@@ -13,7 +13,7 @@ namespace ProyectoXalli_Gentella.Models
         //CONSTRUCTOR DE RELACION HIJA
         public Menu() 
         {
-            this.Recetas = new HashSet<Receta>();
+            this.Ingredientes = new HashSet<Ingrediente>();
             this.DetallesDeOrden = new HashSet<DetalleDeOrden>();
         }
 
@@ -38,6 +38,11 @@ namespace ProyectoXalli_Gentella.Models
         public double PrecioMenu { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
+        [StringLength(10, ErrorMessage = "La longitud debe ser de 10 dígitos")]
+        [Display(Name = "Código")]
+        public string TiempoEstimado { get; set; }
+
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoMenu { get; set; }
 
@@ -46,8 +51,8 @@ namespace ProyectoXalli_Gentella.Models
 
         public int ImagenId { get; set; }
 
-        //DEFINCION DE RELACIONES HIIJAS
-        public virtual ICollection<Receta> Recetas { get; set; }
+        //DEFINCION DE RELACIONES HIJAS
+        public virtual ICollection<Ingrediente> Ingredientes { get; set; }
         public virtual ICollection<DetalleDeOrden> DetallesDeOrden { get; set; }
 
         //DEFINICION DE RELACIONES PADRES

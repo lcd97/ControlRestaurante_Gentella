@@ -18,18 +18,15 @@ namespace ProyectoXalli_Gentella.Models
         public virtual DbSet<CategoriaProducto> CategoriasProducto { get; set; }
         public virtual DbSet<Dato> Datos { get; set; }
         public virtual DbSet<DetalleDeEntrada> DetallesDeEntrada { get; set; }
-        public virtual DbSet<DetalleDeSalida> DetallesDeSalida { get; set; }
         public virtual DbSet<Entrada> Entradas { get; set; }
         public virtual DbSet<Producto> Productos { get; set; }
         public virtual DbSet<Proveedor> Proveedores { get; set; }
-        public virtual DbSet<Salida> Salidas { get; set; }
         public virtual DbSet<TipoDeEntrada> TiposDeEntrada { get; set; }
-        public virtual DbSet<TipoDeSalida> TiposDeSalida { get; set; }
         public virtual DbSet<UnidadDeMedida> UnidadesDeMedida { get; set; }
         public virtual DbSet<Turno> Turnos { get; set; }
 
         //MODULO MENU
-        public virtual DbSet<Receta> Recetas { get; set; }
+        public virtual DbSet<Ingrediente> Ingredientes { get; set; }
         public virtual DbSet<Menu> Menus { get; set; }
         public virtual DbSet<CategoriaMenu> CategoriasMenu { get; set; }
         public virtual DbSet<Imagen> Imagenes { get; set; }

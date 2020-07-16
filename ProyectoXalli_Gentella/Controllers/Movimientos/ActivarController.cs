@@ -71,23 +71,23 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
             return Json(new { data = tiposEntrada }, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// LISTA TODAS LAS TIPOS DE SALIDA DESACTIVADAS
-        /// </summary>
-        /// <returns></returns>
-        public JsonResult getTiposDeSalida()
-        {
-            var tiposSalida = (from obj in db.TiposDeSalida.ToList()
-                                where obj.EstadoTipoSalida == false
-                                select new
-                                {
-                                    Id = obj.Id,
-                                    Descripcion = obj.DescripcionTipoSalida,
-                                    Codigo = obj.CodigoTipoSalida
-                                });
+        ///// <summary>
+        ///// LISTA TODAS LAS TIPOS DE SALIDA DESACTIVADAS
+        ///// </summary>
+        ///// <returns></returns>
+        //public JsonResult getTiposDeSalida()
+        //{
+        //    var tiposSalida = (from obj in db.TiposDeSalida.ToList()
+        //                        where obj.EstadoTipoSalida == false
+        //                        select new
+        //                        {
+        //                            Id = obj.Id,
+        //                            Descripcion = obj.DescripcionTipoSalida,
+        //                            Codigo = obj.CodigoTipoSalida
+        //                        });
 
-            return Json(new { data = tiposSalida }, JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(new { data = tiposSalida }, JsonRequestBehavior.AllowGet);
+        //}
 
         /// <summary>
         /// LISTA TODAS LAS TIPOS DE ENTRADAS DESACTIVADAS
@@ -118,7 +118,7 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
                       select new
                       {
                           Id = obj.Id,
-                          Descripcion = obj.DescripcionProducto,
+                          Descripcion = obj.NombreProducto,
                           Codigo = obj.CodigoProducto
                       });
 
@@ -139,7 +139,7 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
                           Id = obj.Id,
                           //CONSULTA PARA ASIGNARLE A LA VARIABLE DESCRIPCION EL NOMBRE COMERCIAL O NOMBRE DE LA PERSONA NATURAL
                           Descripcion = obj.NombreComercial != null ? obj.NombreComercial : u.PNombre + " " + u.PApellido,
-                          Codigo = u.RUC != null ? u.RUC : u.DNI
+                          Codigo = u.RUC != null ? u.RUC : u.Cedula
                       });
             
             return Json(new { data = um }, JsonRequestBehavior.AllowGet);
@@ -190,7 +190,7 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
                            select new {
                                Id = obj.Id,
                                Descripcion = d.PNombre + " " + d.PApellido,
-                               Codigo = d.DNI.Trim()
+                               Codigo = d.Cedula.Trim()
                            });
 
             return Json(new { data = meseros }, JsonRequestBehavior.AllowGet);
@@ -215,7 +215,7 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
                            select new {
                                Id = obj.Id,
                                Descripcion = d.PNombre + " " + d.PApellido,
-                               Codigo = d.DNI.Trim()
+                               Codigo = d.Cedula.Trim()
                            });
 
             return Json(new { data = meseros }, JsonRequestBehavior.AllowGet);

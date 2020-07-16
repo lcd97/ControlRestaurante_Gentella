@@ -18,17 +18,18 @@ namespace ProyectoXalli_Gentella.Models
         [Key]
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(10, ErrorMessage = "El código INSS no debe exceder los 10 caracteres")]
         [Display(Name = "INSS")]
         public string INSS { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
-        [StringLength(10, ErrorMessage = "La Hora de entrada no debe exceder los 5 caracteres")]
+        [StringLength(10, ErrorMessage = "La Hora de entrada no debe exceder los 10 caracteres")]
         [Display(Name = "Hora Entrada")]
         public string HoraEntrada { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
-        [StringLength(10, ErrorMessage = "La Hora de entrada no debe exceder los 5 caracteres")]
+        [StringLength(10, ErrorMessage = "La Hora de entrada no debe exceder los 10 caracteres")]
         [Display(Name = "Hora Salida")]
         public string HoraSalida { get; set; }        
 

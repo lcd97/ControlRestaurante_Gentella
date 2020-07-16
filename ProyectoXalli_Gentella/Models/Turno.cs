@@ -10,20 +10,23 @@ namespace ProyectoXalli_Gentella.Models {
     [Table("Turnos", Schema = "Inv")]
     public partial class Turno {
         public Turno() {
-            this.Salidas = new HashSet<Salida>();
+            this.Ordenes = new HashSet<Orden>();
         }
 
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "El campo es obligatorio")]
-        [StringLength(10, ErrorMessage = "El inicio de Turno no debe exceder los 5 caracteres")]
-        [Display(Name = "Inicio Turno")]
-        public string InicioTurno { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
-        [StringLength(10, ErrorMessage = "El fin del turno no debe exceder los 5 caracteres")]
+        [DataType(DataType.Date)]
+        [Display(Name = "Inicio Turno")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime InicioTurno { get; set; }
+
+        [Required(ErrorMessage = "El campo es obligatorio")]
+        [DataType(DataType.Date)]
         [Display(Name = "Fin Turno")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public string FinTurno { get; set; }
 
         //FOREIGN KEY
@@ -33,6 +36,6 @@ namespace ProyectoXalli_Gentella.Models {
         public virtual Mesero Mesero { get; set; }
 
         //DECLARACION DE RELACION HIJA
-        public ICollection<Salida> Salidas { get; set; }
+        public ICollection<Orden> Ordenes { get; set; }
     }
 }

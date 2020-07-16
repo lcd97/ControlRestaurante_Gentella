@@ -67,7 +67,7 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
                            join um in db.UnidadesDeMedida.ToList() on obj.UnidadMedidaId equals um.Id
                           select new {
                               //CONSULTA PARA ASIGNARLE A LA VARIABLE PROVEEDOR EL NOMBRE COMERCIAL O NOMBRE DE LA PERSONA NATURAL
-                              Presentacion = obj.DescripcionProducto + " - " + obj.MarcaProducto + " - " + um.AbreviaturaUM,
+                              Presentacion = obj.NombreProducto + " - " + obj.MarcaProducto + " - " + um.AbreviaturaUM,
                               Id = obj.Id
                           };
 

@@ -39,15 +39,15 @@
             success: function (data) {
                 var r;
 
-                $("#nombres").html(data.data[0].Nombre + " " + data.data[0].Apellido);
-                var agregarID = '<li><i class="fa fa-list-alt"></i> Cédula: ' + data.data[0].Cedula + '</li>';
+                $("#nombres").html(data.Nombre + " " + data.Apellido);
+                var agregarID = '<li><i class="fa fa-list-alt"></i> Cédula: ' + data.Cedula + '</li>';
                 $("#agregar").append(agregarID);
 
-                var agregarInss = '<li><i class="fa fa-plus-square"></i> INSS: ' + data.data[0].Inss + '</li>';
+                var agregarInss = '<li><i class="fa fa-plus-square"></i> INSS: ' + data.Inss + '</li>';
                 $("#agregar").append(agregarInss);
 
-                if (data.data[0].RUC != null) {
-                    r = data.data[0].RUC;
+                if (data.RUC != null) {
+                    r = data.RUC;
                 } else {
                     r = "N/A";
                 }
@@ -55,7 +55,7 @@
                 var agregarRuc = '<li><i class="fa fa-calculator"></i> RUC: ' + r + '</li>';
                 $("#agregar").append(agregarRuc);
 
-                $("#Horario").html("Horario Laboral: " + data.data[0].EntradaH + " - " + data.data[0].SalidaH);
+                $("#Horario").html("Horario Laboral: " + data.EntradaH + " - " + data.SalidaH);
             }
         });
     });

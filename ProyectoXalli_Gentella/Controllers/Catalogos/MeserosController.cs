@@ -26,15 +26,15 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
         /// </summary>
         /// <returns></returns>
         public JsonResult GetData() {
-            var meseros = (from obj in db.Meseros.ToList()
-                           join d in db.Datos.ToList() on obj.DatoId equals d.Id
+            var meseros = (from obj in db.Meseros
+                           join d in db.Datos on obj.DatoId equals d.Id
                            where obj.EstadoMesero == true
                            select new {
                                Id = obj.Id,
-                               Documento = d.DNI,
+                               Documento = d.Cedula,
                                NombreMesero = d.PNombre + " " + d.PApellido,
                                Horario = obj.HoraEntrada + " - " + obj.HoraSalida
-                           });
+                           }).ToList();
 
             return Json(new { data = meseros }, JsonRequestBehavior.AllowGet);
         }
@@ -73,7 +73,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
             }
 
             //BUSCAR SI LA PERSONA EXISTE
-            var persona = db.Datos.DefaultIfEmpty(null).FirstOrDefault(p => p.DNI.Trim() == Cedula.Trim());
+            var persona = db.Datos.DefaultIfEmpty(null).FirstOrDefault(p => p.Cedula.Trim() == Cedula.Trim());
 
             //SI SE ENCUENTRA REGISTRADO
             if (persona != null) {
@@ -127,7 +127,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
                         Dato dato = new Dato();
 
                         //LLENAMOS LA TABLA DE DATOS
-                        dato.DNI = Cedula.Trim();
+                        dato.Cedula = Cedula.Trim();
                         dato.PNombre = Nombres.Trim();
                         dato.PApellido = Apellido.Trim();
                         dato.RUC = RUC.Trim() != "" ? RUC.Trim() : null;
@@ -185,21 +185,21 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
         }
 
         public ActionResult getMeseros(int id) {
-            var mesero = from obj in db.Meseros
+            var mesero = (from obj in db.Meseros
                          join a in db.Datos on obj.DatoId equals a.Id
                          where obj.Id == id
                          select new {
                              Nombre = a.PNombre,
                              Apellido = a.PApellido,
-                             Cedula = a.DNI,
+                             Cedula = a.Cedula,
                              Inss = obj.INSS,
                              RUC = a.RUC,
                              EntradaH = obj.HoraEntrada,
                              SalidaH = obj.HoraSalida,
                              Estado = obj.EstadoMesero
-                         };
+                         }).FirstOrDefault();
 
-            return Json(new { data = mesero }, JsonRequestBehavior.AllowGet);
+            return Json( mesero, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
         [HttpPost]
         public ActionResult Edit(string Nombres, string Apellido, string Cedula, string RUC, string HoraEntrada, string HoraSalida, bool Estado) {
             //BUSCAR QUE EL NUMERO RUC NO SE REPITA
-            var buscarRUC = RUC.Trim() != "" ? db.Datos.DefaultIfEmpty(null).FirstOrDefault(r => r.RUC == RUC && r.RUC != null && r.DNI.Trim() != Cedula.Trim()) : null;
+            var buscarRUC = RUC.Trim() != "" ? db.Datos.DefaultIfEmpty(null).FirstOrDefault(r => r.RUC == RUC && r.RUC != null && r.Cedula.Trim() != Cedula.Trim()) : null;
 
             //SI EXISTE UN REGISTRO CON EL NUMERO RUC
             if (buscarRUC != null) {
@@ -228,7 +228,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
             using (var transact = db.Database.BeginTransaction()) {
                 try {
                     //BUSCAR AL OBJETO A EDITAR
-                    var data = db.Datos.DefaultIfEmpty(null).FirstOrDefault(d => d.DNI.Trim() == Cedula.Trim());
+                    var data = db.Datos.DefaultIfEmpty(null).FirstOrDefault(d => d.Cedula.Trim() == Cedula.Trim());
                     var waiter = db.Meseros.DefaultIfEmpty(null).FirstOrDefault(w => w.DatoId == data.Id);
 
                     //ACTUALIZAR EL REGISTRO DEL MESERO
@@ -289,13 +289,14 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
                     var mesero = db.Meseros.Find(id);
                     //BUSCANDO QUE Categoria NO TENGA SALIDAS NI ENTRADAS REGISTRADAS CON SU ID
                     Orden orden = db.Ordenes.DefaultIfEmpty(null).FirstOrDefault(p => p.MeseroId == mesero.Id);
+                    Turno turno = db.Turnos.DefaultIfEmpty(null).FirstOrDefault(t => t.MeseroId == mesero.Id);
 
-                    if (orden == null) {
+                    if (orden == null || turno == null) {
                         db.Meseros.Remove(mesero);
                         completado = await db.SaveChangesAsync() > 0 ? true : false;
                         mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
                     } else {
-                        mensaje = "Se encontraron ordenes realizadas con este mesero";
+                        mensaje = "Se encontraron ordenes realizadas y turnos registrados con este mesero";
                     }
 
                     transact.Commit();

@@ -10,8 +10,8 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
     public class OrdenesController : Controller
     {
         private DBControl db = new DBControl();
-        bool completado = false;
-        string mensaje = "";
+        //bool completado = false;
+        //string mensaje = "";
 
         // GET: Ordenes
         public ActionResult Index()

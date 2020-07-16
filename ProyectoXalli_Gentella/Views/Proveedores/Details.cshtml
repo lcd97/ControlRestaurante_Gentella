@@ -39,24 +39,24 @@
                 var telefono, cedula, nombre, ruc, tipo;
 
                 //ASIGNAR LOS VALORES A MOSTRAR
-                telefono = " " + data.data[0].Telefono;
-                ruc = " " + data.data[0].RUC;
-                nombre = data.data[0].Nombre;
+                telefono = " " + data.Telefono;
+                ruc = " " + data.RUC;
+                nombre = data.Nombre;
 
-                if (data.data[0].RUC != null) {
-                    ruc = " " + data.data[0].RUC;
+                if (data.RUC != null) {
+                    ruc = " " + data.RUC;
                 } else {
                     ruc = " N/A"
                 }
 
-                if (data.data[0].Local) {
+                if (data.Local) {
                     tipo = " Proveedor Local";
-                    //nombre = " " + data.data[0].NombreProveedor;
-                    cedula = " " + data.data[0].Cedula;
+                    //nombre = " " + data.NombreProveedor;
+                    cedula = " " + data.Cedula;
                     
                 } else {
                     tipo = " Proveedor Comercial";
-                    //nombre = " " + data.data[0].NombreComercial;
+                    //nombre = " " + data.NombreComercial;
                     cedula = " N/A";
                 }
 

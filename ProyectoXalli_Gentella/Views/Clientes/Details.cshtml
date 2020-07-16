@@ -38,24 +38,24 @@
             success: function (data) {
                 var agregar = "", correo="N/A", telefono="N/A";
 
-                if (data.data[0].Email != null) {
-                    correo = data.data[0].Email;
+                if (data.Email != null) {
+                    correo = data.Email;
                 }
 
-                if (data.data[0].Telefono != null) {
-                    correo = data.data[0].Telefono;
+                if (data.Telefono != null) {
+                    correo = data.Telefono;
                 }
 
 
                 agregar += '<h3 class="title" style="text-align:center!important;"><i class="fa fa-user">' +
-                    '</i>&nbsp;&nbsp;' + data.data[0].Nombre + " " + data.data[0].Apellido + '</h3></br>';
+                    '</i>&nbsp;&nbsp;' + data.Nombre + " " + data.Apellido + '</h3></br>';
 
-                agregar += '<p><i class="fa fa-list-alt"></i>&nbsp;&nbsp;<strong>Documento: </strong><small>' + data.data[0].Documento + '</small></p>';
+                agregar += '<p><i class="fa fa-list-alt"></i>&nbsp;&nbsp;<strong>Documento: </strong><small>' + data.Documento + '</small></p>';
                 agregar += '<p><i class="fa fa-at"></i>&nbsp;&nbsp;<strong>Correo: </strong><small>' + correo + '</small></p>';
                 agregar += '<p><i class="fa fa-phone"></i>&nbsp;&nbsp;<strong>Telefono: </strong><small>' + telefono + '</small></p>';
 
-                if (data.data[0].RUC != null) {
-                    agregar += '<p><i class="fa fa-calculator"></i>&nbsp;&nbsp;<strong>RUC: </strong><small>' + data.data[0].RUC + '</small></p>';
+                if (data.RUC != null) {
+                    agregar += '<p><i class="fa fa-calculator"></i>&nbsp;&nbsp;<strong>RUC: </strong><small>' + data.RUC + '</small></p>';
                 } else {
                     agregar += '<p><i class="fa fa-calculator"></i>&nbsp;&nbsp;<strong>RUC: </strong><small>N/A</small></p>';
                 }

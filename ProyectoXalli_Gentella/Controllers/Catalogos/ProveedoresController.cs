@@ -28,8 +28,8 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// <returns></returns>
         public JsonResult GetData()
         {
-            var proveedores = (from obj in db.Proveedores.ToList()
-                               join u in db.Datos.ToList() on obj.DatoId equals u.Id
+            var proveedores = (from obj in db.Proveedores
+                               join u in db.Datos on obj.DatoId equals u.Id
                                where obj.EstadoProveedor == true
                                select new
                                {
@@ -37,9 +37,9 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                                    //CONDICION PARA ASIGNAR A UN CAMPO UN VALOR ALTERNATIVO EN CASO DE SER NULO (CASE-WHEN)
                                    NombreComercial = obj.NombreComercial != null ? obj.NombreComercial : u.PNombre + " " + u.PApellido,
                                    Telefono = obj.Telefono,
-                                   RUC = u.RUC,
+                                   RUC = u.RUC != null ? u.RUC : "N/A",
                                    Local = obj.Local
-                               });
+                               }).ToList();
 
             return Json(new { data = proveedores }, JsonRequestBehavior.AllowGet);
         }
@@ -84,7 +84,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                         Proveedor validando = new Proveedor();
 
                         //VALIDACION DEL CAMPO CEDULA PROVEEDOR EN LA TABLA DATOS
-                        Dato Validacion = db.Datos.DefaultIfEmpty(null).FirstOrDefault(d => d.DNI.Trim() == CedulaProveedor.Trim());
+                        Dato Validacion = db.Datos.DefaultIfEmpty(null).FirstOrDefault(d => d.Cedula.Trim() == CedulaProveedor.Trim());
                         //SI EXISTE UN REGISTRO DE DATOS, BUSCAR PROVEEDOR
                         if (Validacion != null) {
                             //VALIDANDO QUE EL PROVEEDOR NO ESTE REGISTRADO EN LA TABLA Y QUE SEA DIFERENTE DEL ID 2 QUE ES MI PLANTILLA
@@ -94,7 +94,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                         //SI NO EXISTE EL OBJETO DATO
                         if (Validacion == null) {
                             //SE GUARDAN DATOS DEL PROVEEDOR LOCAL
-                            dato.DNI = CedulaProveedor.ToUpper();
+                            dato.Cedula = CedulaProveedor.ToUpper();
                             dato.PNombre = NombreProveedor;
                             dato.PApellido = ApellidoProveedor;
 
@@ -216,8 +216,8 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// <returns></returns>
         public ActionResult getProveedor(int id)
         {
-            var provider = (from obj in db.Proveedores.ToList()
-                            join u in db.Datos.ToList() on obj.DatoId equals u.Id
+            var provider = (from obj in db.Proveedores
+                            join u in db.Datos on obj.DatoId equals u.Id
                             where obj.Id == id
                             select new
                             {
@@ -230,8 +230,8 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                                 Estado = obj.EstadoProveedor,
                                 Nombre = u.PNombre,
                                 Apellido = u.PApellido,
-                                Cedula = u.DNI
-                            });
+                                Cedula = u.Cedula
+                            }).FirstOrDefault();
 
             return Json(provider, JsonRequestBehavior.AllowGet);
         }
@@ -259,7 +259,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                     //DEPENDE DEL TIPO DE PROVEEDOR ALMACENAMOS LOS DATOS
                     if (Local) {
                         //BUSCAR LOS DATOS A MODIFICAR DEL PROVEEDOR LOCAL POR MEDIO DE LA CEDULA
-                        Dato dato = db.Datos.FirstOrDefault(d => d.DNI.Trim() == CedulaProveedor.Trim());
+                        Dato dato = db.Datos.FirstOrDefault(d => d.Cedula.Trim() == CedulaProveedor.Trim());
 
                         //ASIGNAMOS VALORES A DATOS DE PROVEEDOR LOCAL
                         dato.PNombre = NombreProveedor;
@@ -331,8 +331,8 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// <returns></returns>
         public ActionResult getDetails(int id) 
         {
-            var proveedor = from obj in db.Proveedores.ToList()
-                            join d in db.Datos.ToList() on obj.DatoId equals d.Id
+            var proveedor = (from obj in db.Proveedores
+                            join d in db.Datos on obj.DatoId equals d.Id
                             where obj.Id == id
                             select new {
                                 //CONDICION PARA ASIGNAR A UN CAMPO UN VALOR ALTERNATIVO EN CASO DE SER NULO (CASE-WHEN)
@@ -341,13 +341,13 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                                 Nombre = obj.NombreComercial != null ? obj.NombreComercial : d.PNombre + " " + d.PApellido,
                                 Telefono = obj.Telefono,
                                 RUC = d.RUC,
-                                Cedula = d.DNI,
+                                Cedula = d.Cedula,
                                 Local = obj.Local,
                                 RetieneIR = obj.RetenedorIR,
                                 Estado = obj.EstadoProveedor
-                            };
+                            }).FirstOrDefault();
 
-            return Json(new { data = proveedor }, JsonRequestBehavior.AllowGet);
+            return Json(proveedor, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Proveedor/Delete/5

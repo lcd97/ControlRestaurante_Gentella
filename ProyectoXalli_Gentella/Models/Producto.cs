@@ -15,7 +15,7 @@ namespace ProyectoXalli_Gentella.Models
         public Producto()
         {
             this.DetallesDeEntrada = new HashSet<DetalleDeEntrada>();
-            this.DetallesDeSalida = new HashSet<DetalleDeSalida>();
+            this.Ingredientes = new HashSet<Ingrediente>();
         }
 
         [Key]
@@ -27,29 +27,21 @@ namespace ProyectoXalli_Gentella.Models
         public string CodigoProducto { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
-        [StringLength(50, ErrorMessage = "La longitud excede los 50 dígitos")]
+        [StringLength(100, ErrorMessage = "La longitud excede los 100 dígitos")]
         [Display(Name = "Producto")]
-        public string DescripcionProducto { get; set; }
+        public string NombreProducto { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(50, ErrorMessage = "La longitud excede los 50 dígitos")]
         [Display(Name = "Marca")]
         public string MarcaProducto { get; set; }
 
-        //[Required(ErrorMessage = "La {0} es obligatorio")]
-        ////[Range(5, int.MaxValue)]
-        //[Display(Name = "Cantidad de existente")]
-        //[DisplayFormat(DataFormatString = "(0:c2)")]//MUESTRA EL FORMATO "10.20"
-        //public double CantidadProducto { get; set; }
-
         [Required(ErrorMessage = "El campo es obligatorio")]
-        //[Range(5, int.MaxValue, ErrorMessage = "La cantidad mínima de producto debe ser mayor a 0")]
         [DisplayFormat(DataFormatString = "(0:c2)")]//MUESTRA EL FORMATO "10.20"
         [Display(Name = "Cantidad máxima")]
         public double CantidadMaxProducto { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
-        //[Range(5, int.MaxValue, ErrorMessage = "La cantidad mínima de producto debe ser mayor a 0")]
         [DisplayFormat(DataFormatString = "(0:c2)")]//MUESTRA EL FORMATO "10.20"
         [Display(Name = "Cantidad mínima")]
         public double CantidadMinProducto { get; set; }
@@ -67,7 +59,7 @@ namespace ProyectoXalli_Gentella.Models
         public virtual CategoriaProducto Categoria { get; set; }
 
         //DEFINCION DE RELACIONES HIJOS
-        public virtual ICollection<DetalleDeSalida> DetallesDeSalida { get; set; }
         public virtual ICollection<DetalleDeEntrada> DetallesDeEntrada { get; set; }
+        public virtual ICollection<Ingrediente> Ingredientes { get; set; }
     }
 }

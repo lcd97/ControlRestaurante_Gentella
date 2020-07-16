@@ -27,7 +27,7 @@ namespace ProyectoXalli_Gentella.Models
         [Required(ErrorMessage = "El campo es obligatorio")]
         [DataType(DataType.Date)]
         [Display(Name = "Fecha de entrada")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:DD-MM-YYYY}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaEntrada { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]

@@ -143,14 +143,14 @@
             url: "/Clientes/getCustomer/" + @Model.Id,
             dataType: "JSON",
             success: function (data) {
-                $("#nombre").val(data.data[0].Nombre);
-                $("#apellido").val(data.data[0].Apellido);
-                $("#numero").val(data.data[0].Documento);
-                $("#ruc").val(data.data[0].RUC);
-                $("#email").val(data.data[0].Email);
-                $("#telefono").val(data.data[0].Telefono);
+                $("#nombre").val(data.Nombre);
+                $("#apellido").val(data.Apellido);
+                $("#numero").val(data.Documento);
+                $("#ruc").val(data.RUC);
+                $("#email").val(data.Email);
+                $("#telefono").val(data.Telefono);
 
-                if (data.data[0].TipoDocumento == 1) {
+                if (data.TipoDocumento == 1) {
                     $("#documento").val("Cédula");
                 } else {
                     $("#documento").val("Pasaporte");

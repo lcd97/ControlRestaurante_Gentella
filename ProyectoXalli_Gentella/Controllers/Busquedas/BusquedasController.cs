@@ -18,11 +18,11 @@ namespace ProyectoXalli_Gentella.Controllers.Busquedas {
         public ActionResult busquedaCliente(string Identificacion) {
 
             var cliente = (from obj in db.Datos
-                          join c in db.Clientes on obj.Id equals c.DatoId
-                          where obj.DNI = Identificacio
-                          select new {
+                           join c in db.Clientes on obj.Id equals c.DatoId
+                           where obj.Cedula == Identificacion
+                           select new {
 
-                          }).f
+                           }).FirstOrDefault();
 
 
             return Json(new { a = 0 }, JsonRequestBehavior.AllowGet);

@@ -13,7 +13,7 @@
 
 <div class="panel-body form-horizontal">
     <div class="form-group">
-        <h3 class="green" style="text-align:center !important;"><i class="fa fa-cutlery"></i> @Model.DescripcionProducto</h3>
+        <h3 class="green" style="text-align:center !important;"><i class="fa fa-cutlery"></i> @Model.NombreProducto</h3>
         <br />
         <div class="col-md-4 col-sm-4 col-xs-4 b-r">
             <div class="project_detail">
@@ -82,13 +82,13 @@
             url: "/Productos/getDetails/" + @Model.Id,
             dataType: "JSON",
             success: function (data) {
-                if (data.data[0].EstadoProducto) {
+                if (data.EstadoProducto) {
                     $("#estado").text("Activo");
                 } else {
                     $("#estado").text("Inactivo");
                 }
-                $("#categoria").text(data.data[0].Categoria);
-                $("#unidad").text(data.data[0].UnidadMedida);
+                $("#categoria").text(data.Categoria);
+                $("#unidad").text(data.UnidadMedida);
             }
         });
     });//FIN FUNCTION
@@ -103,16 +103,16 @@
                 //SI EXISTEN ENTRADAS EN ALGUNA DE LAS DOS AREAS
                 if (data.data.Destino != undefined) {
                     //NO SE CARGA LAS ENTRADAS DEL AREA DE COCINA - 2 -
-                    if (data.data[0].Destino != 1) {
+                    if (data.data.Destino != 1) {
                         $("#cantAct").text("No Disponible");
                     } else {
-                        $("#cantAct").text(data.data[0].cantActual);//SE CARGA LA CANTIDAD DEL AREA DEL BAR
+                        $("#cantAct").text(data.data.cantActual);//SE CARGA LA CANTIDAD DEL AREA DEL BAR
                     }
                 } else {
                     $("#cantAct").text("Sin entradas");//SI NO EXISTEN ENTRADAS DEL PRODUCTO
                 } 
             },
-            error: function (data) {
+            error: function () {
                 Alert("Error", "Se produjo un error al cargar la cantidad Actual", "error");
             }
         });

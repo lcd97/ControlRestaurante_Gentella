@@ -23,14 +23,14 @@ namespace ProyectoXalli_Gentella.Models
 
         [StringLength(16, MinimumLength = 16, ErrorMessage = "La longitud debe ser de 16 dígitos")]
         [Display(Name = "Documento de Identidad")]
-        public string DNI { get; set; }
+        public string Cedula { get; set; }
 
         [StringLength(50, ErrorMessage = "La longitud debe ser de 16 dígitos")]
         [Display(Name = "Nombres")]
         public string PNombre { get; set; }
 
         [StringLength(50, ErrorMessage = "La longitud debe ser de 16 dígitos")]
-        [Display(Name = "Apellido 1")]
+        [Display(Name = "Apellidos")]
         public string PApellido { get; set; }
 
         [StringLength(14, ErrorMessage = "La longitud excede los 14 dígitos")]

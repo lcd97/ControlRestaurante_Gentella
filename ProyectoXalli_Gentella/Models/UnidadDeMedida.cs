@@ -30,7 +30,7 @@ namespace ProyectoXalli_Gentella.Models
         public string DescripcionUnidadMedida { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
-        [StringLength(10, ErrorMessage = "La longitud excede los 50 dígitos")]
+        [StringLength(10, ErrorMessage = "La longitud excede los 10 dígitos")]
         [Display(Name = "Abreviatura")]
         public string AbreviaturaUM { get; set; }
 

@@ -15,12 +15,15 @@ namespace ProyectoXalli_Gentella.Models
 
         [StringLength(150, ErrorMessage = "El correo no debe exceder los 50 dígitos")]
         [Display(Name = "Correo Electrónico")]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Correo electrónico inválido")]
         public string EmailCliente { get; set; }
 
-        [StringLength(9, ErrorMessage = "El número telefónico no debe exceder los 9 dígitos")]
+        [StringLength(9, ErrorMessage = "El número telefónico no debe exceder los 8 dígitos")]
         [Display(Name = "Teléfono")]
         public string TelefonoCliente { get; set; }
         
+        [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoCliente { get; set; }
 

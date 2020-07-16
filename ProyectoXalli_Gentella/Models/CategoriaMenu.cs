@@ -32,7 +32,13 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Activo")]
         public bool EstadoCategoriaMenu { get; set; }
 
-        //DEFINCION DE RELACIONES HIIJAS
+        //FOREIGN KEY
+        public int BodegaId { get; set; }
+        
+        //DEFINCION DE RELACIONES HIJAS
         public virtual ICollection<Menu> Menus { get; set; }
+
+        //DEFINICION DE RELACIONES PADRES
+        public virtual Bodega Bodega { get; set; }
     }
 }

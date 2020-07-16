@@ -14,7 +14,7 @@ namespace ProyectoXalli_Gentella.Models
         public Bodega()
         {
             this.Entradas = new HashSet<Entrada>();
-            this.Salidas = new HashSet<Salida>();
+            this.CategoriaMenus = new HashSet<CategoriaMenu>();
         }
 
         [Key]
@@ -36,6 +36,6 @@ namespace ProyectoXalli_Gentella.Models
 
         //DEFINICION DE RELACIONES HIJOS
         public virtual ICollection<Entrada> Entradas { get; set; }
-        public virtual ICollection<Salida> Salidas { get; set; }
+        public virtual ICollection<CategoriaMenu> CategoriaMenus { get; set; }
     }
 }

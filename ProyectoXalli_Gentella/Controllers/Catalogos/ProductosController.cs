@@ -30,21 +30,19 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// <returns></returns>
         public JsonResult GetData()
         {
-            //db.Configuration.ProxyCreationEnabled = false;
-            //db.Configuration.LazyLoadingEnabled = false;
-            var productos = (from obj in db.Productos.ToList()
-                             join u in db.CategoriasProducto.ToList() on obj.CategoriaId equals u.Id
-                             join c in db.UnidadesDeMedida.ToList() on obj.UnidadMedidaId equals c.Id
+            var productos = (from obj in db.Productos
+                             join u in db.CategoriasProducto on obj.CategoriaId equals u.Id
+                             join c in db.UnidadesDeMedida on obj.UnidadMedidaId equals c.Id
                              where obj.EstadoProducto == true
                              select new
                              {
                                  Id = obj.Id,
-                                 DescripcionProducto = obj.DescripcionProducto,
+                                 NombreProducto = obj.NombreProducto,
                                  CodigoProducto = obj.CodigoProducto,
                                  Marca = obj.MarcaProducto,
                                  UnidadDeMedida = c.DescripcionUnidadMedida,
                                  Categoria = u.DescripcionCategoria
-                             });
+                             }).ToList();
                 
                 //await db.Productos.Join(u => u.UnidadDeMedida).join(c => c.Categoria).Where(c => c.EstadoProducto == true).ToListAsync();
 
@@ -65,17 +63,17 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoProducto,DescripcionProducto,MarcaProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
+        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoProducto,NombreProducto,MarcaProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
         {
             //BUSCAR LA PRESENTACION DEL PRODUCTO (COMBINACION DE DESCRIPCION, MARCA Y UM - ID -)
             Producto bod = db.Productos.DefaultIfEmpty(null)
-                .FirstOrDefault(b => b.DescripcionProducto.ToUpper().Trim() == Producto.DescripcionProducto.ToUpper().Trim() &&
+                .FirstOrDefault(b => b.NombreProducto.ToUpper().Trim() == Producto.NombreProducto.ToUpper().Trim() &&
                                 b.MarcaProducto.ToUpper().Trim() == Producto.MarcaProducto.ToUpper().Trim() && 
                                 b.UnidadMedidaId == Producto.UnidadMedidaId && b.CategoriaId == Producto.CategoriaId);
             
             //SI EL PRODUCTO YA EXISTE
             if (bod != null) {
-                ModelState.AddModelError("DescripcionProducto", "La presentación del producto ya existe");
+                ModelState.AddModelError("NombreProducto", "La presentación del producto ya existe");
                 mensaje = "La presentación del producto ya existe";
                 return Json(new { success = completado, message = mensaje, Id = Producto.Id, Producto = 0 }, JsonRequestBehavior.AllowGet);
             }
@@ -107,7 +105,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
 
             //ESTO ES PARA AGREGARLO EN EL FORMULARIO DE ENTRADAS
             var um = db.UnidadesDeMedida.Find(Producto.UnidadMedidaId);
-            var pro = Producto.DescripcionProducto + " " + Producto.MarcaProducto + " " + um.DescripcionUnidadMedida;
+            var pro = Producto.NombreProducto + " " + Producto.MarcaProducto + " " + um.DescripcionUnidadMedida;
 
             return Json(new { success = completado, message = mensaje, Id = Producto.Id, Producto = pro  }, JsonRequestBehavior.AllowGet);
         }
@@ -136,17 +134,17 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoProducto,DescripcionProducto,MarcaProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoProducto,NombreProducto,MarcaProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
         {
             //BUSCAR LA PRESENTACION DEL PRODUCTO (COMBINACION DE DESCRIPCION, MARCA Y UM - ID -)
             Producto bod = db.Productos.DefaultIfEmpty(null)
-                .FirstOrDefault(b => b.DescripcionProducto.ToUpper().Trim() == Producto.DescripcionProducto.ToUpper().Trim() &&
+                .FirstOrDefault(b => b.NombreProducto.ToUpper().Trim() == Producto.NombreProducto.ToUpper().Trim() &&
                                 b.MarcaProducto.ToUpper().Trim() == Producto.MarcaProducto.ToUpper().Trim() &&
                                 b.UnidadMedidaId == Producto.UnidadMedidaId && b.Id != Producto.Id);
 
             //SI EL PRODUCTO YA EXISTE
             if (bod != null) {
-                ModelState.AddModelError("DescripcionProducto", "La presentación del producto ya existe");
+                ModelState.AddModelError("NombreProducto", "La presentación del producto ya existe");
                 mensaje = "El producto con esas características ya existe";
                 return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
             }
@@ -200,22 +198,22 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// <returns></returns>
         public ActionResult getDetails(int id) 
         {
-            var producto = from obj in db.Productos.ToList()
-                           join c in db.CategoriasProducto.ToList() on obj.CategoriaId equals c.Id
-                           join u in db.UnidadesDeMedida.ToList() on obj.UnidadMedidaId equals u.Id
+            var producto = (from obj in db.Productos
+                           join c in db.CategoriasProducto on obj.CategoriaId equals c.Id
+                           join u in db.UnidadesDeMedida on obj.UnidadMedidaId equals u.Id
                            where obj.Id == id
                            select new {
                                CodigoProducto = obj.CodigoProducto,
-                               DescripcionProducto = obj.DescripcionProducto,
+                               NombreProducto = obj.NombreProducto,
                                MarcaProducto = obj.MarcaProducto,
                                CantidadMaxProducto = obj.CantidadMaxProducto,
                                CantidadMinProducto = obj.CantidadMinProducto,
                                EstadoProducto = obj.EstadoProducto,
                                UnidadMedida = u.DescripcionUnidadMedida,
                                Categoria = c.DescripcionCategoria
-                           };
+                           }).FirstOrDefault();
 
-            return Json(new { data = producto }, JsonRequestBehavior.AllowGet);
+            return Json( producto, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -272,7 +270,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             } else
                 num = "001";//SE COMIENZA CON EL PRIMER CODIGO DEL REGISTRO
 
-            return Json(new { data = num }, JsonRequestBehavior.AllowGet);
+            return Json(num, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Productos/Delete/5
@@ -283,12 +281,12 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             var Producto = db.Productos.Find(id);
             //BUSCANDO QUE PRODUCTO NO TENGA SALIDAS NI ENTRADAS REGISTRADAS CON SU ID
             DetalleDeEntrada oEnt = db.DetallesDeEntrada.DefaultIfEmpty(null).FirstOrDefault(e => e.ProductoId == Producto.Id);
-            DetalleDeSalida oSal = db.DetallesDeSalida.DefaultIfEmpty(null).FirstOrDefault(s => s.ProductoId == Producto.Id);
+            Ingrediente oIng = db.Ingredientes.DefaultIfEmpty(null).FirstOrDefault(s => s.IngredienteId == Producto.Id);
 
             using (var transact = db.Database.BeginTransaction()) {
                 try {
                     //SI NO SE ENCUENTRAN SALIDAS O ENTRADAS
-                    if (oEnt == null || oSal == null) {
+                    if (oEnt == null || oIng == null) {
                         db.Productos.Remove(Producto);
                         completado = await db.SaveChangesAsync() > 0 ? true : false;
                         mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";

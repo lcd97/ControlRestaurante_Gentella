@@ -18,7 +18,7 @@ namespace ProyectoXalli_Gentella.Models
         public int CantidadOrden { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
-        [StringLength(150, ErrorMessage = "El campo {0} no puede exceder los 150 caracteres")]
+        [StringLength(150, ErrorMessage = "Las notas no puede exceder los 150 caracteres")]
         [Display(Name = "Notas")]
         public string NotaDetalleOrden { get; set; }
 

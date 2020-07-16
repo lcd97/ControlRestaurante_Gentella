@@ -37,6 +37,8 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         // GET: Categorias/Create
         public ActionResult Create()
         {
+            ViewBag.BodegaId = new SelectList(db.Bodegas, "Id", "DescripcionBodega");
+
             return View();
         }
 
@@ -45,7 +47,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoCategoriaMenu,DescripcionCategoriaMenu,EstadoCategoriaMenu")] CategoriaMenu CategoriaMenu)
+        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoCategoriaMenu,DescripcionCategoriaMenu,EstadoCategoriaMenu,BodegaId")] CategoriaMenu CategoriaMenu)
         {
             //BUSCAR QUE EXISTA UNA CATEGORIA CON ESA DESCRIPCION
             CategoriaMenu bod = db.CategoriasMenu.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionCategoriaMenu.ToUpper().Trim() == CategoriaMenu.DescripcionCategoriaMenu.ToUpper().Trim());
@@ -88,6 +90,9 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             {
                 return HttpNotFound();
             }
+
+            ViewBag.BodegaId = new SelectList(db.Bodegas, "Id", "DescripcionBodega", CategoriaMenu.BodegaId);
+
             return View(CategoriaMenu);
         }
 
@@ -96,7 +101,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoCategoriaMenu,DescripcionCategoriaMenu,EstadoCategoriaMenu")] CategoriaMenu CategoriaMenu)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoCategoriaMenu,DescripcionCategoriaMenu,EstadoCategoriaMenu,BodegaId")] CategoriaMenu CategoriaMenu)
         {
             //BUSCAR QUE EXISTA UNA CATEGORIA CON ESA DESCRIPCION
             CategoriaMenu bod = db.CategoriasMenu.DefaultIfEmpty(null).FirstOrDefault(b => b.DescripcionCategoriaMenu.ToUpper().Trim() == CategoriaMenu.DescripcionCategoriaMenu.ToUpper().Trim()
@@ -157,7 +162,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             else
                 num = "001";//SE COMIENZA CON EL PRIMER CODIGO DEL REGISTRO
 
-            return Json(new { data = num }, JsonRequestBehavior.AllowGet);
+            return Json(num, JsonRequestBehavior.AllowGet);
         }
 
         // POST: Categorias/Delete/5
@@ -177,7 +182,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                         completado = await db.SaveChangesAsync() > 0 ? true : false;
                         mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
                     } else {
-                        mensaje = "Se encontraron platillos asociados a esta cartegoría";
+                        mensaje = "Se encontraron platillos asociados a esta categoría";
                     }
 
                     transact.Commit();

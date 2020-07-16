@@ -178,32 +178,27 @@
             dataType: "JSON",
             success: function (data) {
                 //CAMPOS GLOBALES
-                $("#telefono").val(data[0].Telefono);
-                $("#ruc").val(data[0].RUC);
+                $("#telefono").val(data.Telefono);
+                $("#ruc").val(data.RUC);
                 //ACTIVAR O DESACTIVAR EL SWITCHERY DE ESTADO
-                if (data[0].Estado) {
+                if (data.Estado) {
                     state.click();
                 }
                 //ACTIVAR O DESACTIVAR EL SWITCHERY DE IR
-                if (data[0].IR) {
+                if (data.IR) {
                     ir.click();
                 }
 
-                //if (data[0].local) {
-                //    $("#local").toggleClass("active");
-                //    $("#comercio").removeClass("active");
-                //}
-
                 //SI ES LOCAL O NO LLENAR SUS CAMPOS
-                if (data[0].local) {
-                    $("#nombre").val(data[0].Nombre);
-                    $("#apellido").val(data[0].Apellido);
-                    $("#cedula").val(data[0].Cedula);
+                if (data.local) {
+                    $("#nombre").val(data.Nombre);
+                    $("#apellido").val(data.Apellido);
+                    $("#cedula").val(data.Cedula);
                     //AGREGO LA CLASE ACTIVO AL BOTON SELECCIONADO
                     $("#local").toggleClass("active");
                     $("#comercio").removeClass("active");
                 } else {
-                    $("#nombre").val(data[0].NombreComercial);
+                    $("#nombre").val(data.NombreComercial);
                     $("#nombre").attr("disabled", true);
 
                     //DESHABILITAR LOS CAMPOS

@@ -168,7 +168,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             } else
                 num = "001";//SE COMIENZA CON EL PRIMER CODIGO DEL REGISTRO
 
-            return Json(new { data = num }, JsonRequestBehavior.AllowGet);
+            return Json(num, JsonRequestBehavior.AllowGet);
         }
 
         // POST: TiposDeEntrada/Delete/5
