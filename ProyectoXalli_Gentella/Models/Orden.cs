@@ -43,7 +43,6 @@ namespace ProyectoXalli_Gentella.Models
         public virtual Mesero Mesero { get; set; }
         public virtual Cliente Cliente { get; set; }
         public virtual Imagen Imagen { get; set; }
-        public virtual Turno Turno { get; set; }
 
         //DECLARACION DE RELACION HIJA
         public virtual ICollection<DetalleDeOrden> DetallesDeOrden { get; set; }

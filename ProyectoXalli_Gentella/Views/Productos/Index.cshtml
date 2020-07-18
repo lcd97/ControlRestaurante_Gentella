@@ -6,6 +6,7 @@
 
 @Styles.Render("~/Content/datatableCSS")
 <link href="~/Content/select2.min.css" rel="stylesheet" />
+<link href="~/Content/green.css" rel="stylesheet" />
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -25,9 +26,7 @@
                         <tr>
                             <th>@Html.DisplayNameFor(model => model.CodigoProducto)</th>
                             <th>@Html.DisplayNameFor(model => model.NombreProducto)</th>
-                            <th>@Html.DisplayNameFor(model => model.MarcaProducto)</th>
-                            <th>@Html.DisplayNameFor(model => model.UnidadDeMedida.DescripcionUnidadMedida)</th>
-                            <th>@Html.DisplayNameFor(model => model.Categoria.DescripcionCategoria)</th>
+                            <th>Producto</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -38,12 +37,14 @@
 </div>
 
 @Html.Partial("_small-modal")
+@Html.Partial("_xsModal")
 
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/datatableJS")
     <script src="~/Scripts/Catalogos/CRUD.js"></script>
     <script src="~/Scripts/select2.full.min.js"></script>
+    <script src="~/Scripts/icheck.js"></script>
 
     <!--DATATABLE Producto-->
     <script>
@@ -59,14 +60,12 @@
                 //DEFINIENDO LAS COLUMNAS A LLENAR
                 columns: [
                     { data: "CodigoProducto" },
-                    { data: "NombreProducto" },
-                    { data: "Marca" },
-                    { data: "UnidadDeMedida" },
+                    { data: "NombreProducto" },                   
                     { data: "Categoria" },
                     {   //DEFINIENDO LOS BOTONES PARA EDITAR Y ELIMINAR POR MEDIO DE JS
                         data: "Id", "render": function (data) {
                             return "<a class='btn btn-success' onclick=CargarParcial('/Productos/Edit/" + data + "')><i class='fa fa-pencil'></i></a>" +
-                                "<a class='btn btn-primary' Style='margin-left: 3px' onclick=CargarParcial('/Productos/Details/" + data + "')><i class='fa fa-eye'></i></a>" +
+                                "<a class='btn btn-primary' Style='margin-left: 3px' onclick=CargarSmallParcial('/Productos/Details/" + data + "')><i class='fa fa-eye'></i></a>" +
                                 "<a class='btn btn-danger' Style='margin-left: 3px' onclick=deleteAlert('/Productos/Delete/'," + data + ")><i class='fa fa-trash'></i></a>"
                         }
                     }

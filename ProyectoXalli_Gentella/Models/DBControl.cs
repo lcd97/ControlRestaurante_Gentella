@@ -23,7 +23,6 @@ namespace ProyectoXalli_Gentella.Models
         public virtual DbSet<Proveedor> Proveedores { get; set; }
         public virtual DbSet<TipoDeEntrada> TiposDeEntrada { get; set; }
         public virtual DbSet<UnidadDeMedida> UnidadesDeMedida { get; set; }
-        public virtual DbSet<Turno> Turnos { get; set; }
 
         //MODULO MENU
         public virtual DbSet<Ingrediente> Ingredientes { get; set; }

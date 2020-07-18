@@ -45,6 +45,5 @@ namespace ProyectoXalli_Gentella.Models
 
         //DECLARACION DE RELACION HIJA
         public ICollection<Orden> Ordenes { get; set; }
-        public ICollection<Turno> Turnos { get; set; }
     }
 }

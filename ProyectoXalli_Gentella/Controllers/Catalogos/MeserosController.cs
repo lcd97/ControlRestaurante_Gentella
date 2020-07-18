@@ -289,14 +289,13 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
                     var mesero = db.Meseros.Find(id);
                     //BUSCANDO QUE Categoria NO TENGA SALIDAS NI ENTRADAS REGISTRADAS CON SU ID
                     Orden orden = db.Ordenes.DefaultIfEmpty(null).FirstOrDefault(p => p.MeseroId == mesero.Id);
-                    Turno turno = db.Turnos.DefaultIfEmpty(null).FirstOrDefault(t => t.MeseroId == mesero.Id);
 
-                    if (orden == null || turno == null) {
+                    if (orden == null) {
                         db.Meseros.Remove(mesero);
                         completado = await db.SaveChangesAsync() > 0 ? true : false;
                         mensaje = completado ? "Eliminado correctamente" : "Error al eliminar";
                     } else {
-                        mensaje = "Se encontraron ordenes realizadas y turnos registrados con este mesero";
+                        mensaje = "Se encontraron ordenes realizadas con este mesero";
                     }
 
                     transact.Commit();

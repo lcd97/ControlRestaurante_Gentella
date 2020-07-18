@@ -5,78 +5,77 @@
     Layout = null;
 }
 
-<style>
-    .b-r {
-        border-right: 1px solid #e7eaec;
-    }
-</style>
 
-<div class="panel-body form-horizontal">
-    <div class="form-group">
-        <h3 class="green" style="text-align:center !important;"><i class="fa fa-cutlery"></i> @Model.NombreProducto</h3>
-        <br />
-        <div class="col-md-4 col-sm-4 col-xs-4 b-r">
-            <div class="project_detail">
-                <p class="title">Código de Producto</p>
-                <p>@Model.CodigoProducto</p>
-                <p class="title">Unidad de Medida</p>
-                <p id="unidad"></p>
-            </div>
-        </div>
-
-        <div class="col-md-4 col-sm-4 col-xs-4 b-r">
-            <div class="project_detail">
-                <p class="title">Marca de Producto</p>
-                <p>@Model.MarcaProducto</p>
-                <p class="title">Categoría de Producto</p>
-                <p id="categoria"></p>
-            </div>
-        </div>
-
-        <div class="col-md-4 col-sm-4 col-xs-4">
-            <div class="project_detail">
-                <p class="title">Estado</p>
-                <p id="estado"></p>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <hr />
-        <h4 style="text-align:center !important;">@*<i class="fa fa-cutlery"></i>*@Inventario Producto</h4>
-        <br />
-        <div class="col-md-4 col-sm-4 col-xs-4 b-r">
-            <div class="project_detail">
-                <p class="title">Cantidad Actual</p>
-                <p id="cantAct"></p>
-            </div>
-        </div>
-
-        <div class="col-md-4 col-sm-4 col-xs-4 b-r">
-            <div class="project_detail">
-                <p class="title">Cantidad Mínima</p>
-                <p>@Model.CantidadMinProducto</p>
-            </div>
-        </div>
-
-        <div class="col-md-4 col-sm-4 col-xs-4">
-            <div class="project_detail">
-                <p class="title">Cantidad Máxima</p>
-                <p>@Model.CantidadMaxProducto</p>
+<h3 class="green" style="text-align:center !important;"><i class="fa fa-cutlery"></i> @Model.NombreProducto</h3>
+<p class="title" style="text-align:center!important;" id="presentacion"></p>
+<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel">
+        <a class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <h4 class="panel-title">General</h4>
+        </a>
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                <br />
+                <div class="col-md-3 col-sm-3 col-xs-4">
+                    <div class="project_detail">
+                        <p class="title">Código</p>
+                        <p>@Model.CodigoProducto</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-4">
+                    <div class="project_detail">
+                        <p class="title">Categoría</p>
+                        <p id="categoria"></p>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-4">
+                    <div class="project_detail">
+                        <p class="title" id="estado"></p>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="flat" checked="checked">
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="ln_solid"></div>
-    <div class="form-group">
-        <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
-            <a onclick="CerrarModal()" class="btn btn-primary">Cerrar</a>
+    <div class="panel">
+        <a class="panel-heading collapsed" role="tab" id="headingThree" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            <h4 class="panel-title">Inventario</h4>
+        </a>
+        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+            <div class="panel-body">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="project_detail">
+                        <p id="cantAct" class="title"></p>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="project_detail">
+                        <p class="title">Cantidad Mínima : @Model.CantidadMinProducto</p>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="project_detail">
+                        <p class="title">Cantidad Máxima : @Model.CantidadMaxProducto</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    //CARGA LOS CAMPOS A MOSTRAR DEL DETALLLE
-     $(document).ready(function () {
+
+    $(document).ready(function () {        
+
+        $('.flat').iCheck();
+
+        //CARGA LOS CAMPOS A MOSTRAR DEL DETALLLE
         $.ajax({
             type: "GET",
             url: "/Productos/getDetails/" + @Model.Id,
@@ -88,14 +87,12 @@
                     $("#estado").text("Inactivo");
                 }
                 $("#categoria").text(data.Categoria);
-                $("#unidad").text(data.UnidadMedida);
+                $("#presentacion").text(data.MarcaProducto + " " + data.UnidadMedida);
             }
         });
-    });//FIN FUNCTION
 
-    //FUNCION PARA CARGAR LA CANTIDAD ACTUAL DE LOS PRODUCTOS
-    $(document).ready(function() {
-        $.ajax({
+         //FUNCION PARA CARGAR LA CANTIDAD ACTUAL DE LOS PRODUCTOS
+         $.ajax({
             url: "/Productos/CantidadActual/" + @Model.Id,
             type: "GET",
             dataType: "JSON",
@@ -104,13 +101,13 @@
                 if (data.data.Destino != undefined) {
                     //NO SE CARGA LAS ENTRADAS DEL AREA DE COCINA - 2 -
                     if (data.data.Destino != 1) {
-                        $("#cantAct").text("No Disponible");
+                        $("#cantAct").text("Cantidad Actual : No Disponible");
                     } else {
-                        $("#cantAct").text(data.data.cantActual);//SE CARGA LA CANTIDAD DEL AREA DEL BAR
+                        $("#cantAct").text("Cantidad Actual : " + data.data.cantActual);//SE CARGA LA CANTIDAD DEL AREA DEL BAR
                     }
                 } else {
-                    $("#cantAct").text("Sin entradas");//SI NO EXISTEN ENTRADAS DEL PRODUCTO
-                } 
+                    $("#cantAct").text("Cantidad Actual : Sin entradas");//SI NO EXISTEN ENTRADAS DEL PRODUCTO
+                }
             },
             error: function () {
                 Alert("Error", "Se produjo un error al cargar la cantidad Actual", "error");

@@ -2,6 +2,18 @@
 function CargarParcial(url) { //RECIBE LA URL DE LA UBICACION DEL METODO
     $("#small-modal").modal("show"); //MUESTRA LA MODAL
     $("#VistaParcial").html("");//LIMPIA LA MODAL POR DATOS PRECARGADOS
+
+    //AGREGAR EL TITULO A LA MODAL
+    if (url.includes("Edit")) {
+        $("#modal-title").html("Editar");
+    } else 
+        if (url.includes("Create")) {
+            $("#modal-title").html("Ingresar nuevo");
+        } else
+            if (url.includes("Details")) {
+                $("#modal-title").html("Detalle");
+            }
+
     $.ajax({
         "type": "GET", //TIPO DE ACCION
         "url": url, //URL DEL METODO A USAR
@@ -15,6 +27,11 @@ function CargarParcial(url) { //RECIBE LA URL DE LA UBICACION DEL METODO
 function CargarSmallParcial(url) { //RECIBE LA URL DE LA UBICACION DEL METODO
     $("#smallModal").modal("show"); //MUESTRA LA MODAL
     $("#vParcial").html("");//LIMPIA LA MODAL POR DATOS PRECARGADOS
+
+    //AGREGAR TITULO DE LA MODAL PEQUEÑA
+    $("#small-modaltitle").html("Detalle");
+
+
     $.ajax({
         "type": "GET", //TIPO DE ACCION
         "url": url, //URL DEL METODO A USAR

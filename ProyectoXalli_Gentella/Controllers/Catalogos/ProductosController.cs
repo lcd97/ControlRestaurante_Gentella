@@ -37,10 +37,8 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                              select new
                              {
                                  Id = obj.Id,
-                                 NombreProducto = obj.NombreProducto,
+                                 NombreProducto = obj.NombreProducto + " " + obj.MarcaProducto + " " + c.AbreviaturaUM,
                                  CodigoProducto = obj.CodigoProducto,
-                                 Marca = obj.MarcaProducto,
-                                 UnidadDeMedida = c.DescripcionUnidadMedida,
                                  Categoria = u.DescripcionCategoria
                              }).ToList();
                 
@@ -209,7 +207,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                                CantidadMaxProducto = obj.CantidadMaxProducto,
                                CantidadMinProducto = obj.CantidadMinProducto,
                                EstadoProducto = obj.EstadoProducto,
-                               UnidadMedida = u.DescripcionUnidadMedida,
+                               UnidadMedida = u.AbreviaturaUM,
                                Categoria = c.DescripcionCategoria
                            }).FirstOrDefault();
 
