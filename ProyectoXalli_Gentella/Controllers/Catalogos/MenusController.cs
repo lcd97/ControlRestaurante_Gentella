@@ -11,17 +11,14 @@ using System.Data.Entity;
 using System.Data;
 using System.Data.Entity.Validation;
 
-namespace ProyectoXalli_Gentella.Controllers.Catalogos
-{
-    public class MenusController : Controller
-    {
+namespace ProyectoXalli_Gentella.Controllers.Catalogos {
+    public class MenusController : Controller {
         private DBControl db = new DBControl();
         private bool completado = false;
         private string mensaje = "";
 
         //GET: Platillos
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
             return View();
         }
 
@@ -29,14 +26,12 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// RECUPERA DATOS PARA LLENAR LA TABLA MENU A TRAVES DE JSON
         /// </summary>
         /// <returns></returns>
-        public JsonResult GetData()
-        {
+        public JsonResult GetData() {
             var menu = (from obj in db.Menus
                         join i in db.Imagenes on obj.ImagenId equals i.Id
                         where obj.EstadoMenu == true
                         orderby obj.Id descending
-                        select new
-                        {
+                        select new {
                             Id = obj.Id,
                             DescripcionPlatillo = obj.DescripcionMenu,
                             Precio = obj.PrecioMenu,
@@ -51,15 +46,12 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// </summary>
         /// <param name="Codigo"></param>
         /// <returns></returns>
-        public ActionResult Comprobar(string Codigo)
-        {
+        public ActionResult Comprobar(string Codigo) {
             var menu = db.Menus.DefaultIfEmpty(null).FirstOrDefault(m => m.CodigoMenu.Trim() == Codigo.Trim());
 
-            if (menu != null)
-            {
+            if (menu != null) {
                 completado = false;
-            }
-            else
+            } else
                 completado = true;
 
             return Json(completado, JsonRequestBehavior.AllowGet);
@@ -69,11 +61,23 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// MUESTRA LA VISTA DEL CREATE
         /// </summary>
         /// <returns></returns>
-        public ActionResult Create()
-        {
+        public ActionResult Create() {
             ViewBag.CategoriaId = new SelectList(db.CategoriasMenu, "Id", "DescripcionCategoriaMenu");
 
             return View();
+        }
+
+        public ActionResult ProductoPresentacion() {
+
+            var presentacion = (from obj in db.Productos
+                                join um in db.UnidadesDeMedida on obj.UnidadMedidaId equals um.Id
+                                where obj.EstadoProducto == true
+                                select new {
+                                    Id = obj.Id,
+                                    Presentacion = obj.NombreProducto.Trim() + " " + obj.MarcaProducto.Trim() + " " + um.AbreviaturaUM.Trim()
+                                }).ToList();
+
+            return Json(presentacion, JsonRequestBehavior.AllowGet);
         }
 
         //// POST: Menus/Create
@@ -512,37 +516,34 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         //    return Json(new { data = completado, message = mensaje, Id }, JsonRequestBehavior.AllowGet);
         //}
 
-        ///// <summary>
-        ///// RETORNA EL CODIGO AUTOMATICAMENTE A LA VISTA CREATE
-        ///// </summary>
-        ///// <returns></returns>
-        //public ActionResult SearchCode()
-        //{
-        //    //BUSCAR EL VALOR MAXIMO DE LAS BODEGAS REGISTRADAS
-        //    var code = db.Menus.Max(x => x.CodigoMenu.Trim());
-        //    int valor;
-        //    string num;
+        /// <summary>
+        /// RETORNA EL CODIGO AUTOMATICAMENTE A LA VISTA CREATE
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SearchCode() {
+            //BUSCAR EL VALOR MAXIMO DE LAS BODEGAS REGISTRADAS
+            var code = db.Menus.Max(x => x.CodigoMenu.Trim());
+            int valor;
+            string num;
 
-        //    //SI EXISTE ALGUN REGISTRO
-        //    if (code != null)
-        //    {
-        //        //CONVERTIR EL CODIGO A ENTERO
-        //        valor = int.Parse(code);
+            //SI EXISTE ALGUN REGISTRO
+            if (code != null) {
+                //CONVERTIR EL CODIGO A ENTERO
+                valor = int.Parse(code);
 
-        //        //SE COMIENZA A AGREGAR UN VALOR SECUENCIAL AL CODIGO ENCONTRADO
-        //        if (valor <= 8)
-        //            num = "00" + (valor + 1);
-        //        else
-        //        if (valor >= 9 && valor < 100)
-        //            num = "0" + (valor + 1);
-        //        else
-        //            num = (valor + 1).ToString();
-        //    }
-        //    else
-        //        num = "001";//SE COMIENZA CON EL PRIMER CODIGO DEL REGISTRO
+                //SE COMIENZA A AGREGAR UN VALOR SECUENCIAL AL CODIGO ENCONTRADO
+                if (valor <= 8)
+                    num = "00" + (valor + 1);
+                else
+                if (valor >= 9 && valor < 100)
+                    num = "0" + (valor + 1);
+                else
+                    num = (valor + 1).ToString();
+            } else
+                num = "001";//SE COMIENZA CON EL PRIMER CODIGO DEL REGISTRO
 
-        //    return Json(new { data = num }, JsonRequestBehavior.AllowGet);
-        //}
+            return Json(new { data = num }, JsonRequestBehavior.AllowGet);
+        }
 
         //// POST: Proveedor/Delete/5
         //[HttpPost, ActionName("Delete")]
@@ -597,10 +598,8 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         //    return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         //}
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
                 db.Dispose();
             }
             base.Dispose(disposing);

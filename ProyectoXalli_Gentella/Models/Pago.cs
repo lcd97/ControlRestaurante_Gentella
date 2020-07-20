@@ -10,10 +10,45 @@ namespace ProyectoXalli_Gentella.Models
     [Table("Pagos", Schema = "Fact")]
     public partial class Pago
     {
+        //CONSTRUCTOR CLASE
+        public Pago() {
+            this.OrdenesPago = new HashSet<OrdenPago>();
+            this.DetallesPago = new HashSet<DetalleDePago>();
+        }
+
         [Key]
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "El campo es obligatorio")]
+        [DataType(DataType.Date)]
+        [Display(Name = "Fecha de entrada")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaPago { get; set; }
-        public double MontoRecibido { get; set; }
+
+        [Required(ErrorMessage = "El campo es obligatorio")]
+        [Display(Name = "Descuento")]
+        public int Descuento { get; set; }
+
+        [Required(ErrorMessage = "El campo es obligatorio")]
+        [Display(Name = "Impuestos")]
+        public int IVA { get; set; }
+
+        [Required(ErrorMessage = "El campo es obligatorio")]
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "(0:c2)")]
+        [Display(Name = "Propina voluntaria")]
+        public double Propina { get; set; }
+
+        //FOREING KEY
+        public int OrdenId { get; set; }
+        public int ImagenId { get; set; }
+
+        //DECLARACION DE RELACIONES PADRES
+        public virtual Orden Orden { get; set; }
+        public virtual Imagen Imagen { get; set; }
+
+        //DECLARACION DE RELACIONES HIJAS
+        public virtual ICollection<OrdenPago> OrdenesPago { get; set; }
+        public virtual ICollection<DetalleDePago> DetallesPago { get; set; }
     }
 }

@@ -649,3 +649,4 @@ C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\Proyecto
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.csproj.CopyComplete
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.dll
 C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.pdb
+C:\Users\Daniela Cordero\Source\Repos\lcd97\ControlRestaurante_Gentella\ProyectoXalli_Gentella\obj\Debug\ProyectoXalli_Gentella.Migrations.ModuloFact.resources

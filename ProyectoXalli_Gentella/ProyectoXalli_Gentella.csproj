@@ -230,6 +230,10 @@
     <Compile Include="Migrations\202007181458572_modificandoModelo.Designer.cs">
       <DependentUpon>202007181458572_modificandoModelo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007201947297_ModuloFact.cs" />
+    <Compile Include="Migrations\202007201947297_ModuloFact.Designer.cs">
+      <DependentUpon>202007201947297_ModuloFact.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -241,7 +245,7 @@
     <Compile Include="Models\DBControl.cs" />
     <Compile Include="Models\DetalleDeEntrada.cs" />
     <Compile Include="Models\DetalleDeOrden.cs" />
-    <Compile Include="Models\DetallePago.cs" />
+    <Compile Include="Models\DetalleDePago.cs" />
     <Compile Include="Models\Entrada.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Imagen.cs" />
@@ -570,6 +574,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202007181458572_modificandoModelo.resx">
       <DependentUpon>202007181458572_modificandoModelo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007201947297_ModuloFact.resx">
+      <DependentUpon>202007201947297_ModuloFact.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

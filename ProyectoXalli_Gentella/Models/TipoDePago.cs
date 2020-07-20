@@ -10,6 +10,10 @@ namespace ProyectoXalli_Gentella.Models
     [Table("TiposDePago", Schema = "Fact")]
     public partial class TipoDePago
     {
+        public TipoDePago() {
+            this.DetallesDePago = new HashSet<DetalleDePago>();
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -28,6 +32,6 @@ namespace ProyectoXalli_Gentella.Models
         public bool EstadoTipoPago { get; set; }
 
         //RELACION HIJA
-
+        public virtual ICollection<DetalleDePago> DetallesDePago { get; set; }
     }
 }

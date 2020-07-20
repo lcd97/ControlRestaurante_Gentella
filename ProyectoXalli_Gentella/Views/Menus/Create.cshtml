@@ -86,18 +86,21 @@
                     <div class="col-md-8 center-margin">
 
                         <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                            @Html.Label("Tiempo estimado de preparación", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
+                            @Html.Label("Tiempo preparación", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
                             <input id="tiempo" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="5" autocomplete="off"
                                    data-validate="true" data-error="Campo obligatorio">
-                                <div class="help-block with-errors"></div>
+                            <div class="help-block with-errors"></div>
                         </div>
 
                         <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                            @Html.Label("Ingredientes", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
-
-                            <input id="ingredientes" type="text" data-role="tagsinput" class="form-control col-md-2 col-sm-2 col-xs-2" />
-
+                            @Html.Label("Producto", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
+                            <select class="js-example-basic-single form-control" id="producto" style="width:100%!important;" multiple></select>
                         </div>
+
+                        @*<div class="form-group col-md-12 col-sm-12 col-xs-12">
+                            @Html.Label("Ingredientes", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
+                            <input id="ingredientes" type="text" data-role="tagsinput" class="form-control col-md-2 col-sm-2 col-xs-2" />
+                        </div>*@
 
                     </div>
 
@@ -130,6 +133,7 @@
     //INICIALIZAR EL SELECT2
     $('.js-example-basic-single').select2({
         //MODIFICAR LAS FRASES DEFAULT DE SELECT2
+        placeholder: "Busque un producto",//CARGAR PRIMERO EL PLACEHOLDER
         language: {
 
             noResults: function () {
@@ -146,6 +150,26 @@
     //INICIALIZADOR DE STEP WIZARD
     $(document).ready(function () {
         $('#wizard').smartWizard();
+
+        //CARGA LAS PRESENTACIONES DEL PRODUCTO
+        $.ajax({
+            type: "GET",
+            url: '/Menus/ProductoPresentacion',
+            dataType: 'JSON',
+            success: function (data) {
+
+                var agregar = "";
+
+                for (var i = 0; i < Object.keys(data).length; i++) {
+                    agregar += '<option value="' + data[i].Id + '">' + data[i].Presentacion + '</option>';
+                }
+
+                $("#producto").append(agregar);
+            },
+            error: function (data) {
+                alert("Error");
+            }
+        });
     });
 
     //SCRIPT PARA CARGAR UNA IMAGEN AUTOMATICAMENTE
