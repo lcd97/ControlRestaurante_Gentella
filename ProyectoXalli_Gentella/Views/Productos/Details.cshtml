@@ -5,6 +5,7 @@
     Layout = null;
 }
 
+<link href="~/Content/skins/all.css" rel="stylesheet" />
 
 <h3 class="green" style="text-align:center !important;"><i class="fa fa-cutlery"></i> @Model.NombreProducto</h3>
 <p class="title" style="text-align:center!important;" id="presentacion"></p>
@@ -31,11 +32,7 @@
                 <div class="col-md-2 col-sm-2 col-xs-4">
                     <div class="project_detail">
                         <p class="title" id="estado"></p>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" class="flat" checked="checked">
-                            </label>
-                        </div>
+                        <input type="checkbox" class="flat" checked="checked">
                     </div>
                 </div>
             </div>
@@ -46,22 +43,21 @@
             <h4 class="panel-title">Inventario</h4>
         </a>
         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-            <div class="panel-body">
+            <div class="panel-body" id="inventario">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="project_detail">
-                        <p id="cantAct" class="title"></p>
+                    <div class="project_detail" id="cantAct">
                     </div>
                 </div>
 
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="project_detail">
-                        <p class="title">Cantidad Mínima : @Model.CantidadMinProducto</p>
+                        <p><strong>Cantidad Mínima : </strong>@Model.CantidadMinProducto</p>
                     </div>
                 </div>
 
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="project_detail">
-                        <p class="title">Cantidad Máxima : @Model.CantidadMaxProducto</p>
+                        <p><strong>Cantidad Máxima : </strong>@Model.CantidadMaxProducto</p>
                     </div>
                 </div>
             </div>
@@ -69,11 +65,14 @@
     </div>
 </div>
 
+<script src="~/Scripts/icheck.js"></script>
 <script>
-
-    $(document).ready(function () {        
-
-        $('.flat').iCheck();
+    $(document).ready(function () {
+        //INICIALIZA EL CHECKBOX DE ESTADO
+        $('.flat').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
 
         //CARGA LOS CAMPOS A MOSTRAR DEL DETALLLE
         $.ajax({
@@ -96,17 +95,21 @@
             url: "/Productos/CantidadActual/" + @Model.Id,
             type: "GET",
             dataType: "JSON",
-            success: function (data) {
+             success: function (data) {
+                 var text = "";
                 //SI EXISTEN ENTRADAS EN ALGUNA DE LAS DOS AREAS
                 if (data.data.Destino != undefined) {
                     //NO SE CARGA LAS ENTRADAS DEL AREA DE COCINA - 2 -
                     if (data.data.Destino != 1) {
-                        $("#cantAct").text("Cantidad Actual : No Disponible");
+                        text = "<p><strong>Cantidad Actual   : </strong>No disponible</p>";
+                        $("#cantAct").append(text);
                     } else {
-                        $("#cantAct").text("Cantidad Actual : " + data.data.cantActual);//SE CARGA LA CANTIDAD DEL AREA DEL BAR
+                        text = "<p><strong>Cantidad Actual  : </strong>" + data.data.cantActual + "</p>";
+                        $("#cantAct").append(text);//SE CARGA LA CANTIDAD DEL AREA DEL BAR
                     }
                 } else {
-                    $("#cantAct").text("Cantidad Actual : Sin entradas");//SI NO EXISTEN ENTRADAS DEL PRODUCTO
+                    text = "<p><strong>Cantidad Actual : </strong>Sin entradas</p>";
+                    $("#cantAct").append(text);//SI NO EXISTEN ENTRADAS DEL PRODUCTO
                 }
             },
             error: function () {
