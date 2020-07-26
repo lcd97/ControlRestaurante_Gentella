@@ -33,7 +33,7 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Apellidos")]
         public string PApellido { get; set; }
 
-        [StringLength(14, ErrorMessage = "La longitud excede los 14 dígitos")]
+        [StringLength(14, MinimumLength = 14, ErrorMessage = "La longitud excede los 14 dígitos")]
         [Display(Name = "RUC")]
         public string RUC { get; set; }
 

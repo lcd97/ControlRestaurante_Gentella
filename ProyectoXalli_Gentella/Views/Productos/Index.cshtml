@@ -26,7 +26,7 @@
                         <tr>
                             <th>@Html.DisplayNameFor(model => model.CodigoProducto)</th>
                             <th>@Html.DisplayNameFor(model => model.NombreProducto)</th>
-                            <th>Producto</th>
+                            <th>Categoría</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -48,6 +48,10 @@
 
     <!--DATATABLE Producto-->
     <script>
+        $("#small-modal").draggable({
+            handle: ".modal-header"
+        });
+
         //LLENANDO EL DATATABLE CRUD
         $(document).ready(function () {
             //DEFINIENDO EL DATATABLE

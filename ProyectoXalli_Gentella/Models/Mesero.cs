@@ -19,7 +19,7 @@ namespace ProyectoXalli_Gentella.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
-        [StringLength(10, ErrorMessage = "El código INSS no debe exceder los 10 caracteres")]
+        [StringLength(9, ErrorMessage = "El código INSS no debe exceder los 8 caracteres")]
         [Display(Name = "INSS")]
         public string INSS { get; set; }
 

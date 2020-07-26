@@ -41,6 +41,10 @@
     <script src="~/Scripts/Catalogos/CRUD.js"></script>
 
     <script>
+        $("#small-modal").draggable({
+            handle: ".modal-header"
+        });
+
         //LLENANDO EL DATATABLE CRUD
         $(document).ready(function () {
             //DEFINIENDO EL DATATABLE

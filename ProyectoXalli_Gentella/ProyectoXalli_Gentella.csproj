@@ -216,6 +216,7 @@
     <Compile Include="Controllers\Catalogos\ProductosController.cs" />
     <Compile Include="Controllers\Catalogos\ProveedoresController.cs" />
     <Compile Include="Controllers\Catalogos\TiposDeEntradaController.cs" />
+    <Compile Include="Controllers\Catalogos\TiposDePagoController.cs" />
     <Compile Include="Controllers\Catalogos\UnidadesDeMedidaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Movimientos\ActivarController.cs" />
@@ -233,6 +234,14 @@
     <Compile Include="Migrations\202007201947297_ModuloFact.cs" />
     <Compile Include="Migrations\202007201947297_ModuloFact.Designer.cs">
       <DependentUpon>202007201947297_ModuloFact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007202159033_renombreIngrediente.cs" />
+    <Compile Include="Migrations\202007202159033_renombreIngrediente.Designer.cs">
+      <DependentUpon>202007202159033_renombreIngrediente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202007242129176_ChangesFields.cs" />
+    <Compile Include="Migrations\202007242129176_ChangesFields.Designer.cs">
+      <DependentUpon>202007242129176_ChangesFields.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -456,6 +465,7 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-dist.js" />
     <Content Include="Scripts\jquery.bootstrap-touchspin.js" />
     <Content Include="Scripts\jquery.mask.js" />
     <Content Include="Scripts\jquery.min.js" />
@@ -465,6 +475,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\Movimientos\activacion.js" />
     <Content Include="Scripts\Movimientos\entradas.js" />
@@ -520,14 +532,13 @@
     <Content Include="Views\CategoriasMenu\Edit.cshtml" />
     <Content Include="Views\Menus\Index.cshtml" />
     <Content Include="Views\Menus\Create.cshtml" />
-    <Content Include="Views\Menus\Detail.cshtml" />
+    <Content Include="Views\Menus\Details.cshtml" />
     <Content Include="Views\Menus\Edit.cshtml" />
     <Content Include="Views\Entradas\Index.cshtml" />
     <Content Include="Views\Shared\_xsModal.cshtml" />
     <Content Include="Views\Clientes\Index.cshtml" />
     <Content Include="Views\Clientes\Create.cshtml" />
     <Content Include="Views\Clientes\Details.cshtml" />
-    <Content Include="Views\Clientes\Delete.cshtml" />
     <Content Include="Views\Meseros\Index.cshtml" />
     <Content Include="Views\Meseros\Create.cshtml" />
     <Content Include="Views\Meseros\Details.cshtml" />
@@ -536,6 +547,9 @@
     <Content Include="Views\Shared\_loading.cshtml" />
     <Content Include="Views\Ordenes\Index.cshtml" />
     <Content Include="Views\Busquedas\BuscarCliente.cshtml" />
+    <Content Include="Views\TiposDePago\Index.cshtml" />
+    <Content Include="Views\TiposDePago\Create.cshtml" />
+    <Content Include="Views\TiposDePago\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -577,6 +591,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007201947297_ModuloFact.resx">
       <DependentUpon>202007201947297_ModuloFact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007202159033_renombreIngrediente.resx">
+      <DependentUpon>202007202159033_renombreIngrediente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007242129176_ChangesFields.resx">
+      <DependentUpon>202007242129176_ChangesFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

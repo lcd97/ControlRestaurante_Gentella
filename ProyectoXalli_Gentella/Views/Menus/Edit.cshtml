@@ -57,7 +57,7 @@
 
                             <div class="form-group col-md-4 col-sm-4 col-xs-4">
                                 @Html.Label("Código", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-12" })
-                                <input id="codigo" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="3" autocomplete="off" disabled>
+                                <input id="codigoMenu" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="3" autocomplete="off" disabled>
                             </div>
 
                             <div class="form-group col-md-8 col-sm-8 col-xs-8">
@@ -95,10 +95,8 @@
                         </div>
 
                         <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                            @Html.Label("Ingredientes", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
-
-                            <input id="ingredientes" type="text" data-role="tagsinput" class="form-control col-md-2 col-sm-2 col-xs-2" />
-
+                            @Html.Label("Producto", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
+                            <select class="js-example-basic-single form-control" id="ingredientes" style="width:100%!important;" multiple></select>
                         </div>
 
                     </div>
@@ -111,8 +109,10 @@
                             <label class="btn btn-default search-file-btn">
                                 <input id="file" name="file1" type="file" accept="image/*" style="display:None;"> <span>Examinar</span>
                             </label>
-                            <span class="label label-default"> ✓ @Model.DescripcionMenu <script src="~/Scripts/Catalogos/menuItem.js"></script>
-</span>
+                            <span class="label label-default">
+                                ✓ @Model.DescripcionMenu
+                                <script src="~/Scripts/Catalogos/menuItem.js"></script>
+                            </span>
                         </div>
 
 
@@ -130,6 +130,12 @@
 <script src="~/Scripts/bootstrap-tagsinput.js"></script>
 
 <script>
+    //CAMBIAR EL MENU POR CATEGORIAS
+    $("#categoria").on("change", function () {
+        comboBx();
+    });
+
+
     //INICIALIZAR EL SELECT2
     $('.js-example-basic-single').select2({
         //MODIFICAR LAS FRASES DEFAULT DE SELECT2
@@ -145,11 +151,65 @@
             }
         }
     });
+
     var elem, init;
 
-    //INICIALIZAR EL CHECKBOX
     $(document).ready(function () {
 
+        comboBx();
+
+        //CARGA LAS PRESENTACIONES DEL PRODUCTO
+        $.ajax({
+            type: "GET",
+            url: '/Menus/ProductoPresentacion',
+            dataType: 'JSON',
+            success: function (data) {
+
+                var agregar = "";
+
+                for (var i = 0; i < Object.keys(data).length; i++) {
+                    agregar += '<option value="' + data[i].Id + '">' + data[i].Presentacion + '</option>';
+                }
+
+                $("#ingredientes").append(agregar);
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+
+        //FUNCION PARA MOSTRAR EL PLATILLO SELECICONADO
+        $.ajax({
+            type: "GET",
+            url: "/Menus/getMenuItem/" + @Model.Id,
+            success: function (data) {
+                $("#codigoMenu").val(data.menu.codigoMenu);
+                $("#platillo").val(data.menu.Platillo);
+                //ACTIVAR EL SWITCHERY
+                if (data.menu.Estado) {
+                    elem.click();
+                }
+                $("#precio").val(data.menu.Precio);
+                $("#tiempo").val(data.menu.Tiempo);
+                //INSERTAR IMAGEN
+                $("#img").attr("src", data.menu.Ruta);
+
+                //var ing = (data.ingredientes);
+
+                //console.log(ing);
+                //SELECCIONA LOS INGREDIENTES DEL PLATILLO POR DEFAULT
+                $('#ingredientes').select2({}).select2('val', (data.ingredientes));
+                $('#ingredientes').trigger('change'); // Notify any JS components that the value changed
+            },
+            error: function () {
+                Alert("Error al almacenar", "Intentelo de nuevo", "error");
+            }
+        });//FIN AJAX
+
+        //INICIALIZADOR DE STEP WIZARD
+        $('#wizard').smartWizard();
+
+        //INICIALIZAR EL CHECKBOX
         elem = document.querySelector('.js-switch');
         init = new Switchery(elem, { secondaryColor: '#CE2727' });
     });
@@ -197,11 +257,6 @@
         }//FIN IF CHKBOX
     }//FIN FUNCION
 
-    //INICIALIZADOR DE STEP WIZARD
-    $(document).ready(function () {
-        $('#wizard').smartWizard();
-    });
-
     //SCRIPT PARA CARGAR UNA IMAGEN AUTOMATICAMENTE
     document.getElementById("file").onchange = function (e) {
         // Creamos el objeto de la clase FileReader
@@ -231,30 +286,20 @@
         })
     });
 
-    //FUNCION PARA MOSTRAR EL PLATILLO SELECICONADO
-    $(document).ready(function () {
-
+    //CARGA LOS INGREDIENTES DEL MENU
+    function comboBx() {
         $.ajax({
             type: "GET",
-            url: "/Menus/getMenuItem/" + @Model.Id,
-            success: function (data) {
-                $("#codigo").val(data[0].Codigo);
-                $("#platillo").val(data[0].Platillo);     
-                //ACTIVAR EL SWITCHERY
-                if (data[0].Estado) {
-                    elem.click();
+            url: "/Menus/ComprobarArea/" + $("#categoria").val(),//MANDO EL ID DE LA CATEGORIA
+            dataType: "JSON",
+            success: function (bar) {
+                //SI LA CATEGORIA CORRESPONDE AL AREA DE BAR
+                if (bar === true) {
+                    $("#ingredientes").removeAttr("multiple");
+                } else {
+                    $("#ingredientes").attr("multiple", true);
                 }
-                $("#precio").val(data[0].Precio);                
-                $("#tiempo").val(data[0].Tiempo);   
-                //AGREGAR LOS INGREDIENTES CON EL TAG INPUT
-                $("#ingredientes").tagsinput('add', data[0].Ingredientes);                
-                //INSERTAR IMAGEN
-                $("#img").attr("src", data[0].Ruta);                
-            },
-            error: function () {
-                Alert("Error al almacenar", "Intentelo de nuevo", "error");
             }
-        });//FIN AJAX
-    })
-    
+        });
+    }
 </script>

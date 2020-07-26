@@ -55,7 +55,13 @@ function SubmitForm(form) {
                     $("#small-modal").modal("hide"); //CERRAR MODAL
 
                     //MOSTRANDO EL SWEET ALERT
-                    Alert(data.message, "", "success");
+                    swal({
+                        title: "Completado",
+                        text: data.message,
+                        icon: "success",
+                        buttons: false,
+                        timer: 1500
+                    });
 
                 }//FIN IF
                 else {
@@ -83,7 +89,13 @@ function Delete(uri, id) {
         success: function (data) {
             if (data.success) {//SI SE ELIMINO CORRECTAMENTE
                 $("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
-                swal(data.message, { icon: "success" });
+                swal({
+                    title: data.message,
+                    text: "El registro ha sido eliminado",
+                    icon: "success",
+                    buttons: false,
+                    timer: 1500
+                });
             }//FIN IF
             else
                 swal("Error", data.message, "error");
@@ -138,21 +150,3 @@ function deleteAlert(uri, id) {
             }//FIN SWITCH
         });//FIN THEN
 }//FIN FUCTION DELETE
-
-//PARA CARGAR EL LOADER EN CADA PETICION AJAX
-$(document).ready(function () {
-    var screen = $('#Cargando'); //obtiene modal Cargando
-    configureLoadingScreen(screen); //llamada a metodo usando AJAX
-});
-
-//PARA CARGAR EL LOADER EN CADA PETICION AJAX
-function configureLoadingScreen(screen) {  // metodo para mostrar Loader
-    $(document)
-        .ajaxStart(function () { //muestra imagen
-            screen.modal("show");
-            $('#Cargando').modal({ backdrop: 'static', keyboard: true });//EVITAR SALIRSE DEL CARGANDO PRESIONANDO FUERA DE EL
-        })
-        .ajaxStop(function () { //oculta imagen
-            screen.modal("hide");
-        });
-}

@@ -103,6 +103,30 @@
 
         elem = document.querySelector('.js-switch');
         init = new Switchery(elem, { secondaryColor: '#CE2727' });
+
+         //FUNCION PARA CARGAR LA CANTIDAD ACTUAL DE LOS PRODUCTOS
+         $.ajax({
+            url: "/Productos/CantidadActual/" + @Model.Id,
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+                //SI EXISTEN ENTRADAS EN ALGUNA DE LAS DOS AREAS
+                if (data.data.Destino != undefined) {
+                    //NO SE CARGA LAS ENTRADAS DEL AREA DE COCINA - 2 -
+                    if (data.data.Destino != 1) {
+                        $("#cantProd").val("No Disponible");
+                    } else {
+                        $("#cantProd").val(data.data.cantActual);//SE CARGA LA CANTIDAD DEL AREA DEL BAR
+                    }
+                } else {
+                    $("#cantProd").val("Sin entradas");//SI NO EXISTEN ENTRADAS DEL PRODUCTO
+                }
+            },
+            error: function (data) {
+                Alert("Error", "Se produjo un error al cargar la cantidad actual", "error");
+            }
+        });
+
     });
 
     //CONFIRMACION DE ACTIVAR/DESACTIVAR
@@ -147,31 +171,6 @@
                 });//FIN THEN
         }//FIN IF CHKBOX
     }//FIN FUNCION
-
-    //FUNCION PARA CARGAR LA CANTIDAD ACTUAL DE LOS PRODUCTOS
-    $(document).ready(function() {
-        $.ajax({
-            url: "/Productos/CantidadActual/" + @Model.Id,
-            type: "GET",
-            dataType: "JSON",
-            success: function (data) {
-                //SI EXISTEN ENTRADAS EN ALGUNA DE LAS DOS AREAS
-                if (data.data.Destino != undefined) {
-                    //NO SE CARGA LAS ENTRADAS DEL AREA DE COCINA - 2 -
-                    if (data.data.Destino != 1) {
-                        $("#cantProd").val("No Disponible");
-                    } else {
-                        $("#cantProd").val(data.data.cantActual);//SE CARGA LA CANTIDAD DEL AREA DEL BAR
-                    }
-                } else {
-                    $("#cantProd").val("Sin entradas");//SI NO EXISTEN ENTRADAS DEL PRODUCTO
-                }
-            },
-            error: function (data) {
-                Alert("Error", "Se produjo un error al cargar la cantidad actual", "error");
-            }
-        });
-    });//FIN FUNCTION
 
     //INICIALIZAR EL SELECT2
     $('.js-example-basic-single').select2({

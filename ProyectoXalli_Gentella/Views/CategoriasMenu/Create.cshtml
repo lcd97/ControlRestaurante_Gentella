@@ -16,7 +16,7 @@
                 <div class="form-group">
                     <div class="col-md-8 col-sm-8 col-xs-8">
                         @Html.Label("Código", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
-                        @Html.EditorFor(model => model.CodigoCategoriaMenu, new { htmlAttributes = new { @class = "form-control col-md-2 col-sm-2 col-xs-2", @maxlength = 3, @autocomplete = "off", @id = "codigo", @readonly = "readonly" } })
+                        @Html.EditorFor(model => model.CodigoCategoriaMenu, new { htmlAttributes = new { @class = "form-control col-md-2 col-sm-2 col-xs-2", @maxlength = 3, @autocomplete = "off", @id = "codigoCatMenu", @readonly = "readonly" } })
                         @Html.ValidationMessageFor(model => model.CodigoCategoriaMenu, "", new { @class = "text-danger" })
                     </div>
 
@@ -67,7 +67,7 @@
             type: "GET",
             url: "/CategoriasMenu/SearchCode",
             success: function (data) {
-                $("#codigo").val(data);
+                $("#codigoCatMenu").val(data);
             }
         });
     });

@@ -24,7 +24,13 @@ function saveCustomer() {
                 if (data.success) {
                     $("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
                     $("#small-modal").modal("hide"); //CERRAR MODAL
-                    Alert("Almacenado correctamente", data.message, "success");//ALMACENADO CORRECTAMENTE
+                    swal({
+                        title: "Completado",
+                        text: data.message,
+                        icon: "success",
+                        buttons: false,
+                        timer: 1500
+                    });
                 } else
                     Alert("Error al almacenar", data.message, "error");//MENSAJE DE ERROR
             },
@@ -65,7 +71,13 @@ function editCustomer(Id) {
                 if (data.success) {
                     $("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
                     $("#small-modal").modal("hide"); //CERRAR MODAL
-                    Alert(data.message, "", "success");
+                    swal({
+                        title: "Completado",
+                        text: data.message,
+                        icon: "success",
+                        buttons: false,
+                        timer: 1500
+                    });
                 } else {
                     Alert("Error", data.message, "error");
                 }
@@ -81,7 +93,7 @@ function editCustomer(Id) {
 
 //FUNCION PARA VALIDAR CAMPOS VACIOS
 function validado() {
-    if ($("#nombre").val() != "" && $("#apellido").val() != "" && $("#numero").val() != "") {
+    if ($("#nombre").val() != "" && $("#apellido").val() != "" && $("#numero").val() != "" && $("#email").val() != "") {
         return true;
     } else
         return false;

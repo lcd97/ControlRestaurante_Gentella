@@ -1,23 +1,92 @@
-﻿//CARGA EL CODIGO DE LA ENTRADA AUTOMATICAMENTE
+﻿$(document).ready(function () {
+    //CARGA DE ENTRADA EL CODIGO A LA VISTA
+    cargarCodigo();
+
+    //CARGAR DATOS DE PROVEEDOR PARA SELECT2
+    $.ajax({
+        type: "GET",
+        url: '/Entradas/getProveedor',
+        dataType: 'JSON',
+        success: function (data) {
+
+            var agregar = "";
+
+            for (var i = 0; i < Object.keys(data.data).length; i++) {
+                agregar += '<option value="' + data.data[i].Id + '">' + data.data[i].Proveedor + '</option>';
+            }
+
+            $("#proveedor").append(agregar);
+        }
+    });
+
+    //CARGAR DATOS DE TIPO DE ENTRADA PARA SELECT2
+    $.ajax({
+        type: "GET",
+        url: '/Entradas/getTipoEntrada',
+        dataType: 'JSON',
+        success: function (data) {
+
+            var agregar = "";
+
+            for (var i = 0; i < Object.keys(data.data).length; i++) {
+                agregar += '<option value="' + data.data[i].Id + '">' + data.data[i].Entrada + '</option>';
+            }
+
+            $("#entrada").append(agregar);
+        }
+    });
+
+    //CARGAR DATOS DE PRODUCTOS PARA SELECT2
+    $.ajax({
+        type: "GET",
+        url: '/Entradas/getProductos',
+        dataType: 'JSON',
+        success: function (data) {
+
+            var agregar = "";
+
+            for (var i = 0; i < Object.keys(data.data).length; i++) {
+                agregar += '<option value="' + data.data[i].Id + '">' + data.data[i].Presentacion + '</option>';
+            }
+
+            $("#producto").append(agregar);
+        }
+    });
+
+    //CARGAR DATOS DE ENTRADAS PARA SELECT2
+    $.ajax({
+        type: "GET",
+        url: '/Entradas/getArea',
+        dataType: 'JSON',
+        success: function (data) {
+
+            var agregar = "";
+
+            for (var i = 0; i < Object.keys(data.data).length; i++) {
+                agregar += '<option value="' + data.data[i].Id + '">' + data.data[i].Bodega + '</option>';
+            }
+
+            $("#area").append(agregar);
+        }
+    });
+});
+
+//CARGA EL CODIGO DE LA ENTRADA AUTOMATICAMENTE
 function cargarCodigo() {
     $.ajax({
         type: "GET",
         url: "/Entradas/EntradaCode",
         success: function (data) {
-            $("#codigo").val(data.data);
+            $("#codigoEntrada").val(data);
         }
     });
 }
 
-//CARGA DE ENTRADA EL CODIGO A LA VISTA
-$(document).ready(function () {
-    cargarCodigo();
-});
-
 //INICIALIZADOR DE DATEPICKER
-$('#myDatepicker2').datetimepicker({
-    format: 'DD/MM/YYYY',
-    defaultDate: new Date()
+$('#fechaEntrada').datetimepicker({
+    format: 'MM/DD/YYYY',
+    defaultDate: new Date(),
+    locale: 'es'
 });
 
 //INICIALIZADOR DE LENGUAJE SELECT 2
@@ -36,96 +105,20 @@ $('.js-example-basic-single').select2({
     }
 });
 
-//CARGAR DATOS DE PROVEEDOR PARA SELECT2
-$(document).ready(function () {
-    $.ajax({
-        type: "GET",
-        url: '/Entradas/getProveedor',
-        dataType: 'JSON',
-        success: function (data) {
-
-            var agregar = "";      
-
-            for (var i = 0; i < Object.keys(data.data).length; i++) {
-                agregar += '<option value="' + data.data[i].Id + '">' + data.data[i].Proveedor + '</option>';
-            }
-
-            $("#proveedor").append(agregar);
-        },
-        error: function (data) {
-            alert("Error");
-        }
-    });
-});
-
-//CARGAR DATOS DE PROVEEDOR PARA SELECT2
-$(document).ready(function () {
-    $.ajax({
-        type: "GET",
-        url: '/Entradas/getTipoEntrada',
-        dataType: 'JSON',
-        success: function (data) {
-
-            var agregar = "";
-
-            for (var i = 0; i < Object.keys(data.data).length; i++) {
-                agregar += '<option value="' + data.data[i].Id + '">' + data.data[i].Entrada + '</option>';
-            }
-
-            $("#entrada").append(agregar);
-        },
-        error: function (data) {
-            alert("Error");
-        }
-    });
-});
-
-//CARGAR DATOS DE PROVEEDOR PARA SELECT2
-$(document).ready(function () {
-    $.ajax({
-        type: "GET",
-        url: '/Entradas/getProductos',
-        dataType: 'JSON',
-        success: function (data) {
-
-            var agregar = "";
-
-            for (var i = 0; i < Object.keys(data.data).length; i++) {
-                agregar += '<option value="' + data.data[i].Id + '">' + data.data[i].Presentacion + '</option>';
-            }
-
-            $("#producto").append(agregar);
-        },
-        error: function (data) {
-            alert("Error");
-        }
-    });
-});
-
-//CARGAR DATOS DE PROVEEDOR PARA SELECT2
-$(document).ready(function () {
-    $.ajax({
-        type: "GET",
-        url: '/Entradas/getArea',
-        dataType: 'JSON',
-        success: function (data) {
-
-            var agregar = "";
-
-            for (var i = 0; i < Object.keys(data.data).length; i++) {
-                agregar += '<option value="' + data.data[i].Id + '">' + data.data[i].Bodega + '</option>';
-            }
-
-            $("#area").append(agregar);
-        },
-        error: function (data) {
-            alert("Error");
-        }
-    });
-});
-
 //FUNCION PARA CARGAR LA MODAL DEL CRUD -- SOLO PARA MOSTRAR LOS CAMPOS DEL OBJETO
 function CargarParcial(url) { //RECIBE LA URL DE LA UBICACION DEL METODO
+
+    //AGREGAR EL TITULO A LA MODAL
+    if (url.includes("Edit")) {
+        $("#modal-title").html("Editar");
+    } else
+        if (url.includes("Create")) {
+            $("#modal-title").html("Ingresar nuevo");
+        } else
+            if (url.includes("Details")) {
+                $("#modal-title").html("Detalle");
+            }
+
     $("#small-modal").modal("show"); //MUESTRA LA MODAL
     $("#VistaParcial").html("");//LIMPIA LA MODAL POR DATOS PRECARGADOS
     $.ajax({
@@ -170,14 +163,21 @@ function saveSeller() {
             NombreComercial, Telefono, RUC, EstadoProveedor, Local, RetenedorIR, NombreProveedor, ApellidoProveedor, CedulaProveedor
         },
         success: function (data) {
-            if (data.data) {
+            if (data.success) {
                 //AGREGAR EL REGISTRO AL SELECT 2
                 var agregar = '<option value="' + data.Id + '">' + data.Proveedor + '</option>';
 
                 $("#proveedor").append(agregar);
 
                 $("#small-modal").modal("hide"); //CERRAR MODAL
-                Alert("Almacenado correctamente", data.message, "success");//ALMACENADO CORRECTAMENTE
+                //MOSTRANDO EL SWEET ALERT
+                swal({
+                    title: "Completado",
+                    text: data.message,
+                    icon: "success",
+                    buttons: false,
+                    timer: 1500
+                });
             } else
                 Alert("Error al almacenar", data.message, "error");//MENSAJE DE ERROR
         },
@@ -214,7 +214,13 @@ function SubmitForm(form) {
                 $("#small-modal").modal("hide"); //CERRAR MODAL
 
                 //MOSTRANDO EL SWEET ALERT
-                Alert(data.message, "", "success");
+                swal({
+                    title: "Completado",
+                    text: data.message,
+                    icon: "success",
+                    buttons: false,
+                    timer: 1500
+                });
 
             }//FIN IF
             else
@@ -353,10 +359,10 @@ function CalcularTotal() {
 
 //FUNCION PARA ALMACENAR EL INVENTARIO
 function saveInventario() {
-    var data = false, codigo = $("#codigo").val(), fecha = $("#myDatepicker2").val(), entrada = $("#entrada").find("option:selected").val(),
+    var data = false, codigoEntrada = $("#codigoEntrada").val(), fecha = $("#fechaEntrada").val(), entrada = $("#entrada").find("option:selected").val(),
         proveedor = $("#proveedor").find("option:selected").val(), area = $("#area").find("option:selected").val();
 
-    if (codigo !== "" && fecha !== "" && entrada !== "" && proveedor !== "" && area !== "") {
+    if (codigoEntrada !== "" && fecha !== "" && entrada !== "" && proveedor !== "" && area !== "") {
 
         var detalleEntrada = new Array();
 
@@ -387,7 +393,7 @@ function saveInventario() {
 
         if (data) {
 
-            var datos = "Codigo=" + codigo + "&FechaEntrada=" + fecha + "&TipoEntradaId=" + entrada + "&BodegaId=" + area + "&ProveedorId=" + proveedor + "&detalleEntrada=" + JSON.stringify(detalleEntrada);
+            var datos = "Codigo=" + codigoEntrada + "&FechaEntrada=" + fecha + "&TipoEntradaId=" + entrada + "&BodegaId=" + area + "&ProveedorId=" + proveedor + "&detalleEntrada=" + JSON.stringify(detalleEntrada);
 
             $.ajax({
                 type: "POST",
@@ -396,13 +402,20 @@ function saveInventario() {
                 dataType: "JSON",                
                 success: function (data) {
                     if (data.success) {
-                        Alert("Almacenado correctamente", "", "success");
+                        //MOSTRANDO EL SWEET ALERT
+                        swal({
+                            title: "Completado",
+                            text: data.message,
+                            icon: "success",
+                            buttons: false,
+                            timer: 1500
+                        });
                         limpiarPantalla();
                     } else {
                         Alert("Error", "Hubieron errores al guardar", "error");
                     }
                 },
-                error: function (data) {
+                error: function () {
                     Alert("Error", "Revise", "error");
                 }
             });
@@ -417,7 +430,7 @@ function saveInventario() {
 //FUNCION PARA LIMPIAR LA PANTALLA
 function limpiarPantalla() {
     //LIMPIAR INPUTS
-    $("#codigo").val(cargarCodigo());
+    $("#codigoEntrada").val(cargarCodigo());
     $("#total").html("C$ 0.00");
     //LIMPIAR TABLA
     $("#table_body tr").remove();
@@ -426,4 +439,10 @@ function limpiarPantalla() {
     $("#area").select2("val", "-1");
     $("#producto").select2("val", "-1");
     $("#proveedor").select2("val", "-1");
+}
+
+//FUNCION PARA CERRAR LA MODAL
+function CerrarModal() {
+    $("#small-modal").modal("hide"); //CERRAR MODAL                
+    $("#smallModal").modal("hide"); //CERRAR MODAL     
 }

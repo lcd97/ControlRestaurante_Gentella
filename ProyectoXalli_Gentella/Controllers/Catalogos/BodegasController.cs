@@ -28,7 +28,15 @@ namespace ProyectoXalli_Gentella.Controllers
         /// <returns></returns>
         public async Task<JsonResult> GetData()
         {
-            var bodegas = await db.Bodegas.Where(b => b.EstadoBodega == true).ToListAsync();
+            var bodegas = await (from obj in db.Bodegas
+                           where obj.EstadoBodega == true
+                           select new {
+                               Id = obj.Id,
+                               CodigoBodega = obj.CodigoBodega,
+                               DescripcionBodega = obj.DescripcionBodega
+                           }).ToListAsync();
+                
+                //await db.Bodegas.Where(b => b.EstadoBodega == true).ToListAsync();
 
             return Json(new { data = bodegas }, JsonRequestBehavior.AllowGet);
         }

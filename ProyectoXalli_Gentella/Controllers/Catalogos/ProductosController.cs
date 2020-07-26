@@ -63,6 +63,12 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,CodigoProducto,NombreProducto,MarcaProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
         {
+
+            if (Producto.CantidadMaxProducto < Producto.CantidadMinProducto) {
+                mensaje = "La cantidad mínima de producto no debe ser mayor a la cantidad máxima";
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+            }
+
             //BUSCAR LA PRESENTACION DEL PRODUCTO (COMBINACION DE DESCRIPCION, MARCA Y UM - ID -)
             Producto bod = db.Productos.DefaultIfEmpty(null)
                 .FirstOrDefault(b => b.NombreProducto.ToUpper().Trim() == Producto.NombreProducto.ToUpper().Trim() &&
@@ -279,7 +285,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             var Producto = db.Productos.Find(id);
             //BUSCANDO QUE PRODUCTO NO TENGA SALIDAS NI ENTRADAS REGISTRADAS CON SU ID
             DetalleDeEntrada oEnt = db.DetallesDeEntrada.DefaultIfEmpty(null).FirstOrDefault(e => e.ProductoId == Producto.Id);
-            Ingrediente oIng = db.Ingredientes.DefaultIfEmpty(null).FirstOrDefault(s => s.IngredienteId == Producto.Id);
+            Ingrediente oIng = db.Ingredientes.DefaultIfEmpty(null).FirstOrDefault(s => s.ProductoId == Producto.Id);
 
             using (var transact = db.Database.BeginTransaction()) {
                 try {

@@ -16,8 +16,13 @@ function saveWaiter() {
                 if (data.success) {
                     $("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
                     $("#small-modal").modal("hide"); //CERRAR MODAL
-                    Alert(data.message, "", "success");
-                } else {
+                    swal({
+                        title: "Completado",
+                        text: data.message,
+                        icon: "success",
+                        buttons: false,
+                        timer: 1500
+                    });                } else {
                     Alert("Error", data.message, "error");
                 }
             },
@@ -44,8 +49,13 @@ function editWaiter() {
                 if (data.success) {
                     $("#Table").DataTable().ajax.reload();//RECARGAR DATATABLE PARA VER LOS CAMBIOS
                     $("#small-modal").modal("hide");//OCULTAR LA MODAL
-                    Alert(data.message, "", "success");
-                } else {
+                    swal({
+                        title: "Completado",
+                        text: data.message,
+                        icon: "success",
+                        buttons: false,
+                        timer: 1500
+                    });                } else {
                     Alert("Error", data.message, "error");
                 }
             },

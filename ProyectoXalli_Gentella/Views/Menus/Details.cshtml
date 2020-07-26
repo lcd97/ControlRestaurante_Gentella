@@ -20,7 +20,7 @@
 
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="product-image">
-                    <img id="img"/>
+                    <img id="img" />
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
                             <div class="">
-                                <ul id="ingredientes" class="list-inline prod_color">                                   
+                                <ul id="ingredientes" class="list-inline prod_color">
                                     <!--AQUI VAN LOS INGREDIENTES-->
                                 </ul>
                             </div>
@@ -60,21 +60,30 @@
     $(document).ready(function () {
         $.ajax({
             type: "GET",
-            url: "/Menus/getDetail/" + @Model.Id,
+            url: "/Menus/getMenuItem/" + @Model.Id,
             dataType: "JSON",
             success: function (data) {
-                $("#titulo").text(data.data.Platillo);
-                $("#tiempo").text("Tiempo de preparación: " + data.data.Tiempo);
-                $("#categoria").text("Categoría: " + data.data.Categoria);
-                $("#precio").text("Precio: $" + data.data.Precio);
+                $("#titulo").text(data.menu.Platillo);
+                $("#tiempo").text("Tiempo de preparación: " + data.menu.Tiempo);
+                $("#categoria").text("Categoría: " + data.menu.Categoria);
+                $("#precio").text("Precio: $" + data.menu.Precio);
                 //INSERTAR IMAGEN
-                $("#img").attr("src", data.data.Ruta);
-                //INSERTAR INGREDIENTES
-                var agregar = "", res = (data.data.Ingredientes).split(",");
+                $("#img").attr("src", data.menu.Ruta);
+            }
+        });
 
-                for (var i = 0; i < res.length; i++) {
+
+        $.ajax({
+             type: "GET",
+            url: "/Menus/getDataIngredientes/" + @Model.Id,
+            dataType: "JSON",
+            success: function (data) {
+                //INSERTAR INGREDIENTES
+                var agregar = "";
+
+                for (var i = 0; i < data.length; i++) {
                     //INSERTAR LAS ETIQUETAS DONDE IRAN LOS INGREDIENTES
-                    agregar += "<li> <p>" + res[i] + "</p> </li>";
+                    agregar += "<li> <p>" + data[i] + "</p> </li>";
                 }
 
                 $("#ingredientes").html(agregar);

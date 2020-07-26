@@ -150,7 +150,7 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
             } else
                 num = "001";            
 
-            return Json(new { data = num }, JsonRequestBehavior.AllowGet);
+            return Json(num, JsonRequestBehavior.AllowGet);
         }
     }
 }

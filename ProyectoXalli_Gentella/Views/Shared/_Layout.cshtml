@@ -123,7 +123,7 @@
                                 <li>
                                     <a><i class="fa fa-money"></i>Facturación<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="pages/tables/simple.html">Tipos de Pago</a></li>
+                                        <li><a href="@Url.Action("Index", "TiposDePago")">Tipos de Pago</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -299,7 +299,7 @@
             <!-- footer content -->
             <footer>
                 <div class="pull-right">
-                    Xalli Hotel Ometepe, Rivas - All rights reserved - <strong>Copyright @DateTime.Now.Year </strong> - <b>Version</b> 1.0
+                    Xalli Hotel Ometepe, Rivas - All rights reserved - <strong>Copyright @DateTime.Now.Year </strong> - <b>Version</b> 2.1
                 </div>
                 <div class="clearfix"></div>
             </footer>
@@ -327,9 +327,9 @@
             clock = new Date();
             hours = ((clock.getHours() + 11) % 12 + 1);
 
-            hour = fixTime(hours);// < 10 ? "0" + hours : hours;
-            minutes = fixTime(clock.getMinutes());// < 10 ? "0" + clock.getMinutes() : clock.getMinutes();
-            seconds = fixTime(clock.getSeconds());// < 10 ? "0" + clock.getSeconds() : clock.getSeconds();
+            hour = fixTime(hours);
+            minutes = fixTime(clock.getMinutes());
+            seconds = fixTime(clock.getSeconds());
             suffix = clock.getHours() >= 12 ? 'PM' : 'AM';
 
             $("#Hora").val(hour + ":" + minutes + ":" + seconds + " " + suffix);
@@ -340,6 +340,24 @@
         //AGREGA EL 0 DE LA HORA, MINUTO O SEGUNDO SI ES MENOR A 10
         function fixTime(time) {
             return time < 10 ? "0" + time : time;
+        }
+
+        //PARA CARGAR EL LOADER EN CADA PETICION AJAX
+        $(document).ready(function () {
+            var screen = $('#Cargando'); //obtiene modal Cargando
+            configureLoadingScreen(screen); //llamada a metodo usando AJAX
+        });
+
+        //PARA CARGAR EL LOADER EN CADA PETICION AJAX
+        function configureLoadingScreen(screen) {  // metodo para mostrar Loader
+            $(document)
+                .ajaxStart(function () { //muestra imagen
+                    screen.modal("show");
+                    $('#Cargando').modal({ backdrop: 'static', keyboard: true });//EVITAR SALIRSE DEL CARGANDO PRESIONANDO FUERA DE EL
+                })
+                .ajaxStop(function () { //oculta imagen
+                    screen.modal("hide");
+                });
         }
     </script>
 

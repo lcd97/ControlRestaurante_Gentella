@@ -57,6 +57,25 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         //[ValidateAntiForgeryToken]
         public ActionResult Create(string NombreComercial, string Telefono, string RUC, bool Local, bool RetenedorIR, string NombreProveedor, string ApellidoProveedor, string CedulaProveedor)
         {
+            if (Telefono.Length != 9) {
+                mensaje = "El número telefónico debe ser de 8 dígitos";
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+            }
+
+            if (RUC != "") {
+                if (RUC.Length != 14) {
+                    mensaje = "El número RUC debe ser de 14 dígitos";
+                    return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+                }                
+            }
+
+            if (CedulaProveedor != "") {
+                if (CedulaProveedor.Length != 16) {
+                    mensaje = "El número de cédula debe ser de 14 dígitos";
+                    return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
             //SE CREAR UNA INSTANCIA PARA ALMACENAR AL PROVEEDOR
             Proveedor proveedor = new Proveedor();
             //INICIO CAMPOS A USAR EN VISTA ENTRADA
@@ -240,6 +259,25 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         //[ValidateAntiForgeryToken]
         public ActionResult UpdateProveedor(int Id, string NombreComercial, string Telefono, string RUC, bool EstadoProveedor, bool Local, bool RetenedorIR, string NombreProveedor, string ApellidoProveedor, string CedulaProveedor)
         {
+            if (Telefono.Length != 9) {
+                mensaje = "El número telefónico debe ser de 8 dígitos";
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+            }
+
+            if (RUC != "") {
+                if (RUC.Length != 14) {
+                    mensaje = "El número RUC debe ser de 14 dígitos";
+                    return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            if (CedulaProveedor != "") {
+                if (CedulaProveedor.Length != 16) {
+                    mensaje = "El número de cédula debe ser de 14 dígitos";
+                    return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
             //BUSCAR AL PROVEEDOR POR MEDIO DEL ID
             Proveedor proveedor = db.Proveedores.Find(Id);
 

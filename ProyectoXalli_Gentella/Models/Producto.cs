@@ -31,7 +31,6 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Producto")]
         public string NombreProducto { get; set; }
 
-        [Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(50, ErrorMessage = "La longitud excede los 50 dígitos")]
         [Display(Name = "Marca")]
         public string MarcaProducto { get; set; }

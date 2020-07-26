@@ -1,12 +1,10 @@
-﻿
+﻿@model ProyectoXalli_Gentella.Models.Menu
+
 @{
     Layout = null;
 }
 
-<link href="~/Content/bootstrap-tagsinput.css" rel="stylesheet" />
-
 <style>
-    /*PARA MOSTRAR EL PRIMER STEP*/
     .form_wizard .stepContainer {
         min-height: 150px !important;
     }
@@ -56,26 +54,24 @@
 
                             <div class="form-group col-md-4 col-sm-4 col-xs-4">
                                 @Html.Label("Código", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-12" })
-                                <input id="codigo" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="3" autocomplete="off" readonly>
+                                <input id="codigoMenu" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="3" autocomplete="off" readonly>
                             </div>
 
                             <div class="form-group col-md-8 col-sm-8 col-xs-8">
                                 @Html.Label("Descripción", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-12" })
                                 <input id="platillo" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="50"
                                        autocomplete="off" style="text-transform:capitalize !important;" data-validate="true" data-error="Campo obligatorio">
-                                <div class="help-block with-errors"></div>
                             </div>
 
                             <div class="form-group col-md-4 col-sm-4 col-xs-4">
                                 @Html.Label("Precio", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-12" })
-                                <input id="precio" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" autocomplete="off" 
+                                <input id="precio" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" autocomplete="off"
                                        data-validate="true" data-error="Campo obligatorio">
-                                <div class="help-block with-errors"></div>
                             </div>
 
                             <div class="form-group col-md-8 col-sm-8 col-xs-8">
                                 @Html.Label("Categoría", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
-                                @Html.DropDownList("CategoriaId", null, htmlAttributes: new { @class = "js-example-basic-single form-control", @Style="width:100%", @id = "categoria" })
+                                @Html.DropDownList("CategoriaId", null, "- Seleccione -", htmlAttributes: new { @class = "js-example-basic-single form-control", @Style = "width:100%", @id = "categoria" })
                             </div>
                         </div>
 
@@ -94,14 +90,8 @@
 
                         <div class="form-group col-md-12 col-sm-12 col-xs-12">
                             @Html.Label("Producto", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
-                            <select class="js-example-basic-single form-control" id="producto" style="width:100%!important;" multiple></select>
+                            <select class="js-example-basic-single form-control" id="ingredientes" style="width:100%!important;" multiple disabled></select>
                         </div>
-
-                        @*<div class="form-group col-md-12 col-sm-12 col-xs-12">
-                            @Html.Label("Ingredientes", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
-                            <input id="ingredientes" type="text" data-role="tagsinput" class="form-control col-md-2 col-sm-2 col-xs-2" />
-                        </div>*@
-
                     </div>
 
                 </div>
@@ -110,7 +100,7 @@
 
                         <div>
                             <label class="btn btn-default search-file-btn">
-                                <input id="file" name="file1" type="file" accept="image/*" style="display:None;" > <span>Examinar</span>
+                                <input id="file" name="file1" type="file" accept="image/*" style="display:None;"> <span>Examinar</span>
                             </label>
                             <span class="label label-default"> x Ninguna imagen seleccionada</span>
                         </div>
@@ -119,21 +109,47 @@
                         <div id="preview" class="img-preview preview-md">
                             <img id="img" src="~/images/Menu/Insert-image.jpg" style="width:100%;height:200px;" />
                         </div>
-
                     </div>
                 </div>
-            </div>       <!-- End SmartWizard Content -->
+            </div>
+            <!-- End SmartWizard Content -->
         </div>
     </div>
 </div>
 
-<script src="~/Scripts/bootstrap-tagsinput.js"></script>
-
 <script>
+    //CAMBIAR EL MENU POR CATEGORIAS
+    $("#categoria").on("change", function () {
+
+        //LIMPIA EL SELECT DE INGREDIENTE
+        $('#ingredientes').val("-1");
+        $('#ingredientes').trigger('change'); // Notify any JS components that the value changed
+
+        $.ajax({
+            type: "GET",
+            url: "/Menus/ComprobarArea/" + $(this).val(),//MANDO EL ID DE LA CATEGORIA
+            dataType: "JSON",
+            success: function (bar) {
+                //SI SELECT CATEGORIA NO TIENE SELECCIONADO ALGO
+                if ($(this).val != 0) {
+                    $("#ingredientes").removeAttr("disabled");
+                    //SI LA CATEGORIA CORRESPONDE AL AREA DE BAR
+                    if (bar === true) {
+                        $("#ingredientes").removeAttr("multiple");
+                    } else {
+                        $("#ingredientes").attr("multiple", true);
+                    }
+                } else {
+                    $("#ingredientes").attr("disabled", true);
+                }
+            }
+        });
+    });
+
     //INICIALIZAR EL SELECT2
     $('.js-example-basic-single').select2({
         //MODIFICAR LAS FRASES DEFAULT DE SELECT2
-        placeholder: "Busque un producto",//CARGAR PRIMERO EL PLACEHOLDER
+        placeholder: "- Seleccione -",//CARGAR PRIMERO EL PLACEHOLDER
         language: {
 
             noResults: function () {
@@ -147,8 +163,21 @@
         }
     });
 
-    //INICIALIZADOR DE STEP WIZARD
     $(document).ready(function () {
+        //INICIALIZARDOR DE MASCARA FORMATO PRECIO
+        $("#precio").mask('0,000.00', { reverse: true });
+
+
+        //CARGA EL CODIGO DE PLATILLO
+        $.ajax({
+            type: "GET",
+            url: "/Menus/SearchCode",
+            success: function (data) {
+                $("#codigoMenu").val(data.data);
+            }
+        });
+
+        //INICIALIZADOR DE STEP WIZARD
         $('#wizard').smartWizard();
 
         //CARGA LAS PRESENTACIONES DEL PRODUCTO
@@ -164,9 +193,9 @@
                     agregar += '<option value="' + data[i].Id + '">' + data[i].Presentacion + '</option>';
                 }
 
-                $("#producto").append(agregar);
+                $("#ingredientes").append(agregar);
             },
-            error: function (data) {
+            error: function () {
                 alert("Error");
             }
         });
@@ -200,20 +229,4 @@
             $(this).parent().parent().children("span").html(fileName);
         })
     });
-
-    //CARGA EL CODIGO DE PLATILLO
-    $(document).ready(function () {
-        $.ajax({
-            type: "GET",
-            url: "/Menus/SearchCode",
-            success: function (data) {
-                $("#codigo").val(data.data);
-            }
-        });
-    });
-
-    ////INICIALIZARDOR DE MASCARA FORMATO PRECIO
-    //$(document).ready(function () {
-    //    $("#precio").mask('0.000,00', { reverse: true });
-    //});
 </script>

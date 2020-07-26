@@ -63,6 +63,24 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
         [HttpPost]
         public ActionResult Create(string Nombres, string Apellido, string Cedula, string INSS, string RUC, string HoraEntrada, string HoraSalida) {
 
+            if (INSS.Length != 9) {
+                mensaje = "El número INSS debe ser de 8 dígitos";
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+            }
+
+            if (RUC != "") {
+                if (RUC.Length != 14) {
+                    mensaje = "El número RUC debe ser de 14 dígitos";
+                    return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            if (Cedula.Length != 16) {
+                mensaje = "El número de cédula debe ser de 14 dígitos";
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+
+            }
+
             //BUSCAR QUE EL NUMERO RUC NO SE REPITA
             var buscarRUC = RUC.Trim() != "" ? db.Datos.DefaultIfEmpty(null).FirstOrDefault(r => r.RUC == RUC && r.RUC != null) : null;
 
@@ -186,20 +204,20 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
 
         public ActionResult getMeseros(int id) {
             var mesero = (from obj in db.Meseros
-                         join a in db.Datos on obj.DatoId equals a.Id
-                         where obj.Id == id
-                         select new {
-                             Nombre = a.PNombre,
-                             Apellido = a.PApellido,
-                             Cedula = a.Cedula,
-                             Inss = obj.INSS,
-                             RUC = a.RUC,
-                             EntradaH = obj.HoraEntrada,
-                             SalidaH = obj.HoraSalida,
-                             Estado = obj.EstadoMesero
-                         }).FirstOrDefault();
+                          join a in db.Datos on obj.DatoId equals a.Id
+                          where obj.Id == id
+                          select new {
+                              Nombre = a.PNombre,
+                              Apellido = a.PApellido,
+                              Cedula = a.Cedula,
+                              Inss = obj.INSS,
+                              RUC = a.RUC,
+                              EntradaH = obj.HoraEntrada,
+                              SalidaH = obj.HoraSalida,
+                              Estado = obj.EstadoMesero
+                          }).FirstOrDefault();
 
-            return Json( mesero, JsonRequestBehavior.AllowGet);
+            return Json(mesero, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -216,6 +234,20 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
         /// <returns></returns>
         [HttpPost]
         public ActionResult Edit(string Nombres, string Apellido, string Cedula, string RUC, string HoraEntrada, string HoraSalida, bool Estado) {
+
+            if (RUC != "") {
+                if (RUC.Length != 14) {
+                    mensaje = "El número RUC debe ser de 14 dígitos";
+                    return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            if (Cedula.Length != 16) {
+                mensaje = "El número de cédula debe ser de 14 dígitos";
+                return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+
+            }
+
             //BUSCAR QUE EL NUMERO RUC NO SE REPITA
             var buscarRUC = RUC.Trim() != "" ? db.Datos.DefaultIfEmpty(null).FirstOrDefault(r => r.RUC == RUC && r.RUC != null && r.Cedula.Trim() != Cedula.Trim()) : null;
 

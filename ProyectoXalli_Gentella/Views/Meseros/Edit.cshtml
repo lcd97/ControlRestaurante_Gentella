@@ -116,6 +116,28 @@
 
         elem = document.querySelector('.js-switch');
         init = new Switchery(elem, { secondaryColor: '#CE2727' });
+
+        //CARGAR LOS DATOS A LA VISTA
+        $.ajax({
+            type: "GET",
+            url: "/Meseros/getMeseros/" + @Model.Id,
+            success: function (data) {
+                //ASIGNO LOS DATOS DE LOS MESEROS
+                $("#nombre").val(data.Nombre);
+                $("#apellido").val(data.Apellido);
+                $("#cedula").val(data.Cedula);
+                $("#inss").val(data.Inss);
+                $("#ruc").val(data.RUC);
+                $("#entrada").val(data.EntradaH);
+                $("#salida").val(data.SalidaH);
+                $("#tInicio").val(data.TurnoI);
+                $("#tFin").val(data.TurnoF);
+
+                if (data.Estado) {
+                    elem.click();
+                }
+            }
+        });
     });
 
     //CONFIRMACION DE ACTIVAR/DESACTIVAR
@@ -159,29 +181,5 @@
                     }//FIN SWITCH
                 });//FIN THEN
         }//FIN IF CHKBOX
-    }//FIN FUNCION
-
-    //CARGAR LOS DATOS A LA VISTA
-    $(document).ready(function () {
-        $.ajax({
-            type: "GET",
-            url: "/Meseros/getMeseros/" + @Model.Id,
-            success: function (data) {
-                //ASIGNO LOS DATOS DE LOS MESEROS
-                $("#nombre").val(data.Nombre);
-                $("#apellido").val(data.Apellido);
-                $("#cedula").val(data.Cedula);
-                $("#inss").val(data.Inss);
-                $("#ruc").val(data.RUC);
-                $("#entrada").val(data.EntradaH);
-                $("#salida").val(data.SalidaH);
-                $("#tInicio").val(data.TurnoI);
-                $("#tFin").val(data.TurnoF);
-
-                if (data.Estado) {
-                    elem.click();
-                }
-            }
-        });
-    });
+    }//FIN FUNCION    
 </script>

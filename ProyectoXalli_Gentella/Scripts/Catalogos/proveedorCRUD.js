@@ -1,7 +1,7 @@
 ﻿//FUNCION PARA ALMACENAR AL PROVEEDOR
 function saveSeller() {
     //VARIABLES DE LA TABLA PROVEEDOR
-    var NombreComercial, Telefono, RUC, Local, RetenedorIR, NombreProveedor, ApellidoProveedor, CedulaProveedor;
+    var NombreComercial = "", Telefono = "", RUC, Local, RetenedorIR = "", NombreProveedor = "", ApellidoProveedor = "", CedulaProveedor = "";
     //ASIGNANDO VALORES GENERALES
     Telefono = $("#telefono").val();
     RUC = $("#ruc").val().toUpperCase();
@@ -11,15 +11,11 @@ function saveSeller() {
     Local = $('.btn-group > .btn.active').attr("value");
     //ASIGNANDO VALORES SEGUN EL TIPO DE PROVEEDOR
     if (Local == "true") {
-        NombreComercial = "0";
         NombreProveedor = $("#nombre").val();
         ApellidoProveedor = $("#apellido").val();
         CedulaProveedor = $("#cedula").val();
     } else {
         NombreComercial = $("#nombre").val();
-        NombreProveedor = "0";
-        ApellidoProveedor = "0";
-        CedulaProveedor = "0";
     }//FIN IF-ELSE    
 
     if (validado(Local) === true) {
@@ -35,7 +31,13 @@ function saveSeller() {
                 if (data.success) {
                     $("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
                     $("#small-modal").modal("hide"); //CERRAR MODAL
-                    Alert(data.message, "", "success");//ALMACENADO CORRECTAMENTE
+                    swal({
+                        title: "Completado",
+                        text: data.message,
+                        icon: "success",
+                        buttons: false,
+                        timer: 1500
+                    });
                 } else
                     Alert("Error", data.message, "error");//MENSAJE DE ERROR
             },
@@ -82,7 +84,13 @@ function UpdateProvider(Id) {
                 if (data.success) {
                     $("#Table").DataTable().ajax.reload(); //RECARGAR DATATABLE PARA VER LOS CAMBIOS
                     $("#small-modal").modal("hide"); //CERRAR MODAL
-                    Alert(data.message, "", "success");//ALMACENADO CORRECTAMENTE
+                    swal({
+                        title: "Completado",
+                        text: data.message,
+                        icon: "success",
+                        buttons: false,
+                        timer: 1500
+                    });
                 } else
                     Alert("Error", data.message, "error");//MENSAJE DE ERROR
             },
@@ -105,10 +113,19 @@ function validado(Local) {
             return false;
         }
     } else {//SI EL PROVEEDOR ES UN COMERCIO
-        if ($("#nombre").val() != "" && $("#ruc").val() != "" && $("#telefono").val() != "" ) {
+        if ($("#nombre").val() != "" && $("#ruc").val() != "" && $("#telefono").val() != "") {
             return true;
         } else {
             return false;
         }
     }
 }
+
+//MANDAR EL SWEET ALERT PARA CREAR/EDITAR
+function Alert(message, algo, status) {
+    swal({
+        title: message,
+        text: algo,
+        icon: status
+    });//FIN DEL SWEET ALERT
+}//FIN FUNCION

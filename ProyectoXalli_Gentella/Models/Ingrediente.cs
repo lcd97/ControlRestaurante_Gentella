@@ -15,7 +15,7 @@ namespace ProyectoXalli_Gentella.Models
 
         //DEFINCION DE FK
         public int MenuId { get; set; }
-        public int IngredienteId { get; set; }
+        public int ProductoId { get; set; }
 
         //DEFINICION DE RELACIONES PADRES
         public virtual Menu Menu { get; set; }

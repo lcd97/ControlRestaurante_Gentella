@@ -64,7 +64,6 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         [HttpPost]
         public ActionResult Create(string Nombre, string Apellido, string Documento, string RUC, string Email, string Telefono, uint? Tipo)
         {
-
             //BUSCAR QUE EL RUC INGRESADO NO EXISTA
             var bruc = db.Datos.DefaultIfEmpty(null).FirstOrDefault(r => r.RUC == RUC.Trim());
 
@@ -84,6 +83,11 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             {
                 dato = db.Datos.DefaultIfEmpty(null).FirstOrDefault(t => t.Cedula.Trim() == Documento.Trim());
                 cliente = dato != null ? db.Clientes.DefaultIfEmpty(null).FirstOrDefault(c => c.DatoId == dato.Id) : null;
+
+                if (Documento.Length != 16) {
+                    mensaje = "El número de cédula debe ser de 14 dígitos";
+                    return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
