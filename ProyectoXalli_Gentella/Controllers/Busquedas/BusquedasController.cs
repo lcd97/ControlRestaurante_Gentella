@@ -15,17 +15,20 @@ namespace ProyectoXalli_Gentella.Controllers.Busquedas {
             return View();
         }
 
-        public ActionResult busquedaCliente(string Identificacion) {
+        public ActionResult busquedaClientes(string Nombre = "", string Apellido = "") {
 
             var cliente = (from obj in db.Datos
                            join c in db.Clientes on obj.Id equals c.DatoId
-                           where obj.Cedula == Identificacion
+                           where obj.PNombre.Trim().Contains(Nombre) || obj.PApellido.Trim().Contains(Apellido)
                            select new {
+                               DatoId = obj.Id,
+                               ClienteId = obj.Id,
+                               Nombres = obj.PNombre + " " + obj.PApellido,
+                               RUC = obj.RUC != null ? obj.RUC : null,
+                               Documento = obj.Cedula != null ? obj.Cedula : c.PasaporteCliente
+                           }).ToList();
 
-                           }).FirstOrDefault();
-
-
-            return Json(new { a = 0 }, JsonRequestBehavior.AllowGet);
+            return Json(cliente, JsonRequestBehavior.AllowGet);
         }
     }
 }

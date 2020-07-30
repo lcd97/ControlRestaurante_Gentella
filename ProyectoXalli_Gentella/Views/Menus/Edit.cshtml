@@ -57,7 +57,7 @@
 
                             <div class="form-group col-md-4 col-sm-4 col-xs-4">
                                 @Html.Label("Código", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-12" })
-                                <input id="codigoMenu" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="3" autocomplete="off" disabled>
+                                <input id="codigoMenu" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="3" autocomplete="off" readonly>
                             </div>
 
                             <div class="form-group col-md-8 col-sm-8 col-xs-8">
@@ -84,7 +84,7 @@
 
                         <div class="form-group col-md-9 col-sm-9 col-xs-9">
                             @Html.Label("Tiempo estimado de preparación", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
-                            <input id="tiempo" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="5" autocomplete="off">
+                            <input id="tiempo" class="form-control col-md-2 col-sm-2 col-xs-2" required="required" type="text" maxlength="10" autocomplete="off">
                         </div>
 
                         <div class="form-group col-md-3 col-sm-3 col-xs-3">
@@ -155,6 +155,9 @@
     var elem, init;
 
     $(document).ready(function () {
+
+        //INICIALIZARDOR DE MASCARA FORMATO PRECIO
+        $("#precio").mask('0,000.00', { reverse: true });
 
         comboBx();
 

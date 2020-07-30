@@ -253,9 +253,10 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
             bool bar = false;
             //BUSCARA LOS DATOS DE LA CATEGORIA
             var categoria = db.CategoriasMenu.Find(id);
+            var bodega = db.Bodegas.Find(categoria.BodegaId);
 
             //SI LA CATEGORIA CORRESPONDE AL AREA DE BAR (AREA ID 2)
-            if (categoria.BodegaId == 2)
+            if (bodega.DescripcionBodega.ToUpper().Trim() == "BAR")
                 bar = true;
 
             return Json(bar, JsonRequestBehavior.AllowGet);
@@ -396,12 +397,15 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos {
                                         Ingrediente.ProductoId = item;
 
                                         db.Ingredientes.Add(Ingrediente);
-                                        db.SaveChanges();
+                                        completado = db.SaveChanges() > 0 ? true : false;
                                     }
                                 }
 
-                                completado = db.SaveChanges() > 0 ? true : false;
-                                mensaje = completado ? "Almacenado correctamente" : "Vuelva a intentarlo";
+                                if (addIt.Count == 0 && deleteIt.Count == 0) {
+                                    completado = true;
+                                }
+
+                                mensaje = completado ? "Modificado correctamente" : "Error al modificar";
                             }
 
                         }//LLEGA UNA IMAGEN PARA CAMBIAR

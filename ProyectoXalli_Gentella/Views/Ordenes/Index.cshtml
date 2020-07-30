@@ -50,7 +50,7 @@
                     <div class="form-group">
                         <div class="col-md-3 col-sm-3 col-xs-4">
                             <label>Identificación</label>
-                            <input id="mesero" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+                            <input id="identificacion" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
                         </div>
 
                         <div class="col-md-1 col-sm-1 col-xs-1" style="margin-top: 25px !important;">
@@ -59,12 +59,12 @@
 
                         <div class="col-md-3 col-sm-3 col-xs-4">
                             <label>Cliente</label>
-                            <input id="nombreCliente" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+                            <input id="nombreCliente" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" readonly>
                         </div>
 
                         <div class="col-md-3 col-sm-3 col-xs-4">
                             <label>Número RUC</label>
-                            <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" required>
+                            <input id="ruc" class="form-control col-md-2 col-sm-2 col-xs-2" type="text" maxlength="50" autocomplete="off" readonly>
                         </div>
 
                         <div class="col-md-1 col-sm-1 col-xs-6" style="margin-top: 25px !important;">
@@ -140,7 +140,7 @@
                                 </thead>
                                 <tbody id="table_body">
                                     <!--AQUI VA LA LISTA DE LOS PRODUCTOS-->
-                                    <tr>
+                                    <tr id="nada">
                                         <td colspan="5" style="text-align:center!important;">- Sin pedidos aun -</td>
                                     </tr>
                                 </tbody>
@@ -162,16 +162,18 @@
 </div>
 
 @Html.Partial("_small-modal")
+@Html.Partial("_xsModal")
 
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
-
     <script src="~/Scripts/moment.min.js"></script>
     <script src="~/Scripts/select2.full.min.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Scripts/Operaciones/ventanas.js"></script>
     <script src="~/Scripts/Movimientos/ordenes.js"></script>
-    <script src="~/Scripts/pagination.js"></script>
+    <script src="~/Scripts/jquery.bootstrap-touchspin.js"></script>
     <script src="~/Scripts/Busquedas/clientesB.js"></script>
+    <script src="~/Scripts/jquery.mask.js"></script>
     <script>
         $("#small-modal").draggable({
             handle: ".modal-header"

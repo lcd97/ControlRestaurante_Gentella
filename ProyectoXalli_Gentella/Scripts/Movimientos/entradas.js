@@ -105,31 +105,6 @@ $('.js-example-basic-single').select2({
     }
 });
 
-//FUNCION PARA CARGAR LA MODAL DEL CRUD -- SOLO PARA MOSTRAR LOS CAMPOS DEL OBJETO
-function CargarParcial(url) { //RECIBE LA URL DE LA UBICACION DEL METODO
-
-    //AGREGAR EL TITULO A LA MODAL
-    if (url.includes("Edit")) {
-        $("#modal-title").html("Editar");
-    } else
-        if (url.includes("Create")) {
-            $("#modal-title").html("Ingresar nuevo");
-        } else
-            if (url.includes("Details")) {
-                $("#modal-title").html("Detalle");
-            }
-
-    $("#small-modal").modal("show"); //MUESTRA LA MODAL
-    $("#VistaParcial").html("");//LIMPIA LA MODAL POR DATOS PRECARGADOS
-    $.ajax({
-        "type": "GET", //TIPO DE ACCION
-        "url": url, //URL DEL METODO A USAR
-        success: function (parcial) {
-            $("#VistaParcial").html(parcial);//CARGA LA PARCIAL CON ELEMENTOS QUE CONTEGA
-        }//FIN SUCCESS
-    });//FIN AJAX
-}//FIN FUNCTION
-
 //FUNCION PARA ALMACENAR AL PROVEEDOR
 function saveSeller() {
     //VARIABLES DE LA TABLA PROVEEDOR
@@ -187,15 +162,6 @@ function saveSeller() {
     });//FIN AJAX
 }//FIN FUNCTION
 
-//MANDAR EL SWEET ALERT PARA CREAR/EDITAR
-function Alert(message, algo, status) {
-    swal({
-        title: message,
-        text: algo,
-        icon: status
-    });//FIN DEL SWEET ALERT
-}//FIN FUNCION
-
 //FUNCION PARA HACER EL CRUD A PRODUCTO POR MEDIO DEL MODAL (RECIBE UN FORM = FORMULARIO)
 function SubmitForm(form) {
     $.validator.unobtrusive.parse(form);
@@ -239,12 +205,18 @@ function SubmitForm(form) {
 function TableAdd() {
     //ALMACENAR LAS VARIABLES
     var producto = $("#producto").find("option:selected").val(), precio = $("#precio").val(), cantidad = $("#cantidad").val();
-    var dec = Math.pow(10, 2);
-    var precioTotal = parseInt((precio * cantidad) * dec, 10) / dec;
+    //var dec = Math.pow(10, 2);
+    //var precioTotal = parseInt((precio * cantidad) * dec, 10) / dec;
+
+    //QUITARLE LA COMA A LA VARIABLE PARA CALCULAR BIEN NUMERO CON , EJ 1,200
+    var precSb = precio.replace(/,/g, "");
+    var cantSb = cantidad.replace(/,/g, "");
+    var precioTotal = precSb * cantSb;
+
     var agregar = "";
 
     //VALIDAR QUE LOS CAMPOS NO ESTEN VACIOS
-    if (producto === null || precio === "" || cantidad === "") {
+    if (producto == "-1" || precio === "" || cantidad === "") {
         Alert("Error", "Llene todos los campos para agregar el producto", "error");
     } else {
         //GUARDAR LAS FILAS EXISTENTES DE LA TABLA
@@ -439,10 +411,4 @@ function limpiarPantalla() {
     $("#area").select2("val", "-1");
     $("#producto").select2("val", "-1");
     $("#proveedor").select2("val", "-1");
-}
-
-//FUNCION PARA CERRAR LA MODAL
-function CerrarModal() {
-    $("#small-modal").modal("hide"); //CERRAR MODAL                
-    $("#smallModal").modal("hide"); //CERRAR MODAL     
 }

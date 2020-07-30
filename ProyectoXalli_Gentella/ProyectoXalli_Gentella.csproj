@@ -243,6 +243,10 @@
     <Compile Include="Migrations\202007242129176_ChangesFields.Designer.cs">
       <DependentUpon>202007242129176_ChangesFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007301835300_stringToInt.cs" />
+    <Compile Include="Migrations\202007301835300_stringToInt.Designer.cs">
+      <DependentUpon>202007301835300_stringToInt.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -447,14 +451,15 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Busquedas\clientesB.js" />
-    <Content Include="Scripts\Catalogos\clienteCRUD.js" />
-    <Content Include="Scripts\Catalogos\CRUD.js" />
-    <Content Include="Scripts\Catalogos\menuItem.js" />
-    <Content Include="Scripts\Catalogos\meseroCRUD.js" />
-    <Content Include="Scripts\Catalogos\proveedorCRUD.js" />
+    <Content Include="Scripts\Catalogos\cliente.js" />
+    <Content Include="Scripts\Catalogos\modelo.js" />
+    <Content Include="Scripts\Catalogos\menu.js" />
+    <Content Include="Scripts\Catalogos\mesero.js" />
+    <Content Include="Scripts\Catalogos\proveedor.js" />
     <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\datatable\dataTables.bootstrap.js" />
     <Content Include="Scripts\datatable\jquery.dataTables.js" />
@@ -481,6 +486,7 @@
     <Content Include="Scripts\Movimientos\activacion.js" />
     <Content Include="Scripts\Movimientos\entradas.js" />
     <Content Include="Scripts\Movimientos\ordenes.js" />
+    <Content Include="Scripts\Operaciones\ventanas.js" />
     <Content Include="Scripts\pagination.js" />
     <Content Include="Scripts\paginga.jquery.js" />
     <Content Include="Scripts\select2.full.min.js" />
@@ -550,6 +556,7 @@
     <Content Include="Views\TiposDePago\Index.cshtml" />
     <Content Include="Views\TiposDePago\Create.cshtml" />
     <Content Include="Views\TiposDePago\Edit.cshtml" />
+    <Content Include="Views\Ordenes\DetalleOrden.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -597,6 +604,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007242129176_ChangesFields.resx">
       <DependentUpon>202007242129176_ChangesFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007301835300_stringToInt.resx">
+      <DependentUpon>202007301835300_stringToInt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

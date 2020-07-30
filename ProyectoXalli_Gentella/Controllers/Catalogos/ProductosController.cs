@@ -37,7 +37,8 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
                              select new
                              {
                                  Id = obj.Id,
-                                 NombreProducto = obj.NombreProducto + " " + obj.MarcaProducto + " " + c.AbreviaturaUM,
+                                 NombreProducto = obj.NombreProducto + " " + obj.MarcaProducto,
+                                 UnidadMedida = obj.PresentacionProducto == 1 ? c.DescripcionUnidadMedida : obj.PresentacionProducto + " " + c.DescripcionUnidadMedida,
                                  CodigoProducto = obj.CodigoProducto,
                                  Categoria = u.DescripcionCategoria
                              }).ToList();
@@ -61,7 +62,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoProducto,NombreProducto,MarcaProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
+        public async Task<ActionResult> Create([Bind(Include = "Id,CodigoProducto,NombreProducto,MarcaProducto,PresentacionProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
         {
 
             if (Producto.CantidadMaxProducto < Producto.CantidadMinProducto) {
@@ -138,7 +139,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoProducto,NombreProducto,MarcaProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,CodigoProducto,NombreProducto,MarcaProducto,PresentacionProducto,CantidadMaxProducto,CantidadMinProducto,EstadoProducto,UnidadMedidaId,CategoriaId")] Producto Producto)
         {
             //BUSCAR LA PRESENTACION DEL PRODUCTO (COMBINACION DE DESCRIPCION, MARCA Y UM - ID -)
             Producto bod = db.Productos.DefaultIfEmpty(null)
@@ -226,26 +227,17 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
         /// <param name="id"></param>
         /// <returns></returns>
         public ActionResult CantidadActual(int id) {
-            var enviar = "";
 
             //DEVULEVE LA CANTIDAD DE EXISTENCIA DEL PRODUCTO
             var cantActual = (from bod in db.Bodegas
                               join ent in db.Entradas on bod.Id equals ent.BodegaId
                               join det in db.DetallesDeEntrada on ent.Id equals det.EntradaId
                               join pro in db.Productos on det.ProductoId equals pro.Id
-                              where pro.Id == id
+                              where pro.Id == id && bod.DescripcionBodega.ToUpper() == "BAR"
                               group new { bod, det } by new { bod.Id } into grouped
-                              select new {
-                                  Destino = grouped.Key.Id,
-                                  cantActual = grouped.Sum(b => b.det.CantidadEntrada)
-                              }).FirstOrDefault();
+                              select grouped.Sum(b => b.det.CantidadEntrada)).FirstOrDefault();
 
-            if (cantActual != null) {
-                enviar = cantActual.ToString();
-            } else
-                enviar = "No disponible";
-
-            return Json(new { data = enviar }, JsonRequestBehavior.AllowGet);
+            return Json(cantActual, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

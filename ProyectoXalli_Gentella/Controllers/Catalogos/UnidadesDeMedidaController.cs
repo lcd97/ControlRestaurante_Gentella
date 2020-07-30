@@ -75,7 +75,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             //SI YA EXISTE UNA DESCRIPCION DE U/M
             if (bod != null) {
                 ModelState.AddModelError("DescripcionUnidadMedida", "Utilice otro nombre");
-                mensaje = "La descripción ya se encuentra registrada";
+                mensaje = "La unidad de medida ya se encuentra registrada";
                 return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
             }
 
@@ -127,7 +127,7 @@ namespace ProyectoXalli_Gentella.Controllers.Catalogos
             //SI YA EXISTE UNA DESCRIPCION DE U/M
             if (bod != null) {
                 ModelState.AddModelError("DescripcionUnidadMedida", "Utilice otro nombre");
-                mensaje = "La descripción ya se encuentra registrada";
+                mensaje = "La unidad de medida ya se encuentra registrada";
                 return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
             }
 

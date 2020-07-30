@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="col-md-1 col-sm-1 col-xs-1" style="margin-top: 25px !important;">
-                    <button type="button" class="btn btn-primary">Buscar</button>
+                    <button type="button" onclick="CargarCliente()" class="btn btn-primary">Buscar</button>
                 </div>
             </div>
             <br />
@@ -52,7 +52,7 @@
 
 <script>
     $(document).ready(function () {
-        var agregar = '<tr class="headings">' +
+        var agregar = '<tr class="headings" id = "data">' +
             '<td colspan=4 style="text-align:center!important;">Sin datos que mostrar</td>' +
             '</tr>';
         $("#clientBody").append(agregar);

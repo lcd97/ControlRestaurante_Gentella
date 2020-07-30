@@ -149,6 +149,7 @@
     <script src="~/Scripts/moment-with-locales.js"></script>
     <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
     <script src="~/Scripts/select2.full.min.js"></script>
+    <script src="~/Scripts/Operaciones/ventanas.js"></script>
     <script src="~/Scripts/Movimientos/entradas.js"></script>
     <script src="~/Scripts/jquery.bootstrap-touchspin.js"></script>
     <script src="~/Scripts/jquery.mask.js"></script>
@@ -156,7 +157,8 @@
         //INICIALIZADOR DE TOUCHSPIN CANTIDAD
         $("input[name='cantidad']").TouchSpin({
             min: 1,
-            step: 1,
+            decimals: 2,
+            step: 0.1,
         });
 
         $(document).ready(function () {

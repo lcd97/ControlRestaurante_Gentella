@@ -19,9 +19,9 @@ namespace ProyectoXalli_Gentella.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
-        [StringLength(3, MinimumLength = 3, ErrorMessage = "El campo {0} debe ser de 3 dígitos")]
+        //[StringLength(3, MinimumLength = 3, ErrorMessage = "El campo {0} debe ser de 3 dígitos")]
         [Display(Name = "Código")]
-        public string CodigoOrden { get; set; }
+        public int CodigoOrden { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
         [DataType(DataType.Date)]

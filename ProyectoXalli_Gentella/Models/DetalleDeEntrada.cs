@@ -15,7 +15,7 @@ namespace ProyectoXalli_Gentella.Models
 
         [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Cantidad")]
-        public int CantidadEntrada { get; set; }
+        public double CantidadEntrada { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
         [DataType(DataType.Currency)]

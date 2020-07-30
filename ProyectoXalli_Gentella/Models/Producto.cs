@@ -37,6 +37,11 @@ namespace ProyectoXalli_Gentella.Models
 
         [Required(ErrorMessage = "El campo es obligatorio")]
         [DisplayFormat(DataFormatString = "(0:c2)")]//MUESTRA EL FORMATO "10.20"
+        [Display(Name = "Presentación")]
+        public double PresentacionProducto { get; set; }
+
+        [Required(ErrorMessage = "El campo es obligatorio")]
+        [DisplayFormat(DataFormatString = "(0:c2)")]//MUESTRA EL FORMATO "10.20"
         [Display(Name = "Cantidad máxima")]
         public double CantidadMaxProducto { get; set; }
 

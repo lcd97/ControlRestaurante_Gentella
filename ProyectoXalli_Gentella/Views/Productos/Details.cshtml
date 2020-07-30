@@ -86,7 +86,9 @@
                     $("#estado").text("Inactivo");
                 }
                 $("#categoria").text(data.Categoria);
-                $("#presentacion").text(data.MarcaProducto + " " + data.UnidadMedida);
+
+                var presentacion = data.MarcaProducto != null ? data.MarcaProducto + " " + data.UnidadMedida : data.UnidadMedida;
+                $("#presentacion").text(presentacion);
             }
         });
 
@@ -97,20 +99,15 @@
             dataType: "JSON",
              success: function (data) {
                  var text = "";
-                //SI EXISTEN ENTRADAS EN ALGUNA DE LAS DOS AREAS
-                if (data.data.Destino != undefined) {
-                    //NO SE CARGA LAS ENTRADAS DEL AREA DE COCINA - 2 -
-                    if (data.data.Destino != 1) {
-                        text = "<p><strong>Cantidad Actual   : </strong>No disponible</p>";
-                        $("#cantAct").append(text);
-                    } else {
-                        text = "<p><strong>Cantidad Actual  : </strong>" + data.data.cantActual + "</p>";
-                        $("#cantAct").append(text);//SE CARGA LA CANTIDAD DEL AREA DEL BAR
-                    }
-                } else {
-                    text = "<p><strong>Cantidad Actual : </strong>Sin entradas</p>";
-                    $("#cantAct").append(text);//SI NO EXISTEN ENTRADAS DEL PRODUCTO
-                }
+
+                 if (data != 0) {
+                     text = "<p><strong>Cantidad Actual  : </strong>" + data + "</p>";
+                 } else {
+                     var text = "<p><strong>Cantidad Actual  : </strong> No disponible</p>";
+                 }
+
+                 $("#cantAct").append(text);//SE CARGA LA CANTIDAD DEL AREA DEL BAR
+
             },
             error: function () {
                 Alert("Error", "Se produjo un error al cargar la cantidad Actual", "error");

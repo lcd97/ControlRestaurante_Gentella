@@ -32,7 +32,7 @@
                         @Html.Label("Producto", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
                         @Html.EditorFor(model => model.NombreProducto, new { htmlAttributes = new { @class = "form-control col-md-12 col-sm-12 col-xs-12", @maxlength = 50, @autocomplete = "off" } })
                         @Html.ValidationMessageFor(model => model.NombreProducto, "", new { @class = "text-danger col-md-12 col-sm-12 col-xs-12" })
-                    </div>
+                    </div>                    
 
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         @Html.Label("Marca", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
@@ -48,7 +48,13 @@
                         @Html.ValidationMessageFor(model => model.CategoriaId, "", new { @class = "text-danger col-md-12 col-sm-12 col-xs-12" })
                     </div>
 
-                    <div class="col-md-6 col-sm-6 col-xs-6">
+                    <div class="col-md-3 col-sm-3 col-xs-6">
+                        @Html.Label("Cantidad", htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-4" })
+                        @Html.EditorFor(model => model.PresentacionProducto, new { htmlAttributes = new { @class = "form-control col-md-12 col-sm-12 col-xs-12", @id = "cantPrd",  @maxlength = 50, @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.PresentacionProducto, "", new { @class = "text-danger col-md-12 col-sm-12 col-xs-12" })
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-6">
                         @Html.Label("U/M", htmlAttributes: new { @class = "col-md-12 col-sm-12 col-xs-12" })
                         @Html.DropDownList("UnidadMedidaId", null, htmlAttributes: new { @class = "js-example-basic-single select2_group form-control", @style = "width: 100%" })
                         @Html.ValidationMessageFor(model => model.UnidadMedidaId, "", new { @class = "text-danger col-md-12 col-sm-12 col-xs-12" })
@@ -94,6 +100,9 @@
 
         var elem = document.querySelector('.js-switch');
         var init = new Switchery(elem);
+
+        $("#cantPrd").val("1");
+
 
         //CARGA EL CODIGO DE BODEGA
         $.ajax({
