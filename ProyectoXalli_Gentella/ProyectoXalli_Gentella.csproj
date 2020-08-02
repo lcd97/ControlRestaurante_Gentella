@@ -247,6 +247,14 @@
     <Compile Include="Migrations\202007301835300_stringToInt.Designer.cs">
       <DependentUpon>202007301835300_stringToInt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008021732381_estadoOrden.cs" />
+    <Compile Include="Migrations\202008021732381_estadoOrden.Designer.cs">
+      <DependentUpon>202008021732381_estadoOrden.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008021812051_precioDOrden.cs" />
+    <Compile Include="Migrations\202008021812051_precioDOrden.Designer.cs">
+      <DependentUpon>202008021812051_precioDOrden.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -487,8 +495,6 @@
     <Content Include="Scripts\Movimientos\entradas.js" />
     <Content Include="Scripts\Movimientos\ordenes.js" />
     <Content Include="Scripts\Operaciones\ventanas.js" />
-    <Content Include="Scripts\pagination.js" />
-    <Content Include="Scripts\paginga.jquery.js" />
     <Content Include="Scripts\select2.full.min.js" />
     <Content Include="Scripts\switchery.js" />
     <Content Include="Web.config">
@@ -607,6 +613,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202007301835300_stringToInt.resx">
       <DependentUpon>202007301835300_stringToInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008021732381_estadoOrden.resx">
+      <DependentUpon>202008021732381_estadoOrden.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008021812051_precioDOrden.resx">
+      <DependentUpon>202008021812051_precioDOrden.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

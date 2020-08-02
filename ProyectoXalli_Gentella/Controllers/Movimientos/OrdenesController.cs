@@ -1,21 +1,22 @@
-﻿using ProyectoXalli_Gentella.Models;
+﻿using Newtonsoft.Json;
+using ProyectoXalli_Gentella.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ProyectoXalli_Gentella.Controllers.Movimientos
-{
-    public class OrdenesController : Controller
-    {
+namespace ProyectoXalli_Gentella.Controllers.Movimientos {
+    public class OrdenesController : Controller {
         private DBControl db = new DBControl();
+        private string mensaje = "";
+        private bool completado = false;
+
         //bool completado = false;
         //string mensaje = "";
 
         // GET: Ordenes
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
             ViewBag.CategoriaId = new SelectList(db.CategoriasMenu, "Id", "DescripcionCategoriaMenu");
 
             return View();
@@ -25,28 +26,25 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
         /// RETORNA EL CODIGO DE ENTRADA AUTOMATICAMENTE
         /// </summary>
         /// <returns></returns>
-        //public ActionResult OrdenesCode() {
-        //    var code = db.Ordenes.Max(x => x.CodigoOrden.Trim());
-        //    int valor;
-        //    string num;
+        public ActionResult OrdenesCode() {
+            //BUSCAR EL VALLOR MAXIMO ALMACENADO DE CODIGO
+            var num = (from obj in db.Ordenes
+                       select obj.CodigoOrden).DefaultIfEmpty().Max();
 
-        //    if (code != null) {
+            int codigo = 1;
 
-        //        valor = int.Parse(code);
+            if (num != 0) {
+                codigo = num + 1;
+            }
 
-        //        if (valor <= 8)
-        //            num = "00" + (valor + 1);
-        //        else
-        //        if (valor >= 9 && valor < 100)
-        //            num = "0" + (valor + 1);
-        //        else
-        //            num = (valor + 1).ToString();
-        //    } else
-        //        num = "001";
+            return Json(codigo, JsonRequestBehavior.AllowGet);
+        }
 
-        //    return Json(new { data = num }, JsonRequestBehavior.AllowGet);
-        //}
-
+        /// <summary>
+        /// RECUPERA TODOS LOS PLATILLOS POR CATEGORIA
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult MenuByCategoria(int id) {
             var menu = from obj in db.Menus.ToList()
                        join i in db.Imagenes.ToList() on obj.ImagenId equals i.Id
@@ -61,6 +59,11 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
             return Json(menu, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// RECUPERA LOS DATOS DEL CLIENTE POR MEDIO DE LA IDENTIFICACION
+        /// </summary>
+        /// <param name="identificacion"></param>
+        /// <returns></returns>
         public ActionResult DataClient(string identificacion) {
             var cliente = (from obj in db.Datos
                            join c in db.Clientes on obj.Id equals c.DatoId
@@ -76,8 +79,71 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos
             return Json(cliente, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// MUESTRA LA VISTA DEL DETALLE DE ORDEN
+        /// </summary>
+        /// <returns></returns>
         public ActionResult DetalleOrden() {
             return View();
+        }
+
+        /// <summary>
+        /// ALMACENAR UNA NUEVA ORDEN
+        /// </summary>
+        /// <param name="Codigo"></param>
+        /// <param name="MeseroId"></param>
+        /// <param name="ClienteId"></param>
+        /// <param name="FechaOrden"></param>
+        /// <param name="DetalleOrden"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Create(int Codigo, int MeseroId, int ClienteId, DateTime FechaOrden, string detalleOrden) {
+
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    //DESERIALIZACION DE OBJETO
+                    var DetalleOrden = JsonConvert.DeserializeObject<List<DetalleDeOrden>>(detalleOrden);
+
+                    Orden orden = new Orden();
+
+                    orden.CodigoOrden = Codigo;
+                    orden.FechaOrden = Convert.ToDateTime(FechaOrden);
+                    orden.EstadoOrden = 1;//1 ORDENADA 2 SIN FACTURAR 3 FACTURADA
+                    orden.MeseroId = MeseroId;
+                    orden.ClienteId = ClienteId;
+                    orden.ImagenId = 4;
+
+                    //GUARDAR LA ORDEN
+                    db.Ordenes.Add(orden);
+
+                    //SI CAMBIOS SE REALIZO BIEN
+                    if (db.SaveChanges() > 0) {
+                        //ALMACENAR EL DETALLE DE LA ORDEN
+                        foreach (var item in DetalleOrden) {
+                            DetalleDeOrden detalleItem = new DetalleDeOrden();
+
+                            detalleItem.CantidadOrden = item.CantidadOrden;
+                            detalleItem.NotaDetalleOrden = item.NotaDetalleOrden != "" ? item.NotaDetalleOrden.Trim() : null;
+                            detalleItem.PrecioOrden = item.PrecioOrden;
+                            detalleItem.MenuId = item.MenuId;
+                            detalleItem.OrdenId = orden.Id;
+                            detalleItem.EstadoDetalleOrden = true;
+
+                            db.DetallesDeOrden.Add(detalleItem);
+
+                            completado = db.SaveChanges() > 0 ? true : false;
+                        }
+
+                        mensaje = completado ? "Almacenado correctamente" : "Error al almacenar";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    mensaje = "Error al almacenar orden";
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
+            return Json(new { success = completado, message = mensaje }, JsonRequestBehavior.AllowGet);
         }
     }
 }

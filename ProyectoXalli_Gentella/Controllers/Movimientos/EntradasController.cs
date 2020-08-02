@@ -87,36 +87,45 @@ namespace ProyectoXalli_Gentella.Controllers.Movimientos {
 
         [HttpPost]
         public ActionResult AddEntrada(string Codigo, DateTime FechaEntrada, int TipoEntradaId, int BodegaId, int ProveedorId, string detalleEntrada) {
-            var DetalleEntrada = JsonConvert.DeserializeObject<List<DetalleDeEntrada>>(detalleEntrada);
 
-            //GUARDAR PRIMERO EL ENCABEZAADO
-            Entrada entrada = new Entrada();
+            using (var transact = db.Database.BeginTransaction()) {
+                try {
+                    var DetalleEntrada = JsonConvert.DeserializeObject<List<DetalleDeEntrada>>(detalleEntrada);
 
-            entrada.CodigoEntrada = Codigo;
-            entrada.FechaEntrada = Convert.ToDateTime(FechaEntrada);
-            entrada.TipoEntradaId = TipoEntradaId;
-            entrada.BodegaId = BodegaId;
-            entrada.ProveedorId = ProveedorId;
-            entrada.EstadoEntrada = true;
+                    //GUARDAR PRIMERO EL ENCABEZAADO
+                    Entrada entrada = new Entrada();
 
-            db.Entradas.Add(entrada);
+                    entrada.CodigoEntrada = Codigo;
+                    entrada.FechaEntrada = Convert.ToDateTime(FechaEntrada);
+                    entrada.TipoEntradaId = TipoEntradaId;
+                    entrada.BodegaId = BodegaId;
+                    entrada.ProveedorId = ProveedorId;
+                    entrada.EstadoEntrada = true;
 
-            if (db.SaveChanges() > 0) {
+                    db.Entradas.Add(entrada);
 
-                foreach (var item in DetalleEntrada) {
-                    DetalleDeEntrada detalleItem = new DetalleDeEntrada();
+                    if (db.SaveChanges() > 0) {
 
-                    detalleItem.CantidadEntrada = item.CantidadEntrada;
-                    detalleItem.PrecioEntrada = item.PrecioEntrada;
-                    detalleItem.ProductoId = item.ProductoId;
-                    detalleItem.EntradaId = entrada.Id;
+                        foreach (var item in DetalleEntrada) {
+                            DetalleDeEntrada detalleItem = new DetalleDeEntrada();
 
-                    db.DetallesDeEntrada.Add(detalleItem);
-                }
+                            detalleItem.CantidadEntrada = item.CantidadEntrada;
+                            detalleItem.PrecioEntrada = item.PrecioEntrada;
+                            detalleItem.ProductoId = item.ProductoId;
+                            detalleItem.EntradaId = entrada.Id;
 
-                completado = db.SaveChanges() > 0 ? true : false;
-                mensaje = completado ? "Almacenado correctamente" : "Error al almacenar";
-            }
+                            db.DetallesDeEntrada.Add(detalleItem);
+                        }
+
+                        completado = db.SaveChanges() > 0 ? true : false;
+                        mensaje = completado ? "Almacenado correctamente" : "Error al almacenar";
+                    }
+
+                    transact.Commit();
+                } catch (Exception) {
+                    transact.Rollback();
+                }//FIN TRY-CATCH
+            }//FIN USING
 
             return Json(new { success = completado }, JsonRequestBehavior.AllowGet);
         }

@@ -30,8 +30,8 @@ namespace ProyectoXalli_Gentella.Models
         public DateTime FechaOrden { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
-        [Display(Name = "Activo")]
-        public bool EstadoOrden { get; set; }
+        [Display(Name = "Estado")]
+        public int EstadoOrden { get; set; }
 
         //FOREIGN KEY
         public int MeseroId { get; set; }

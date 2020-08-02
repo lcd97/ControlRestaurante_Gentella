@@ -350,7 +350,7 @@ function saveInventario() {
             }
 
             item["Id"] = 0;
-            item["ProductoId"] = row.find("td").eq(0).attr("value");
+            item["CantidadOrden"] = row.find("td").eq(0).attr("value");
             var precio = row.find("td").eq(1).html();
             var getPrice = precio.split("C$ ");
             item["PrecioEntrada"] = getPrice[1];

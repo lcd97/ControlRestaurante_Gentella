@@ -17,7 +17,7 @@ namespace ProyectoXalli_Gentella.Models
         [Display(Name = "Cantidad")]
         public int CantidadOrden { get; set; }
 
-        [Required(ErrorMessage = "El campo es obligatorio")]
+        //[Required(ErrorMessage = "El campo es obligatorio")]
         [StringLength(150, ErrorMessage = "Las notas no puede exceder los 150 caracteres")]
         [Display(Name = "Notas")]
         public string NotaDetalleOrden { get; set; }
@@ -25,6 +25,13 @@ namespace ProyectoXalli_Gentella.Models
         [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Activo")]
         public bool EstadoDetalleOrden { get; set; }
+
+        [Required(ErrorMessage = "El campo es obligatorio")]
+        [Range(1, (double)decimal.MaxValue, ErrorMessage = "El precio debe ser mayor a 0")]
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "(0:c2)")]
+        [Display(Name = "Precio")]
+        public double PrecioOrden { get; set; }
 
         //DEFINICION DE LAS LLAVES FORANEAS
         public int OrdenId { get; set; }
